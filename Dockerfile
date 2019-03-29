@@ -12,6 +12,8 @@ LABEL "com.github.actions.color"="yellow"
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+ADD LICENSE.md /LICENSE.md
+
 RUN pip install --upgrade --no-cache-dir twine
 
 ENTRYPOINT ["twine"]
