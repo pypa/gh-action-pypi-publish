@@ -34,4 +34,4 @@ to the Action node in your workflow, use SECRETS, not normal env vars.**
 
 ## License
 The Dockerfile and associated scripts and documentation in this project
-are released under the [GPL v3](LICENSE).
+are released under the [BSD 3-clause license](LICENSE.md).
