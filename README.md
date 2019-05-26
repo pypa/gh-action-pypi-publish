@@ -1,7 +1,7 @@
 # PyPI publish GitHub Action
 This action allows you to upload your [Python distribution package](
 https://packaging.python.org/glossary/#term-distribution-package) to
-PYPI.
+PyPI.
 
 
 ## Usage
