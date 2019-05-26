@@ -1,10 +1,10 @@
 FROM python:3.7-slim
 
 LABEL "maintainer"="Sviatoslav Sydorenko <wk+re-actors@sydorenko.org.ua>"
-LABEL "repository"="https://github.com/re-actors/pypi-action"
-LABEL "homepage"="https://github.com/re-actors/pypi-action"
+LABEL "repository"="https://github.com/re-actors/gh-action-pypi-publish"
+LABEL "homepage"="https://github.com/re-actors/gh-action-pypi-publish"
 
-LABEL "com.github.actions.name"="pypi-action"
+LABEL "com.github.actions.name"="pypi-publish"
 LABEL "com.github.actions.description"="Upload Python distribution packages to PyPI"
 LABEL "com.github.actions.icon"="upload-cloud"
 LABEL "com.github.actions.color"="yellow"
