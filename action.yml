@@ -1,0 +1,6 @@
+name: 'pypi-publish'
+description: 'Upload Python distribution packages to PyPI'
+author: 'pypa'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
