@@ -10,8 +10,8 @@ ENV PYTHONUNBUFFERED 1
 RUN pip install --upgrade --no-cache-dir twine
 
 WORKDIR /app
-COPY ./LICENSE.md /app/
-COPY ./twine-upload.sh /app/
+COPY LICENSE.md .
+COPY twine-upload.sh .
 
-RUN chmod +x /app/twine-upload.sh
+RUN chmod +x twine-upload.sh
 ENTRYPOINT ["/app/twine-upload.sh"]
