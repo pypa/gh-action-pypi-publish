@@ -12,7 +12,7 @@ To use the action add the following step to your workflow file (e.g.:
 
 ```yml
 - name: Publish a Python distribution to PyPI
-  uses: pypi/gh-action-pypi-publish@master
+  uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
     password: ${{ secrets.pypi_password }}
@@ -32,7 +32,7 @@ So the full step would look like:
 ```yml
 - name: Publish package
   if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-  uses: pypi/gh-action-pypi-publish@master
+  uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
     password: ${{ secrets.pypi_password }}
