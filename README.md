@@ -5,33 +5,50 @@ PyPI.
 
 
 ## Usage
-To use the action simply add the following lines in the end of your
-`.github/main.workflow`.
 
-```hcl
-action "Upload Python dist to PyPI" {
-  uses = "re-actors/pypi-action@master"
-  env = {
-    TWINE_USERNAME = "f'{your_project}-bot'"
-  }
-  secrets = ["TWINE_PASSWORD"]
-}
+To use the action add the following step to your workflow file (e.g.:
+`.github/workflows/main.yml`)
+
+
+```yml
+- name: Publish a Python distribution to PyPI
+  uses: pypa/gh-action-pypi-publish@master
+  with:
+    user: __token__
+    password: ${{ secrets.pypi_password }}
 ```
 
-N.B. Use a valid tag, or branch, or commit SHA instead
-of `master` to pin the action to use a specific version of it.
+A common use case is to upload packages only on a tagged commit, to do so add a
+filter to the step:
 
 
-### Environment Variables and Secrets
-- **`TWINE_USERNAME`**: set this one to the username used to authenticate
-against PyPI. _It is recommended to have a separate user account like
-`f'{your_project}-bot'` having the lowest privileges possible on your
-target dist page._
-- **`TWINE_PASSWORD`**: it's a password for the account used in
-`TWINE_USERNAME` env var. **ATTENTION! WARNING! When adding this value
-to the Action node in your workflow, use SECRETS, not normal env vars.**
+```yml
+  if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+```
+
+So the full step would look like:
+
+
+```yml
+- name: Publish package
+  if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+  uses: pypa/gh-action-pypi-publish@master
+  with:
+    user: __token__
+    password: ${{ secrets.pypi_password }}
+```
+
+The example above uses the new [API token](https://pypi.org/help/#apitoken)
+feature of PyPI, which is recommended to restrict the access the action has.
+
+The secret used in `${{ secrets.pypi_password }}` needs to be created on the settings
+page of your project on GitHub. See [Creating & using secrets].
 
 
 ## License
+
 The Dockerfile and associated scripts and documentation in this project
 are released under the [BSD 3-clause license](LICENSE.md).
+
+
+[Creating & using secrets]: https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables
