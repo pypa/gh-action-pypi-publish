@@ -35,7 +35,7 @@ So the full step would look like:
   uses: pypi/gh-action-pypi-publish@master
   with:
     user: __token__
-    password: ${{ secrets.pypi }}
+    password: ${{ secrets.pypi_password }}
 ```
 
 The example above uses the new [API token](https://pypi.org/help/#apitoken)
