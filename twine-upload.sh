@@ -1,4 +1,4 @@
-# !/usr/bin/env bash
+#! /usr/bin/env bash
 set -Eeuo pipefail
 
 TWINE_USERNAME=$INPUT_USER \
