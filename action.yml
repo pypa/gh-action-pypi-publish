@@ -19,6 +19,6 @@ runs:
   using: docker
   image: Dockerfile
   args:
-    - ${{ inputs.user }}
-    - ${{ inputs.password }}
-    - ${{ inputs.repository_url }}
+  - ${{ inputs.user }}
+  - ${{ inputs.password }}
+  - ${{ inputs.repository_url }}
