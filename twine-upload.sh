@@ -16,6 +16,18 @@ then
         copied your token properly if such an error occurs.
 fi
 
+if [[
+    ! -d dist/ ||
+    "`ls -l dist/*.tar.gz dist/*.whl`" == "total 0"
+  ]]
+then
+    >&2 echo \
+        [WARNING]: \
+        It looks like there is no Python distribution packages to \
+        publish in the '"dist/"' directory. Please verify that they \
+        are in place should you face this problem.
+fi
+
 
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \
