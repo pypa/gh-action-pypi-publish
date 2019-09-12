@@ -45,6 +45,13 @@ The secret used in `${{ secrets.pypi_password }}` needs to be created on the set
 page of your project on GitHub. See [Creating & using secrets].
 
 
+## Non-goals
+
+This GitHub Action [has nothing to do with _building package
+distributions_]. Users are responsible for preparing dists for upload
+by putting them into the `dist/` folder prior to running this Action.
+
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project
@@ -52,3 +59,5 @@ are released under the [BSD 3-clause license](LICENSE.md).
 
 
 [Creating & using secrets]: https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables
+[has nothing to do with _building package distributions_]:
+https://github.com/pypa/gh-action-pypi-publish/issues/11#issuecomment-530480449
