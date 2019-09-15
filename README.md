@@ -52,6 +52,30 @@ distributions_]. Users are responsible for preparing dists for upload
 by putting them into the `dist/` folder prior to running this Action.
 
 
+## Advanced release management
+
+For best results, figure out what kind of workflow fits your
+project's specific needs.
+For example, you could implement a parallel workflow that
+pushes every commit to Test PyPI or your own index server,
+like `devpi`. For this, you'd need to (1) specify a custom
+`repository_url` value and (2) generate a unique version
+number for each upload so that they'd not create a conflict.
+The later is possible if you use `setuptools_scm` package but
+you could also invent your own solution based on the distance
+to the latest tagged commit.
+
+The action invocation in this case would look like:
+```yml
+- name: Publish package to Test PyPI
+  uses: pypa/gh-action-pypi-publish@master
+  with:
+    user: __token__
+    password: ${{ secrets.pypi_password }}
+    repository_url: https://test.pypi.org/legacy/
+```
+
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project
