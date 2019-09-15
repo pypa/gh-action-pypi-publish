@@ -65,13 +65,17 @@ The later is possible if you use `setuptools_scm` package but
 you could also invent your own solution based on the distance
 to the latest tagged commit.
 
+Please notice that you'll need to create another token for a
+separate host and then [save it as a GitHub repo
+secret][Creating & using secrets].
+
 The action invocation in this case would look like:
 ```yml
 - name: Publish package to Test PyPI
   uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
-    password: ${{ secrets.pypi_password }}
+    password: ${{ secrets.test_pypi_password }}
     repository_url: https://test.pypi.org/legacy/
 ```
 
