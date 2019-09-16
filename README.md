@@ -6,7 +6,7 @@ PyPI.
 
 ## Usage
 
-To use the action add the following step to your workflow file (e.g.:
+To use the action add the following step to your workflow file (e.g.
 `.github/workflows/main.yml`)
 
 
@@ -56,18 +56,18 @@ by putting them into the `dist/` folder prior to running this Action.
 
 For best results, figure out what kind of workflow fits your
 project's specific needs.
+
 For example, you could implement a parallel workflow that
 pushes every commit to Test PyPI or your own index server,
 like `devpi`. For this, you'd need to (1) specify a custom
 `repository_url` value and (2) generate a unique version
 number for each upload so that they'd not create a conflict.
-The later is possible if you use `setuptools_scm` package but
+The latter is possible if you use `setuptools_scm` package but
 you could also invent your own solution based on the distance
 to the latest tagged commit.
 
-Please notice that you'll need to create another token for a
-separate host and then [save it as a GitHub repo
-secret][Creating & using secrets].
+You'll need to create another token for a separate host and then
+[save it as a GitHub repo secret][Creating & using secrets].
 
 The action invocation in this case would look like:
 ```yml

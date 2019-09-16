@@ -23,7 +23,7 @@ if [[
 then
     >&2 echo \
         [WARNING]: \
-        It looks like there is no Python distribution packages to \
+        It looks like there are no Python distribution packages to \
         publish in the '"dist/"' directory. Please verify that they \
         are in place should you face this problem.
 fi
