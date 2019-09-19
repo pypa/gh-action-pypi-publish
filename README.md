@@ -58,7 +58,7 @@ For best results, figure out what kind of workflow fits your
 project's specific needs.
 
 For example, you could implement a parallel workflow that
-pushes every commit to Test PyPI or your own index server,
+pushes every commit to TestPyPI or your own index server,
 like `devpi`. For this, you'd need to (1) specify a custom
 `repository_url` value and (2) generate a unique version
 number for each upload so that they'd not create a conflict.
@@ -71,7 +71,7 @@ You'll need to create another token for a separate host and then
 
 The action invocation in this case would look like:
 ```yml
-- name: Publish package to Test PyPI
+- name: Publish package to TestPyPI
   uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
