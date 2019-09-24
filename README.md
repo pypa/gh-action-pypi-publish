@@ -18,6 +18,11 @@ To use the action add the following step to your workflow file (e.g.
     password: ${{ secrets.pypi_password }}
 ```
 
+> **Pro tip**: instead of using branch pointers, like `master`, pin versions of
+Actions that you use to tagged versions or sha1 commit identifiers. This will
+make your workflows more secure and better reproducible, saving you from sudden
+and unpleasant surprises.
+
 A common use case is to upload packages only on a tagged commit, to do so add a
 filter to the step:
 
