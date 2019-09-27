@@ -2,6 +2,8 @@
 This action allows you to upload your [Python distribution package](
 https://packaging.python.org/glossary/#term-distribution-package) to
 PyPI.
+This text suggests a minimalistic usage overview. For more detailed
+walkthrough check out the [PyPA guide].
 
 
 ## Usage
@@ -95,3 +97,5 @@ are released under the [BSD 3-clause license](LICENSE.md).
 https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables
 [has nothing to do with _building package distributions_]:
 https://github.com/pypa/gh-action-pypi-publish/issues/11#issuecomment-530480449
+[PyPA guide]:
+https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
