@@ -94,7 +94,7 @@ are released under the [BSD 3-clause license](LICENSE.md).
 
 
 [Creating & using secrets]:
-https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables
+https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets
 [has nothing to do with _building package distributions_]:
 https://github.com/pypa/gh-action-pypi-publish/issues/11#issuecomment-530480449
 [PyPA guide]:
