@@ -17,14 +17,14 @@ then
 fi
 
 if [[
-    ! -d dist/ ||
-    "`ls -l dist/*.tar.gz dist/*.whl`" == "total 0"
+    ! -d ${INPUT_DIST%%/}/ ||
+    "`ls -l ${INPUT_DIST%%/}/*.tar.gz ${INPUT_DIST%%/}/*.whl`" == "total 0"
   ]]
 then
     >&2 echo \
         [WARNING]: \
         It looks like there are no Python distribution packages to \
-        publish in the '"dist/"' directory. Please verify that they \
+        publish in the directory '"${INPUT_DIST%%/}/"'. Please verify that they \
         are in place should you face this problem.
 fi
 
@@ -32,4 +32,4 @@ fi
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \
 TWINE_REPOSITORY_URL="$INPUT_REPOSITORY_URL" \
-  exec twine upload dist/*
+  exec twine upload ${INPUT_DIST%%/}/*
