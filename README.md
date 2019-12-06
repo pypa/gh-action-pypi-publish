@@ -86,7 +86,7 @@ The action invocation in this case would look like:
     repository_url: https://test.pypi.org/legacy/
 ```
 
-## Target Directory
+### Customizing target package dists directory
 
 You can change the default target directory of `dist/`
 to any directory of your liking. The action invocation
