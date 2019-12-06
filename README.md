@@ -86,6 +86,20 @@ The action invocation in this case would look like:
     repository_url: https://test.pypi.org/legacy/
 ```
 
+### Customizing target package dists directory
+
+You can change the default target directory of `dist/`
+to any directory of your liking. The action invocation
+would now look like:
+
+```yml
+- name: Publish package to PyPI
+  uses: pypa/gh-action-pypi-publish@master
+  with:
+    user: __token__
+    password: ${{ secrets.pypi_password }}
+    packages-dir: custom-dir/
+```
 
 ## License
 
