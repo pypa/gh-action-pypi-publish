@@ -93,11 +93,11 @@ to any directory of your liking. The action invocation
 would now look like:
 
 ```yml
-- name: Publish package to TestPyPI
+- name: Publish package to PyPI
   uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
-    password: ${{ secrets.test_pypi_password }}
+    password: ${{ secrets.pypi_password }}
     packages-dir: custom-dir/
 ```
 
