@@ -98,7 +98,7 @@ would now look like:
   with:
     user: __token__
     password: ${{ secrets.pypi_password }}
-    packages-dir: custom-dir/
+    packages_dir: custom-dir/
 ```
 
 ## License
