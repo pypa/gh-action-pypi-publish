@@ -1,4 +1,4 @@
-Copyright © 2019, Sviatoslav Sydorenko (wk+re-actors@sydorenko.org.ua)
+Copyright © 2019, Sviatoslav Sydorenko <wk+gh~pypa/gh-action-pypi-publish@sydorenko.org.ua>
 
 All rights reserved.
 
