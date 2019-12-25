@@ -1,4 +1,4 @@
-Copyright © 2019, Sviatoslav Sydorenko <wk+gh~pypa/gh-action-pypi-publish@sydorenko.org.ua> and contributors <https://github.com/pypa/gh-action-pypi-publish/graphs/contributors>
+Copyright © 2019, Sviatoslav Sydorenko (wk+gh~pypa/gh-action-pypi-publish@sydorenko.org.ua) and contributors (https://github.com/pypa/gh-action-pypi-publish/graphs/contributors)
 
 All rights reserved.
 
