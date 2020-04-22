@@ -40,12 +40,14 @@ So the full step would look like:
 on:
   create:
 
-- name: Publish package
-  if: github.event_name == 'create' && github.event.ref_type == 'tag'
-  uses: pypa/gh-action-pypi-publish@master
-  with:
-    user: __token__
-    password: ${{ secrets.pypi_password }}
+jobs:
+  steps:
+    - name: Publish package
+      if: github.event_name == 'create' && github.event.ref_type == 'tag'
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.pypi_password }}
 ```
 
 The example above uses the new [API token](https://pypi.org/help/#apitoken)
