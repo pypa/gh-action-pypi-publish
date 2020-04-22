@@ -30,15 +30,18 @@ filter to the step:
 
 
 ```yml
-  if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+  if: github.event_name == 'create' && github.event.ref_type == 'tag'
 ```
 
 So the full step would look like:
 
 
 ```yml
+on:
+  create:
+
 - name: Publish package
-  if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+  if: github.event_name == 'create' && github.event.ref_type == 'tag'
   uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
