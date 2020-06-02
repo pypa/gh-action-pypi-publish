@@ -101,6 +101,15 @@ would now look like:
     packages_dir: custom-dir/
 ```
 
+### Disabling twine check
+
+You can also disable the twine check with:
+
+```yml
+   with:
+     check: false
+```
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project
