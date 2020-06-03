@@ -101,13 +101,15 @@ would now look like:
     packages_dir: custom-dir/
 ```
 
-### Disabling twine check
+### Disabling metadata verification
 
-You can also disable the twine check with:
+It is recommended that you run `twine check` just after producing your files,
+but this also runs `twine check` before upload. You can also disable the twine
+check with:
 
 ```yml
    with:
-     check: false
+     verify_metadata: false
 ```
 
 ## License

@@ -28,7 +28,7 @@ then
         are in place should you face this problem.
 fi
 
-if [[ ${INPUT_CHECK,,} != "false" ]] ; then
+if [[ ${INPUT_VERIFY_METADATA,,} != "false" ]] ; then
   twine check ${INPUT_PACKAGES_DIR%%/}/*
 fi
 

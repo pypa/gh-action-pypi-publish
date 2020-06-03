@@ -16,8 +16,8 @@ inputs:
     description: The target directory for distribution
     required: false
     default: dist
-  check:
-    description: Check before uploading
+  verify_metadata:
+    description: Check metadata before uploading
     required: false
     default: true
 branding:
@@ -31,4 +31,4 @@ runs:
   - ${{ inputs.password }}
   - ${{ inputs.repository_url }}
   - ${{ inputs.packages_dir }}
-  - ${{ inputs.check }}
+  - ${{ inputs.verify_metadata }}
