@@ -24,7 +24,7 @@ then
     echo \
         ::warning file='# >>' PyPA publish to PyPI GHA'%3A' '<< ':: \
         It looks like there are no Python distribution packages to \
-        publish in the directory '"${INPUT_PACKAGES_DIR%%/}/"'. \
+        publish in the directory "'${INPUT_PACKAGES_DIR%%/}/'". \
         Please verify that they are in place should you face this \
         problem.
 fi
