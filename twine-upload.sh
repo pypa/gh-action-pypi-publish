@@ -29,7 +29,7 @@ then
 fi
 
 if [[ ${INPUT_CHECK,,} != "false" ]] ; then
-  exec twine check ${INPUT_PACKAGES_DIR%%/}/*
+  twine check ${INPUT_PACKAGES_DIR%%/}/*
 fi
 
 
