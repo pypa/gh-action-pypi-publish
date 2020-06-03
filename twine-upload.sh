@@ -28,6 +28,10 @@ then
         are in place should you face this problem.
 fi
 
+if [[ ${INPUT_VERIFY_METADATA,,} != "false" ]] ; then
+    twine check ${INPUT_PACKAGES_DIR%%/}/*
+fi
+
 
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \

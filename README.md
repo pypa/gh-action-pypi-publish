@@ -101,6 +101,17 @@ would now look like:
     packages_dir: custom-dir/
 ```
 
+### Disabling metadata verification
+
+It is recommended that you run `twine check` just after producing your files,
+but this also runs `twine check` before upload. You can also disable the twine
+check with:
+
+```yml
+   with:
+     verify_metadata: false
+```
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project

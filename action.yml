@@ -16,6 +16,10 @@ inputs:
     description: The target directory for distribution
     required: false
     default: dist
+  verify_metadata:
+    description: Check metadata before uploading
+    required: false
+    default: true
 branding:
   color: yellow
   icon: upload-cloud
@@ -27,3 +31,4 @@ runs:
   - ${{ inputs.password }}
   - ${{ inputs.repository_url }}
   - ${{ inputs.packages_dir }}
+  - ${{ inputs.verify_metadata }}
