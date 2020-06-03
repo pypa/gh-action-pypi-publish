@@ -30,7 +30,7 @@ filter to the step:
 
 
 ```yml
-  if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+  if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
 ```
 
 So the full step would look like:
@@ -38,7 +38,7 @@ So the full step would look like:
 
 ```yml
 - name: Publish package
-  if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+  if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
   uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
