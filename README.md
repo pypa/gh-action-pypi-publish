@@ -1,6 +1,5 @@
 # PyPI publish GitHub Action
-This action allows you to upload your [Python distribution packages](
-https://packaging.python.org/glossary/#term-distribution-package)
+This action allows you to upload your [Python distribution packages]
 in the `dist/` directory to PyPI.
 This text suggests a minimalistic usage overview. For more detailed
 walkthrough check out the [PyPA guide].
@@ -45,8 +44,8 @@ So the full step would look like:
     password: ${{ secrets.pypi_password }}
 ```
 
-The example above uses the new [API token](https://pypi.org/help/#apitoken)
-feature of PyPI, which is recommended to restrict the access the action has.
+The example above uses the new [API token][PyPI API token] feature of
+PyPI, which is recommended to restrict the access the action has.
 
 The secret used in `${{ secrets.pypi_password }}` needs to be created on the
 settings page of your project on GitHub. See [Creating & using secrets].
@@ -124,3 +123,6 @@ https://help.github.com/en/actions/automating-your-workflow-with-github-actions/
 https://github.com/pypa/gh-action-pypi-publish/issues/11#issuecomment-530480449
 [PyPA guide]:
 https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+[PyPI API token]: https://pypi.org/help/#apitoken
+[Python distribution packages]:
+https://packaging.python.org/glossary/#term-distribution-package
