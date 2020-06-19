@@ -37,8 +37,13 @@ if [[ ${INPUT_VERIFY_METADATA,,} != "false" ]] ; then
     twine check ${INPUT_PACKAGES_DIR%%/}/*
 fi
 
+TWINE_EXTRA_ARGS=
+if [[ ${INPUT_SKIP_EXISTING,,} != "false" ]] ; then
+    TWINE_EXTRA_ARGS=--skip-existing
+fi
+
 
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \
 TWINE_REPOSITORY_URL="$INPUT_REPOSITORY_URL" \
-  exec twine upload ${INPUT_PACKAGES_DIR%%/}/*
+  exec twine upload ${TWINE_EXTRA_ARGS} ${INPUT_PACKAGES_DIR%%/}/*

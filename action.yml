@@ -20,6 +20,12 @@ inputs:
     description: Check metadata before uploading
     required: false
     default: true
+  skip_existing:
+    description: >-
+      Do not fail if a Python package distribution
+      exists in the target package index
+    required: false
+    default: false
 branding:
   color: yellow
   icon: upload-cloud
@@ -32,3 +38,4 @@ runs:
   - ${{ inputs.repository_url }}
   - ${{ inputs.packages_dir }}
   - ${{ inputs.verify_metadata }}
+  - ${{ inputs.skip_existing }}

@@ -111,6 +111,25 @@ check with:
      verify_metadata: false
 ```
 
+### Tolerating release package file duplicates
+
+Sometimes, when you publish releases from multiple places, your workflow
+may hit race conditions. For example, when publishing from multiple CIs
+or even having workflows with the same steps triggered withing GitHub
+Actions CI/CD for different events concerning the same high-level act.
+
+To facilitate this use-case, you may use `skip_existing` (disabled by
+default) setting as follows:
+
+```yml
+   with:
+     skip_existing: true
+```
+
+> **Pro tip**: try to avoid enabling this setting where possible. If you
+have steps for publishing to both PyPI and TestPyPI, consider only using
+it for the latter, having the former fail loudly on duplicates.
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project
