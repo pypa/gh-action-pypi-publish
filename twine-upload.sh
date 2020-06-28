@@ -18,10 +18,8 @@ then
         copied your token properly if such an error occurs.
 fi
 
-if [[
-    ! -d ${INPUT_PACKAGES_DIR%%/}/ ||
-    "`ls -l ${INPUT_PACKAGES_DIR%%/}/*.tar.gz ${INPUT_PACKAGES_DIR%%/}/*.whl`" == "total 0"
-  ]]
+if ( ! ls -A ${INPUT_PACKAGES_DIR%%/}/*.tar.gz &> /dev/null && \
+     ! ls -A ${INPUT_PACKAGES_DIR%%/}/*.whl &> /dev/null )
 then
     echo \
         ::warning file='# >>' PyPA publish to PyPI GHA'%3A' \
