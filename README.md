@@ -115,7 +115,7 @@ check with:
 
 Sometimes, when you publish releases from multiple places, your workflow
 may hit race conditions. For example, when publishing from multiple CIs
-or even having workflows with the same steps triggered withing GitHub
+or even having workflows with the same steps triggered within GitHub
 Actions CI/CD for different events concerning the same high-level act.
 
 To facilitate this use-case, you may use `skip_existing` (disabled by
