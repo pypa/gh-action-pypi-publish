@@ -26,6 +26,10 @@ inputs:
       exists in the target package index
     required: false
     default: false
+  verbose:
+    description: Show verbose output.
+    required: false
+    default: false
 branding:
   color: yellow
   icon: upload-cloud
@@ -39,3 +43,4 @@ runs:
   - ${{ inputs.packages_dir }}
   - ${{ inputs.verify_metadata }}
   - ${{ inputs.skip_existing }}
+  - ${{ inputs.verbose }}
