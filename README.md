@@ -130,6 +130,15 @@ default) setting as follows:
 have steps for publishing to both PyPI and TestPyPI, consider only using
 it for the latter, having the former fail loudly on duplicates.
 
+### For Debugging
+
+Sometimes, `twine upload` can fail and to debug use the `verbose` setting as follows:
+
+```yml
+   with:
+     verbose: true
+```
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project

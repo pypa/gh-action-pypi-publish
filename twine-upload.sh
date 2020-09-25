@@ -40,6 +40,9 @@ if [[ ${INPUT_SKIP_EXISTING,,} != "false" ]] ; then
     TWINE_EXTRA_ARGS=--skip-existing
 fi
 
+if [[ ${VERBOSE,,} != "false" ]] ; then
+    TWINE_EXTRA_ARGS="--verbose $TWINE_EXTRA_ARGS"
+fi
 
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \
