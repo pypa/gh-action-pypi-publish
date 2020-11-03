@@ -14,20 +14,19 @@ jobs:
         with:
           python-version: 3.8
       - name: Install packaging
-        run: pip install -U packaging
+        run: python -m pip install -U packaging --user
       - name: Get versions
         id: get_versions
         shell: python
         run: |
-          import sys
           from packaging.version import parse
-          print(sys.version_info)
+
           tag_ref = "${{ github.ref }}"
           tag_name = tag_ref.split("/")[-1]
-          print(f"tag_name: {tag_name}")
           version = parse(tag_name)
+          print(f"tag_name: {tag_name}")
           print(f"version: {version}")
-          if not (version.is_prerelease):
+          if not version.is_prerelease:
               print("Creating new major and minor tags!")
               print(f"::set-output name=original_tag_name::{tag_name}")
               print(f"::set-output name=major_version::v{version.major}")
@@ -42,9 +41,11 @@ jobs:
           major_version: ${{ steps.get_versions.outputs.major_version }}
           minor_version: ${{ steps.get_versions.outputs.minor_version }}
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git tag -a $major_version -m "original tag: $original_tag_name"
-          git tag -a $minor_version -m "original tag: $original_tag_name"
-          git push origin $major_version -f
-          git push origin $minor_version -f
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+          git tag --annotate '${{ env.major_version }}' \
+            --message='original tag: ${{ env.original_tag_name }}'
+          git tag --annotate '${{ env.minor_version }}' \
+            --message='original tag: ${{ env.original_tag_name }}'
+          git push origin '${{ env.major_version }}' --force-with-lease
+          git push origin '${{ env.minor_version }}' --force-with-lease
