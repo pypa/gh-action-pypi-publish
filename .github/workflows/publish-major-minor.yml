@@ -1,0 +1,33 @@
+name: "Publish Major-Minor-Tags"
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  push-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install packaging
+        run: pip install -U packaging
+      - name: Get versions
+        id: get_versions
+        run: python .github/workflows/publish-major-minor.py ${{ github.ref }}
+      - name: Push Tags Version
+        if: steps.get_versions.outputs.original_tag_name != ''
+        env:
+          original_tag_name: ${{ steps.get_versions.outputs.original_tag_name }}
+          major_version: ${{ steps.get_versions.outputs.major_version }}
+          minor_version: ${{ steps.get_versions.outputs.minor_version }}
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git tag -a $major_version -m "original tag: $original_tag_name"
+          git tag -a $minor_version -m "original tag: $original_tag_name"
+          git push origin $major_version -f
+          git push origin $minor_version -f
