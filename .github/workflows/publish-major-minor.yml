@@ -33,20 +33,28 @@ jobs:
           print("Creating new major and minor tags!")
           print(f"::set-output name=original_tag_name::{tag_name}")
           print(f"::set-output name=major_version::v{version.major}")
-          print(f"::set-output name=minor_version::v{version.major}.{version.minor}")
-      - name: Push Tags Version
+          print(f"::set-output name=minor_version::v{version.major}.{version.minor}")      
+      - name: Setup git user as [bot]
+        run: |
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+      - name: Create major + minor tags
         if: steps.get_versions.outputs.original_tag_name != ''
         env:
           original_tag_name: ${{ steps.get_versions.outputs.original_tag_name }}
           major_version: ${{ steps.get_versions.outputs.major_version }}
           minor_version: ${{ steps.get_versions.outputs.minor_version }}
         run: |
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git config user.name 'github-actions[bot]'
           git tag --annotate '${{ env.major_version }}' \
             --message='original tag: ${{ env.original_tag_name }}'
           git tag --annotate '${{ env.minor_version }}' \
             --message='original tag: ${{ env.original_tag_name }}'
+      - name: Push major + minor tags
+        if: steps.get_versions.outputs.original_tag_name != ''
+        env:
+          major_version: ${{ steps.get_versions.outputs.major_version }}
+          minor_version: ${{ steps.get_versions.outputs.minor_version }}
+        run: |
           git push --force --atomic origin \
             '${{ env.major_version }}' \
             '${{ env.minor_version }}'
