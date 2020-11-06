@@ -26,14 +26,14 @@ jobs:
           version = parse(tag_name)
           print(f"tag_name: {tag_name}")
           print(f"version: {version}")
-          if not version.is_prerelease:
-              print("Creating new major and minor tags!")
-              print(f"::set-output name=original_tag_name::{tag_name}")
-              print(f"::set-output name=major_version::v{version.major}")
-              print(f"::set-output name=minor_version::v{version.major}.{version.minor}")
-          else:
+          if version.is_prerelease:
               print("No tags created (dev or pre version)!")
+              exit(0)
 
+          print("Creating new major and minor tags!")
+          print(f"::set-output name=original_tag_name::{tag_name}")
+          print(f"::set-output name=major_version::v{version.major}")
+          print(f"::set-output name=minor_version::v{version.major}.{version.minor}")
       - name: Push Tags Version
         if: steps.get_versions.outputs.original_tag_name != ''
         env:
