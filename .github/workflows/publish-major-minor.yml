@@ -47,5 +47,6 @@ jobs:
             --message='original tag: ${{ env.original_tag_name }}'
           git tag --annotate '${{ env.minor_version }}' \
             --message='original tag: ${{ env.original_tag_name }}'
-          git push origin '${{ env.major_version }}' --force-with-lease
-          git push origin '${{ env.minor_version }}' --force-with-lease
+          git push --force --atomic origin \
+            '${{ env.major_version }}' \
+            '${{ env.minor_version }}'
