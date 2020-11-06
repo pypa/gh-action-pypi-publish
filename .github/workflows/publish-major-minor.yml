@@ -46,9 +46,9 @@ jobs:
           minor_version: ${{ steps.get_versions.outputs.minor_version }}
         run: |
           git tag --annotate '${{ env.major_version }}' \
-            --message='original tag: ${{ env.original_tag_name }}'
+            --message='Major version tag of: ${{ env.original_tag_name }}'
           git tag --annotate '${{ env.minor_version }}' \
-            --message='original tag: ${{ env.original_tag_name }}'
+            --message='Minor version tag of: ${{ env.original_tag_name }}'
       - name: Push major + minor tags
         if: steps.get_versions.outputs.original_tag_name != ''
         env:
