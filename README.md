@@ -16,7 +16,7 @@ To use the action add the following step to your workflow file (e.g.
   uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
-    password: ${{ secrets.pypi_password }}
+    password: ${{ secrets.PYPI_API_TOKEN }}
 ```
 
 > **Pro tip**: instead of using branch pointers, like `master`, pin versions of
@@ -41,13 +41,13 @@ So the full step would look like:
   uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
-    password: ${{ secrets.pypi_password }}
+    password: ${{ secrets.PYPI_API_TOKEN }}
 ```
 
 The example above uses the new [API token][PyPI API token] feature of
 PyPI, which is recommended to restrict the access the action has.
 
-The secret used in `${{ secrets.pypi_password }}` needs to be created on the
+The secret used in `${{ secrets.PYPI_API_TOKEN }}` needs to be created on the
 settings page of your project on GitHub. See [Creating & using secrets].
 
 
@@ -81,7 +81,7 @@ The action invocation in this case would look like:
   uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
-    password: ${{ secrets.test_pypi_password }}
+    password: ${{ secrets.TEST_PYPI_API_TOKEN }}
     repository_url: https://test.pypi.org/legacy/
 ```
 
@@ -96,7 +96,7 @@ would now look like:
   uses: pypa/gh-action-pypi-publish@master
   with:
     user: __token__
-    password: ${{ secrets.pypi_password }}
+    password: ${{ secrets.PYPI_API_TOKEN }}
     packages_dir: custom-dir/
 ```
 
