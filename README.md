@@ -13,7 +13,7 @@ To use the action add the following step to your workflow file (e.g.
 
 ```yml
 - name: Publish a Python distribution to PyPI
-  uses: pypa/gh-action-pypi-publish@master
+  uses: pypa/gh-action-pypi-publish@v1
   with:
     user: __token__
     password: ${{ secrets.PYPI_API_TOKEN }}
@@ -38,7 +38,7 @@ So the full step would look like:
 ```yml
 - name: Publish package
   if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-  uses: pypa/gh-action-pypi-publish@master
+  uses: pypa/gh-action-pypi-publish@v1
   with:
     user: __token__
     password: ${{ secrets.PYPI_API_TOKEN }}
@@ -78,7 +78,7 @@ You'll need to create another token for a separate host and then
 The action invocation in this case would look like:
 ```yml
 - name: Publish package to TestPyPI
-  uses: pypa/gh-action-pypi-publish@master
+  uses: pypa/gh-action-pypi-publish@v1
   with:
     user: __token__
     password: ${{ secrets.TEST_PYPI_API_TOKEN }}
@@ -93,7 +93,7 @@ would now look like:
 
 ```yml
 - name: Publish package to PyPI
-  uses: pypa/gh-action-pypi-publish@master
+  uses: pypa/gh-action-pypi-publish@v1
   with:
     user: __token__
     password: ${{ secrets.PYPI_API_TOKEN }}
