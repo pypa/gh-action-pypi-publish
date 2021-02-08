@@ -7,7 +7,9 @@ LABEL "homepage" "https://github.com/pypa/gh-action-pypi-publish"
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN pip install --upgrade --no-cache-dir twine
+RUN \
+  pip install --upgrade --no-cache-dir pip-with-requires-python && \
+  pip install --upgrade --no-cache-dir twine
 
 WORKDIR /app
 COPY LICENSE.md .
