@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED 1
 
 RUN \
   pip install --upgrade --no-cache-dir pip-with-requires-python && \
-  pip install --upgrade --no-cache-dir twine
+  pip install --upgrade --no-cache-dir --prefer-binary twine
 
 WORKDIR /app
 COPY LICENSE.md .
