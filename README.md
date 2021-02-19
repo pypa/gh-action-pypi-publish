@@ -58,6 +58,28 @@ This GitHub Action [has nothing to do with _building package
 distributions_]. Users are responsible for preparing dists for upload
 by putting them into the `dist/` folder prior to running this Action.
 
+> **IMPORTANT**: Since this GitHub Action is docker-based, it can only
+> be used from within GNU/Linux based jobs in GitHub Actions CI/CD
+> workflows. This is by design and is unlikely to change due to a number
+> of considerations we rely on.
+>
+> This should not stop one from publishing platform-specific
+> distribution packages, though. It is strongly advised to separate jobs
+> for building the OS-specific wheels from the publish job. This allows
+> one to (1) test exactly the same artifacts that are about to be
+> uploaded to PyPI, (2) prevent parallel unsynchronized jobs from
+> publishing only part of the dists asynchronously (in case when part of
+> the jobs fail and others succeed ending up with an incomplete release
+> on PyPI) and (3) make an atomic upload to PyPI (when part of the dists
+> appear on PyPI, installers like pip will use that version for the
+> dependency resolution but this may cause some environments to use
+> sdists while the wheels for their runtime is not yet available).
+>
+> To implement this sort of orchestration, please use
+> `actions/upload-artifact` and `actions/download-artifact` actions for
+> sharing the built dists across stages and jobs. Then, use the `needs`
+> setting to order the build, test and publish stages.
+
 
 ## Advanced release management
 
