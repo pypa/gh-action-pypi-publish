@@ -73,7 +73,7 @@ by putting them into the `dist/` folder prior to running this Action.
 > on PyPI) and (3) make an atomic upload to PyPI (when part of the dists
 > appear on PyPI, installers like pip will use that version for the
 > dependency resolution but this may cause some environments to use
-> sdists while the wheels for their runtime is not yet available).
+> sdists while the wheel for their runtime is not yet available).
 >
 > To implement this sort of orchestration, please use
 > `actions/upload-artifact` and `actions/download-artifact` actions for
