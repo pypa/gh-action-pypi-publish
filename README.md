@@ -1,4 +1,5 @@
 # PyPI publish GitHub Action
+
 This action allows you to upload your [Python distribution packages]
 in the `dist/` directory to PyPI.
 This text suggests a minimalistic usage overview. For more detailed
