@@ -7,11 +7,10 @@ md5 = hashlib.md5()
 blake2_256 = hashlib.blake2b(digest_size=256 // 8)
 
 packages_dir = pathlib.Path(sys.argv[1]).resolve().absolute()
-file_iterable = packages_dir.iterdir()
 
 print("Showing hash values of files to be uploaded:")
 
-for file_object in file_iterable:
+for file_object in packages_dir.iterdir():
     print(file_object)
     print("")
 
