@@ -31,7 +31,7 @@ inputs:
     required: false
     default: false
   print_hash:
-    description: Show hash values of files uploaded
+    description: Show hash values of files to be uploaded
     required: false
     default: false
 branding:
