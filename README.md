@@ -162,6 +162,16 @@ Sometimes, `twine upload` can fail and to debug use the `verbose` setting as fol
      verbose: true
 ```
 
+### Showing hash values of files to be uploaded
+
+You may want to verify whether the files on PyPI were automatically uploaded by CI script.
+It will show SHA256, MD5, BLAKE2-256 values of files to be uploaded.
+
+```yml
+  with:
+    print_hash: true
+```
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project
