@@ -1,20 +1,21 @@
-import os
 import hashlib
+import pathlib
+import sys
 
 sha256 = hashlib.sha256()
 md5 = hashlib.md5()
 blake2_256 = hashlib.blake2b(digest_size=256 // 8)
 
-file_list = os.listdir(os.path.abspath(os.getenv("INPUT_PACKAGES_DIR")))
+packages_dir = pathlib.Path(sys.argv[1]).resolve().absolute()
+file_iterable = packages_dir.iterdir()
 
 print("Showing hash values of files to be uploaded:")
 
-for file in file_list:
-    print(file)
+for file_object in file_iterable:
+    print(file_object)
     print("")
 
-    with open(os.path.abspath(os.path.join(os.getenv("INPUT_PACKAGES_DIR"), file)), "rb") as f:
-        content = f.read()
+    content = file_object.read_bytes()
     
     sha256.update(content)
     md5.update(content)
