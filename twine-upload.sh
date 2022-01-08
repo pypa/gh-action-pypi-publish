@@ -44,7 +44,7 @@ if [[ ${INPUT_VERBOSE,,} != "false" ]] ; then
     TWINE_EXTRA_ARGS="--verbose $TWINE_EXTRA_ARGS"
 fi
 
-if [[ ${INPUT_PRINT_HASH,,} || ${INPUT_VERBOSE,,} != "false" ]] ; then
+if [[ ${INPUT_PRINT_HASH,,} != "false" || ${INPUT_VERBOSE,,} != "false" ]] ; then
     python /app/print-hash.py
 fi
 
