@@ -45,7 +45,7 @@ if [[ ${INPUT_VERBOSE,,} != "false" ]] ; then
 fi
 
 if [[ ${INPUT_PRINT_HASH,,} || ${INPUT_VERBOSE,,} != "false" ]] ; then
-    python ./print-hash.py
+    python /app/print-hash.py
 fi
 
 TWINE_USERNAME="$INPUT_USER" \
