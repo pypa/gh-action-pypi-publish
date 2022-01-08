@@ -7,8 +7,9 @@ blake2_256 = hashlib.blake2b(digest_size=256 // 8)
 
 file_list = os.listdir(os.path.abspath(os.getenv("INPUT_PACKAGES_DIR")))
 
+print("Showing hash values of files to be uploaded:")
+
 for file in file_list:
-    print("Showing hash values of files to be uploaded:")
     print(file)
     print("")
 
