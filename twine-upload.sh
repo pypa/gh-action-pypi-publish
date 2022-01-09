@@ -44,6 +44,10 @@ if [[ ${INPUT_VERBOSE,,} != "false" ]] ; then
     TWINE_EXTRA_ARGS="--verbose $TWINE_EXTRA_ARGS"
 fi
 
+if [[ ${INPUT_PRINT_HASH,,} != "false" || ${INPUT_VERBOSE,,} != "false" ]] ; then
+    python /app/print-hash.py "${INPUT_PACKAGES_DIR%%/}"
+fi
+
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \
 TWINE_REPOSITORY_URL="$INPUT_REPOSITORY_URL" \

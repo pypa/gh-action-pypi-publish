@@ -30,6 +30,10 @@ inputs:
     description: Show verbose output.
     required: false
     default: false
+  print_hash:
+    description: Show hash values of files to be uploaded
+    required: false
+    default: false
 branding:
   color: yellow
   icon: upload-cloud
@@ -44,3 +48,4 @@ runs:
   - ${{ inputs.verify_metadata }}
   - ${{ inputs.skip_existing }}
   - ${{ inputs.verbose }}
+  - ${{ inputs.print_hash }}
