@@ -2,15 +2,15 @@ import hashlib
 import pathlib
 import sys
 
-sha256 = hashlib.sha256()
-md5 = hashlib.md5()
-blake2_256 = hashlib.blake2b(digest_size=256 // 8)
-
 packages_dir = pathlib.Path(sys.argv[1]).resolve().absolute()
 
 print("Showing hash values of files to be uploaded:")
 
 for file_object in packages_dir.iterdir():
+    sha256 = hashlib.sha256()
+    md5 = hashlib.md5()
+    blake2_256 = hashlib.blake2b(digest_size=256 // 8)
+    
     print(file_object)
     print("")
 
