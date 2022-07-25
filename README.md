@@ -1,3 +1,5 @@
+[![SWUbanner]][SWUdocs]
+
 # PyPI publish GitHub Action
 
 This action allows you to upload your [Python distribution packages]
@@ -187,3 +189,7 @@ https://packaging.python.org/guides/publishing-package-distribution-releases-usi
 [PyPI API token]: https://pypi.org/help/#apitoken
 [Python distribution packages]:
 https://packaging.python.org/glossary/#term-distribution-package
+[SWUbanner]:
+https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg
+[SWUdocs]:
+https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md
