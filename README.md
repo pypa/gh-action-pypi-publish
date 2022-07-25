@@ -25,7 +25,6 @@ To use the action add the following step to your workflow file (e.g.
 - name: Publish a Python distribution to PyPI
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
-    user: __token__
     password: ${{ secrets.PYPI_API_TOKEN }}
 ```
 
@@ -50,7 +49,6 @@ So the full step would look like:
   if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
-    user: __token__
     password: ${{ secrets.PYPI_API_TOKEN }}
 ```
 
@@ -112,7 +110,6 @@ The action invocation in this case would look like:
 - name: Publish package to TestPyPI
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
-    user: __token__
     password: ${{ secrets.TEST_PYPI_API_TOKEN }}
     repository_url: https://test.pypi.org/legacy/
 ```
@@ -127,7 +124,6 @@ would now look like:
 - name: Publish package to PyPI
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
-    user: __token__
     password: ${{ secrets.PYPI_API_TOKEN }}
     packages_dir: custom-dir/
 ```
@@ -179,6 +175,18 @@ It will show SHA256, MD5, BLAKE2-256 values of files to be uploaded.
 ```yml
   with:
     print_hash: true
+```
+
+### Specifying a different username
+
+The default username value is `__token__`. If you publish to a custom
+registry that does not provide API tokens, like `devpi`, you may need to
+specify a custom username and password pair. This is how it's done.
+
+```yml
+  with:
+    user: guido
+    password: ${{ secrets.DEVPI_PASSWORD }}
 ```
 
 ## License
