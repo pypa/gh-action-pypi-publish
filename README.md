@@ -195,7 +195,7 @@ https://github.com/pypa/gh-action-pypi-publish/issues/11#issuecomment-530480449
 https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 [PyPI API token]: https://pypi.org/help/#apitoken
 [Python distribution packages]:
-https://packaging.python.org/glossary/#term-distribution-package
+https://packaging.python.org/glossary/#term-Distribution-Package
 [SWUbanner]:
 https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg
 [SWUdocs]:
