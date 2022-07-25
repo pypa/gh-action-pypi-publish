@@ -8,6 +8,13 @@ This text suggests a minimalistic usage overview. For more detailed
 walkthrough check out the [PyPA guide].
 
 
+## 🌇 `master` branch sunset ❗
+
+The `master` branch version has been sunset. Please, change the GitHub
+Action version you use from `master` to `release/v1` or use an exact
+tag, or a full Git commit SHA.
+
+
 ## Usage
 
 To use the action add the following step to your workflow file (e.g.
