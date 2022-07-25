@@ -2,6 +2,20 @@
 set -Eeuo pipefail
 
 
+echo \
+    ::warning file='# >>' PyPA publish to PyPI GHA'%3A' \
+    UNSUPPORTED GITHUB ACTION VERSION \
+    '<< ':: \
+    You are using '"pypa/gh-action-pypi-publish@master"'. \
+    The '"master"' branch of this project has been sunset and will not \
+    receive any updates, not even security bug fixes. Please, make \
+    sure to use a supported version. If you want to pin to v1 major \
+    version, use '"pypa/gh-action-pypi-publish@release/v1"'. If you \
+    feel adventurous, you may opt to use use \
+    '"pypa/gh-action-pypi-publish@unstable/v1"' instead. A more \
+    general recommendation is to pin to exact tags or commit shas.
+
+
 if [[
     "$INPUT_USER" == "__token__" &&
     ! "$INPUT_PASSWORD" =~ ^pypi-
