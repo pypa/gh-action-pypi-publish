@@ -1,1 +1,11 @@
 twine
+
+# NOTE: `pkginfo` is a transitive dependency for us that is coming from Twine.
+# NOTE: It is declared here only to avoid installing a broken combination of
+# NOTE: the distribution packages. This should be removed once a fixed version
+# NOTE: of Twine is out.
+# Refs:
+# * https://github.com/pypa/gh-action-pypi-publish/issues/107
+# * https://github.com/pypa/twine/issues/940
+# * https://github.com/pypa/twine/pull/941
+pkginfo != 1.9.0
