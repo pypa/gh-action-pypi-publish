@@ -10,6 +10,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PIP_NO_CACHE_DIR 1
 
 ENV PATH "/root/.local/bin:${PATH}"
+ENV PYTHONPATH "/root/.local/lib/python3.9/site-packages"
 
 COPY requirements requirements
 RUN \
