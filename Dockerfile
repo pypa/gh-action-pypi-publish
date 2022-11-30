@@ -9,13 +9,15 @@ ENV PYTHONUNBUFFERED 1
 
 ENV PIP_NO_CACHE_DIR 1
 
+ENV PATH "/root/.local/bin:${PATH}"
+
 COPY requirements requirements
 RUN \
   PIP_CONSTRAINT=requirements/runtime-prerequisites.txt \
-    pip install --upgrade --no-cache-dir \
+    pip install --user --upgrade --no-cache-dir \
       -r requirements/runtime-prerequisites.in && \
   PIP_CONSTRAINT=requirements/runtime.txt \
-    pip install --upgrade --no-cache-dir --prefer-binary \
+    pip install --user --upgrade --no-cache-dir --prefer-binary \
       -r requirements/runtime.in
 
 WORKDIR /app
