@@ -1,2 +1,10 @@
-indentation:
-  indent-sequences: false
+---
+
+extends: default
+
+rules:
+  indentation:
+    level: error
+    indent-sequences: false
+
+...
