@@ -7,7 +7,7 @@ LABEL "homepage" "https://github.com/pypa/gh-action-pypi-publish"
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements .
+COPY requirements requirements
 RUN \
   PIP_CONSTRAINT=requirements/runtime-prerequisites.txt \
     pip install --upgrade --no-cache-dir \
