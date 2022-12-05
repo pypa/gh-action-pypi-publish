@@ -18,6 +18,8 @@ jobs:
         ports:
         - 3141
 
+    timeout-minutes: 2
+
     steps:
     - run: python3 -m pip install --upgrade pip build twine
     - run: mkdir -p src/test_package
