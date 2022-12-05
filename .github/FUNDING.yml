@@ -1,6 +1,16 @@
-github: [webknjaz]
-patreon: webknjaz
-# open_collective: # Replace with a single Open Collective username
+---
+
+custom:
+- https://www.comebackalive.in.ua/donate
+- https://github.com/vshymanskyy/StandWithUkraine#for-maintainers-and-authors
+- https://www.paypal.me/webknjazCZ
+- https://webknjaz.me
+
+github:
+- webknjaz
+
 ko_fi: webknjaz
-# tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
-custom: https://www.paypal.me/webknjazCZ
+
+liberapay: webknjaz
+
+...
