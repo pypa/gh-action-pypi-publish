@@ -1,45 +1,52 @@
+---
+
 name: Test Upload
 
-on:
-  pull_request:
+on:   # yamllint disable-line rule:truthy
   push:
+  pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     services:
       devpi:
         image: muccg/devpi
         env:
           DEVPI_PASSWORD: abcd1234
         ports:
-          - 3141
+        - 3141
+
     steps:
-      - run: python3 -m pip install --upgrade pip build twine
-      - run: mkdir -p src/test_package
-      - run: echo '__version__ = "0.1"' > src/test_package/__init__.py
-      - run: echo "# Test Package" > README.md
-      - run: echo "$CONTENTS" > pyproject.toml
-        env:
-          CONTENTS: |
-            [build-system]
-            requires = ["setuptools>=61", "wheel"]
-            build-backend = "setuptools.build_meta"
-            [project]
-            name = "test-package"
-            version = "0.1"
-            readme = "README.md"
-      - run: python3 -m build
-      - run: twine register dist/*.tar.gz
-        env:
-          TWINE_USERNAME: root
-          TWINE_PASSWORD: abcd1234
-          TWINE_REPOSITORY_URL: http://localhost:${{ job.services.devpi.ports['3141'] }}/root/public/
-      - uses: actions/checkout@v3
-        with:
-          path: test
-      - uses: ./test
-        with:
-          user: root
-          password: abcd1234
-          repository_url: http://devpi:3141/root/public/
+    - run: python3 -m pip install --upgrade pip build twine
+    - run: mkdir -p src/test_package
+    - run: echo '__version__ = "0.1"' > src/test_package/__init__.py
+    - run: echo "# Test Package" > README.md
+    - run: echo "$CONTENTS" > pyproject.toml
+      env:
+        CONTENTS: |
+          [build-system]
+          requires = ["setuptools>=61", "wheel"]
+          build-backend = "setuptools.build_meta"
+          [project]
+          name = "test-package"
+          version = "0.1"
+          readme = "README.md"
+    - run: python3 -m build
+    - run: twine register dist/*.tar.gz
+      env:
+        TWINE_USERNAME: root
+        TWINE_PASSWORD: abcd1234
+        TWINE_REPOSITORY_URL: >-
+          http://localhost:${{ job.services.devpi.ports['3141'] }}/root/public/
+    - uses: actions/checkout@v3
+      with:
+        path: test
+    - uses: ./test
+      with:
+        user: root
+        password: abcd1234
+        repository_url: http://devpi:3141/root/public/
+
+...
