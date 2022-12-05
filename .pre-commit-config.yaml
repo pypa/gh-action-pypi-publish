@@ -1,0 +1,59 @@
+---
+ci:
+  autoupdate_schedule: quarterly
+
+repos:
+- repo: https://github.com/Lucas-C/pre-commit-hooks.git
+  rev: v1.3.1
+  hooks:
+  - id: remove-tabs
+
+- repo: https://github.com/python-jsonschema/check-jsonschema.git
+  rev: 0.18.3
+  hooks:
+  - id: check-github-workflows
+  - id: check-jsonschema
+    name: Check GitHub Workflows set timeout-minutes
+    args:
+    - --builtin-schema
+    - github-workflows-require-timeout
+    files: ^\.github/workflows/[^/]+$
+    types:
+    - yaml
+  - id: check-readthedocs
+
+- repo: https://github.com/pre-commit/pre-commit-hooks.git
+  rev: v4.3.0
+  hooks:
+  # Side-effects:
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+  - id: mixed-line-ending
+  # Non-modifying checks:
+  - id: check-added-large-files
+  - id: check-byte-order-marker
+  - id: check-case-conflict
+  - id: check-executables-have-shebangs
+  - id: check-merge-conflict
+  - id: check-json
+  - id: check-symlinks
+  - id: check-yaml
+  - id: detect-private-key
+
+- repo: https://github.com/codespell-project/codespell
+  rev: v2.2.1
+  hooks:
+  - id: codespell
+
+- repo: https://github.com/adrienverge/yamllint.git
+  rev: v1.28.0
+  hooks:
+  - id: yamllint
+    files: \.(yaml|yml)$
+    types:
+    - file
+    - yaml
+    args:
+    - --strict
+
+...
