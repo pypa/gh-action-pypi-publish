@@ -19,21 +19,21 @@ inputs:
   verify_metadata:
     description: Check metadata before uploading
     required: false
-    default: true
+    default: 'true'
   skip_existing:
     description: >-
       Do not fail if a Python package distribution
       exists in the target package index
     required: false
-    default: false
+    default: 'false'
   verbose:
     description: Show verbose output.
     required: false
-    default: false
+    default: 'false'
   print_hash:
     description: Show hash values of files to be uploaded
     required: false
-    default: false
+    default: 'false'
 branding:
   color: yellow
   icon: upload-cloud
