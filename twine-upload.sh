@@ -6,6 +6,7 @@ set -Eeuo pipefail
 # NOTE: These variables are needed to combat GitHub passing broken env vars
 # NOTE: from the runner VM host runtime.
 # Ref: https://github.com/pypa/gh-action-pypi-publish/issues/112
+export PATH="/usr/bin:${PATH}"  # To find `id`
 . /etc/profile  # Makes python and other executables findable
 export PATH="$(python -m site --user-base)/bin:${PATH}"
 export PYTHONPATH="$(python -m site --user-site):${PYTHONPATH}"
