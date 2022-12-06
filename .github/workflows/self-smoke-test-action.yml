@@ -7,7 +7,7 @@ on:   # yamllint disable-line rule:truthy
   pull_request:
 
 jobs:
-  test:
+  smoke-test:
     runs-on: ubuntu-latest
 
     services:
