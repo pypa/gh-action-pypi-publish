@@ -36,7 +36,7 @@ jobs:
         env:
           DEVPI_PASSWORD: ${{ env.devpi-password }}
         ports:
-        - ${{ env.devpi-port }}
+        - 3141
 
     timeout-minutes: 2
 
