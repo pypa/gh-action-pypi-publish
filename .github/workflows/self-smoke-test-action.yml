@@ -29,14 +29,6 @@ jobs:
   smoke-test:
     runs-on: ubuntu-latest
 
-    env:
-      TWINE_REPOSITORY_URL: >-
-        http://devpi:${{
-          job.services.devpi.ports['3141']
-        }}/${{
-          env.devpi-username
-        }}/public/
-
     services:
       devpi:
         image: muccg/devpi
@@ -83,11 +75,22 @@ jobs:
       env:
         TWINE_USERNAME: ${{ env.devpi-username }}
         TWINE_PASSWORD: ${{ env.devpi-password }}
+        TWINE_REPOSITORY_URL: >-
+          http://devpi:${{
+            job.services.devpi.ports['3141']
+          }}/${{
+            env.devpi-username
+          }}/public/
     - name: ✅ Smoke-test the locally checked out action
       uses: ./test
       with:
         user: ${{ env.devpi-username }}
         password: ${{ env.devpi-password }}
-        repository_url: ${{ env.TWINE_REPOSITORY_URL }}
+        repository_url: >-
+          http://devpi:${{
+            job.services.devpi.ports['3141']
+          }}/${{
+            env.devpi-username
+          }}/public/
 
 ...
