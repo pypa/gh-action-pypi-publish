@@ -1,5 +1,10 @@
 #! /bin/bash
 
+if [[ -n "${DEBUG}" ]]
+then
+    set -x
+fi
+
 set -Eeuo pipefail
 
 
