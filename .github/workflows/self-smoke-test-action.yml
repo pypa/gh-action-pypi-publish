@@ -48,11 +48,16 @@ jobs:
     timeout-minutes: 2
 
     steps:
-    - run: python3 -m pip install --upgrade pip build twine
-    - run: mkdir -p src/test_package
-    - run: echo '__version__ = "0.1"' > src/test_package/__init__.py
-    - run: echo "# Test Package" > README.md
-    - run: echo "$CONTENTS" > pyproject.toml
+    - name: Install the packaging-related tools
+      run: python3 -m pip install --upgrade pip build twine
+    - name: Create the stub package importable directory
+      run: mkdir -p src/test_package
+    - name: Populate the stub package `__init__.py`
+      run: echo '__version__ = "0.1"' > src/test_package/__init__.py
+    - name: Populate the stub package `README.md`
+      run: echo "# Test Package" > README.md
+    - name: Populate the stub package `pyproject.toml`
+      run: echo "$CONTENTS" > pyproject.toml
       env:
         CONTENTS: |
           [build-system]
@@ -65,15 +70,19 @@ jobs:
           name = "test-package"
           version = "0.1"
           readme = "README.md"
-    - run: python3 -m build
-    - run: twine register dist/*.tar.gz
+    - name: Build the stub package sdist and wheel distributions
+      run: python3 -m build
+    - name: Register the stub package in devpi
+      run: twine register dist/*.tar.gz
       env:
         TWINE_USERNAME: ${{ env.devpi-username }}
         TWINE_PASSWORD: ${{ env.devpi-password }}
-    - uses: actions/checkout@v3
+    - name: Check out the action locally
+      uses: actions/checkout@v3
       with:
         path: test
-    - uses: ./test
+    - name: ✅ Smoke-test the locally checked out action
+      uses: ./test
       with:
         user: ${{ env.devpi-username }}
         password: ${{ env.devpi-password }}
