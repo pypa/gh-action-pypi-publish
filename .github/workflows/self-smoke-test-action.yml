@@ -9,6 +9,7 @@ on:   # yamllint disable-line rule:truthy
 env:
   devpi-password: abcd1234
   devpi-username: root
+  devpi-port: 3141
 
   FORCE_COLOR: 1  # Request colored output from CLI tools supporting it
   MYPY_FORCE_COLOR: 1  # MyPy's color enforcement
@@ -35,7 +36,7 @@ jobs:
         env:
           DEVPI_PASSWORD: ${{ env.devpi-password }}
         ports:
-        - 3141
+        - ${{ env.devpi-port }}
 
     timeout-minutes: 2
 
@@ -77,7 +78,7 @@ jobs:
         TWINE_PASSWORD: ${{ env.devpi-password }}
         TWINE_REPOSITORY_URL: >-
           http://localhost:${{
-            job.services.devpi.ports['3141']
+            job.services.devpi.ports[env.devpi-port]
           }}/${{
             env.devpi-username
           }}/public/
@@ -87,10 +88,6 @@ jobs:
         user: ${{ env.devpi-username }}
         password: ${{ env.devpi-password }}
         repository_url: >-
-          http://devpi:${{
-            job.services.devpi.ports['3141']
-          }}/${{
-            env.devpi-username
-          }}/public/
+          http://devpi:${{ env.devpi-port }}/${{ env.devpi-username }}/public/
 
 ...
