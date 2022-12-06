@@ -1,6 +1,6 @@
 ---
 
-name: Test Upload
+name: 🧪
 
 on:   # yamllint disable-line rule:truthy
   push:
