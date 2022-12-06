@@ -56,7 +56,7 @@ jobs:
       env:
         CONTENTS: |
           [build-system]
-          requires = ["setuptools>=61", "wheel"]
+          requires = ["setuptools>=61"]
           build-backend = "setuptools.build_meta"
           [project]
           name = "test-package"
