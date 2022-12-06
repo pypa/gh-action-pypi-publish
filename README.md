@@ -204,9 +204,9 @@ https://github.com/pypa/gh-action-pypi-publish/actions/workflows/self-smoke-test
 https://github.com/pypa/gh-action-pypi-publish/actions/workflows/self-smoke-test-action.yml?query=branch%3Aunstable%2Fv1
 
 [pre-commit.ci results page]:
-https://results.pre-commit.ci/latest/github/pypa/gh-action-pypi-publish/main
+https://results.pre-commit.ci/latest/github/pypa/gh-action-pypi-publish/unstable/v1
 [pre-commit.ci status badge]:
-https://results.pre-commit.ci/badge/github/pypa/gh-action-pypi-publish/main.svg
+https://results.pre-commit.ci/badge/github/pypa/gh-action-pypi-publish/unstable/v1.svg
 
 [Creating & using secrets]:
 https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets
