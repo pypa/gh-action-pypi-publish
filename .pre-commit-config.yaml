@@ -3,6 +3,18 @@ ci:
   autoupdate_schedule: quarterly
 
 repos:
+- repo: https://github.com/asottile/add-trailing-comma.git
+  rev: v2.3.0
+  hooks:
+  - id: add-trailing-comma
+
+- repo: https://github.com/PyCQA/isort.git
+  rev: 5.10.1
+  hooks:
+  - id: isort
+    args:
+    - --honor-noqa
+
 - repo: https://github.com/Lucas-C/pre-commit-hooks.git
   rev: v1.3.1
   hooks:
@@ -31,6 +43,9 @@ repos:
   - id: trailing-whitespace
   - id: mixed-line-ending
   # Non-modifying checks:
+  - id: name-tests-test
+    files: >-
+      ^tests/[^_].*\.py$
   - id: check-added-large-files
   - id: check-byte-order-marker
   - id: check-case-conflict
@@ -40,6 +55,10 @@ repos:
   - id: check-symlinks
   - id: check-yaml
   - id: detect-private-key
+  # Heavy checks:
+  - id: check-ast
+  - id: debug-statements
+    language_version: python3
 
 - repo: https://github.com/codespell-project/codespell
   rev: v2.2.1
@@ -56,5 +75,107 @@ repos:
     - yaml
     args:
     - --strict
+
+- repo: https://github.com/PyCQA/flake8.git
+  rev: 6.0.0
+  hooks:
+  - id: flake8
+    alias: flake8-no-wps
+    name: flake8 WPS-excluded
+    args:
+    - --ignore
+    - >-
+      D100,
+      D101,
+      D103,
+      D107,
+      E402,
+      E501,
+    additional_dependencies:
+    - flake8-2020 ~= 1.7.0
+    - flake8-pytest-style ~= 1.6.0
+    language_version: python3
+
+- repo: https://github.com/PyCQA/flake8.git
+  # NOTE: This is kept at v4 for until WPS starts supporting flake v5.
+  rev: 4.0.1  # enforce-version: 4.0.1
+  hooks:
+  - id: flake8
+    alias: flake8-only-wps
+    name: flake8 WPS-only
+    args:
+    - --ignore
+    - >-
+      WPS102,
+      WPS110,
+      WPS111,
+      WPS305,
+      WPS347,
+      WPS360,
+      WPS421,
+      WPS422,
+      WPS432,
+      WPS433,
+      WPS437,
+      WPS440,
+      WPS441,
+      WPS453,
+    - --select
+    - WPS
+    additional_dependencies:
+    - wemake-python-styleguide ~= 0.16.1
+    language_version: python3
+
+- repo: https://github.com/PyCQA/pylint.git
+  rev: v2.15.3
+  hooks:
+  - id: pylint
+    args:
+    - --disable
+    - >-
+      import-error,
+      invalid-name,
+      line-too-long,
+      missing-class-docstring,
+      missing-function-docstring,
+      missing-module-docstring,
+      protected-access,
+      super-init-not-called,
+      unused-argument,
+      wrong-import-position,
+    - --output-format
+    - colorized
+
+- repo: local
+  hooks:
+  - id: enforced-flake8-version
+    name: Verify that enforced flake8 version stays unchanged
+    description: >-
+      This is a sanity check and fixer that makes sure that
+      the `flake8` version in this file remains matching the
+      corresponding request in the `# enforce-version` comment.
+    # Using Python here because using
+    # shell test does not always work in CIs:
+    entry: >-
+      python -c 'import pathlib, re, sys;
+      pre_commit_config = pathlib.Path(sys.argv[1]);
+      cfg_txt = pre_commit_config.read_text();
+      new_cfg_txt = re.sub(
+      r"(?P<spaces>\s+)rev:\s(?:\d+\.\d+\.\d+)\s{0,2}"
+      r"#\senforce-version:\s(?P<enforced_version>\d+\.\d+\.\d+)"
+      r"[ \t\f\v]*",
+      r"\g<spaces>rev: \g<enforced_version>  "
+      r"# enforce-version: \g<enforced_version>",
+      cfg_txt,
+      );
+      cfg_txt != new_cfg_txt and
+      pre_commit_config.write_text(new_cfg_txt)
+      '
+    pass_filenames: true
+    language: system
+    files: >-
+      ^\.pre-commit-config\.ya?ml$
+    types:
+    - yaml
 
 ...
