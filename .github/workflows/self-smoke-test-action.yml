@@ -7,6 +7,9 @@ on:   # yamllint disable-line rule:truthy
   pull_request:
 
 env:
+  devpi-password: abcd1234
+  devpi-username: root
+
   FORCE_COLOR: 1  # Request colored output from CLI tools supporting it
   MYPY_FORCE_COLOR: 1  # MyPy's color enforcement
   PIP_DISABLE_PIP_VERSION_CHECK: 1
@@ -26,11 +29,19 @@ jobs:
   smoke-test:
     runs-on: ubuntu-latest
 
+    env:
+      TWINE_REPOSITORY_URL: >-
+        http://devpi:${{
+          job.services.devpi.ports['3141']
+        }}/${{
+          env.devpi-username
+        }}/public/
+
     services:
       devpi:
         image: muccg/devpi
         env:
-          DEVPI_PASSWORD: abcd1234
+          DEVPI_PASSWORD: ${{ env.devpi-password }}
         ports:
         - 3141
 
@@ -54,17 +65,15 @@ jobs:
     - run: python3 -m build
     - run: twine register dist/*.tar.gz
       env:
-        TWINE_USERNAME: root
-        TWINE_PASSWORD: abcd1234
-        TWINE_REPOSITORY_URL: >-
-          http://localhost:${{ job.services.devpi.ports['3141'] }}/root/public/
+        TWINE_USERNAME: ${{ env.devpi-username }}
+        TWINE_PASSWORD: ${{ env.devpi-password }}
     - uses: actions/checkout@v3
       with:
         path: test
     - uses: ./test
       with:
-        user: root
-        password: abcd1234
-        repository_url: http://devpi:3141/root/public/
+        user: ${{ env.devpi-username }}
+        password: ${{ env.devpi-password }}
+        repository_url: ${{ env.TWINE_REPOSITORY_URL }}
 
 ...
