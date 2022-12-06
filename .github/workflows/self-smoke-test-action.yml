@@ -49,7 +49,7 @@ jobs:
 
     steps:
     - name: Install the packaging-related tools
-      run: python3 -m pip install --upgrade pip build twine
+      run: python3 -m pip install build twine
     - name: Create the stub package importable directory
       run: mkdir -pv src/test_package
     - name: Populate the stub package `__init__.py`
