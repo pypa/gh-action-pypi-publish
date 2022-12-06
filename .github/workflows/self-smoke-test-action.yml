@@ -51,7 +51,7 @@ jobs:
     - name: Install the packaging-related tools
       run: python3 -m pip install --upgrade pip build twine
     - name: Create the stub package importable directory
-      run: mkdir -p src/test_package
+      run: mkdir -pv src/test_package
     - name: Populate the stub package `__init__.py`
       run: echo '__version__ = "0.1"' > src/test_package/__init__.py
     - name: Populate the stub package `README.md`
