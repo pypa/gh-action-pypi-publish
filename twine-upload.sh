@@ -2,6 +2,13 @@
 set -Eeuo pipefail
 
 
+# NOTE: These variables are needed to combat GitHub passing broken env vars
+# NOTE: from the runner VM host runtime.
+# Ref: https://github.com/pypa/gh-action-pypi-publish/issues/112
+export PATH="$(python -m site --user-base)/bin:${PATH}"
+export PYTHONPATH="$(python -m site --user-site):${PYTHONPATH}"
+
+
 if [[
     "$INPUT_USER" == "__token__" &&
     ! "$INPUT_PASSWORD" =~ ^pypi-
