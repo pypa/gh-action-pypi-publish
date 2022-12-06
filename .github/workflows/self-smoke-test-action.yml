@@ -84,6 +84,8 @@ jobs:
           }}/public/
     - name: ✅ Smoke-test the locally checked out action
       uses: ./test
+      env:
+        PATH: utter-nonsense
       with:
         user: ${{ env.devpi-username }}
         password: ${{ env.devpi-password }}
