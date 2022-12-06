@@ -1,5 +1,8 @@
 [![SWUbanner]][SWUdocs]
 
+[![🧪 GitHub Actions CI/CD workflow tests badge]][GHA workflow runs list]
+[![pre-commit.ci status badge]][pre-commit.ci results page]
+
 # PyPI publish GitHub Action
 
 This action allows you to upload your [Python distribution packages]
@@ -194,6 +197,16 @@ specify a custom username and password pair. This is how it's done.
 The Dockerfile and associated scripts and documentation in this project
 are released under the [BSD 3-clause license](LICENSE.md).
 
+
+[🧪 GitHub Actions CI/CD workflow tests badge]:
+https://github.com/pypa/gh-action-pypi-publish/actions/workflows/self-smoke-test-action.yml/badge.svg?branch=unstable%2Fv1&event=push
+[GHA workflow runs list]:
+https://github.com/pypa/gh-action-pypi-publish/actions/workflows/self-smoke-test-action.yml?query=branch%3Aunstable%2Fv1
+
+[pre-commit.ci results page]:
+https://results.pre-commit.ci/latest/github/pypa/gh-action-pypi-publish/main
+[pre-commit.ci status badge]:
+https://results.pre-commit.ci/badge/github/pypa/gh-action-pypi-publish/main.svg
 
 [Creating & using secrets]:
 https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets
