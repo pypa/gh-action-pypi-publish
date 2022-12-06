@@ -76,7 +76,7 @@ jobs:
         TWINE_USERNAME: ${{ env.devpi-username }}
         TWINE_PASSWORD: ${{ env.devpi-password }}
         TWINE_REPOSITORY_URL: >-
-          http://devpi:${{
+          http://localhost:${{
             job.services.devpi.ports['3141']
           }}/${{
             env.devpi-username
