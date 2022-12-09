@@ -6,7 +6,7 @@
 #
 bleach==5.0.1
     # via readme-renderer
-certifi==2022.9.24
+certifi==2022.12.7
     # via requests
 cffi==1.15.1
     # via cryptography
@@ -36,7 +36,7 @@ more-itertools==9.0.0
     # via jaraco-classes
 pkginfo==1.9.2
     # via
-    #   -r requirements/runtime.in
+    #   -r runtime.in
     #   twine
 pycparser==2.21
     # via cffi
@@ -61,7 +61,7 @@ secretstorage==3.3.3
 six==1.16.0
     # via bleach
 twine==4.0.1
-    # via -r requirements/runtime.in
+    # via -r runtime.in
 urllib3==1.26.13
     # via
     #   requests
