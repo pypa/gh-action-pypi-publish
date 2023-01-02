@@ -4,12 +4,12 @@ ci:
 
 repos:
 - repo: https://github.com/asottile/add-trailing-comma.git
-  rev: v2.3.0
+  rev: v2.4.0
   hooks:
   - id: add-trailing-comma
 
 - repo: https://github.com/PyCQA/isort.git
-  rev: 5.10.1
+  rev: 5.11.4
   hooks:
   - id: isort
     args:
@@ -21,7 +21,7 @@ repos:
   - id: remove-tabs
 
 - repo: https://github.com/python-jsonschema/check-jsonschema.git
-  rev: 0.18.3
+  rev: 0.19.2
   hooks:
   - id: check-github-actions
   - id: check-github-workflows
@@ -36,7 +36,7 @@ repos:
   - id: check-readthedocs
 
 - repo: https://github.com/pre-commit/pre-commit-hooks.git
-  rev: v4.3.0
+  rev: v4.4.0
   hooks:
   # Side-effects:
   - id: end-of-file-fixer
@@ -61,7 +61,7 @@ repos:
     language_version: python3
 
 - repo: https://github.com/codespell-project/codespell
-  rev: v2.2.1
+  rev: v2.2.2
   hooks:
   - id: codespell
 
@@ -98,7 +98,7 @@ repos:
 
 - repo: https://github.com/PyCQA/flake8.git
   # NOTE: This is kept at v4 for until WPS starts supporting flake v5.
-  rev: 4.0.1  # enforce-version: 4.0.1
+  rev: 6.0.0  # enforce-version: 4.0.1
   hooks:
   - id: flake8
     alias: flake8-only-wps
@@ -127,7 +127,7 @@ repos:
     language_version: python3
 
 - repo: https://github.com/PyCQA/pylint.git
-  rev: v2.15.3
+  rev: v2.15.9
   hooks:
   - id: pylint
     args:
