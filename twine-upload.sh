@@ -23,15 +23,25 @@ if [[
     ! "$INPUT_PASSWORD" =~ ^pypi-
   ]]
 then
-    echo \
-        ::warning file='# >>' PyPA publish to PyPI GHA'%3A' \
-        POTENTIALLY INVALID TOKEN \
-        '<< ':: \
-        It looks like you are trying to use an API token to \
-        authenticate in the package index and your token value does \
-        not start with '"pypi-"' as it typically should. This may \
-        cause an authentication error. Please verify that you have \
-        copied your token properly if such an error occurs.
+    if [[ -z "$INPUT_PASSWORD" ]]; then
+        echo \
+            ::warning file='# >>' PyPA publish to PyPI GHA'%3A' \
+            EMPTY TOKEN \
+            '<< ':: \
+            It looks like you have not passed a password or it \
+            is otherwise empty. Please verify that you have passed it \
+            directly or, preferably, through a secret.
+    else
+        echo \
+            ::warning file='# >>' PyPA publish to PyPI GHA'%3A' \
+            POTENTIALLY INVALID TOKEN \
+            '<< ':: \
+            It looks like you are trying to use an API token to \
+            authenticate in the package index and your token value does \
+            not start with '"pypi-"' as it typically should. This may \
+            cause an authentication error. Please verify that you have \
+            copied your token properly if such an error occurs.
+    fi
 fi
 
 if ( ! ls -A ${INPUT_PACKAGES_DIR%%/}/*.tar.gz &> /dev/null && \
