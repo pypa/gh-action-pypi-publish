@@ -1,5 +1,13 @@
 twine
 
+# NOTE: Used to detect an ambient OIDC credential for OIDC publishing.
+id ~= 1.0
+
+# NOTE: This is pulled in transitively through `twine`, but we also declare
+# NOTE: it explicitly here because `oidc-exchange.py` uses it.
+# Ref: https://github.com/di/id
+requests
+
 # NOTE: `pkginfo` is a transitive dependency for us that is coming from Twine.
 # NOTE: It is declared here only to avoid installing a broken combination of
 # NOTE: the distribution packages. This should be removed once a fixed version

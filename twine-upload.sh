@@ -40,6 +40,12 @@ INPUT_VERIFY_METADATA="$(get-normalized-input 'verify-metadata')"
 INPUT_SKIP_EXISTING="$(get-normalized-input 'skip-existing')"
 INPUT_PRINT_HASH="$(get-normalized-input 'print-hash')"
 
+if [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] ; then
+    # No password supplied by the user implies that we're in the OIDC flow;
+    # retrieve the OIDC credential and exchange it for a PyPI API token.
+    echo "::notice::In OIDC flow"
+    INPUT_PASSWORD="$(python /app/oidc-exchange.py)"
+fi
 
 if [[
     "$INPUT_USER" == "__token__" &&

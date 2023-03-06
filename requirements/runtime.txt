@@ -18,6 +18,8 @@ cryptography==39.0.1
     # via secretstorage
 docutils==0.19
     # via readme-renderer
+id==1.0.0
+    # via -r requirements/runtime.in
 idna==3.4
     # via requests
 importlib-metadata==5.1.0
@@ -36,10 +38,12 @@ more-itertools==9.0.0
     # via jaraco-classes
 pkginfo==1.9.2
     # via
-    #   -r runtime.in
+    #   -r requirements/runtime.in
     #   twine
 pycparser==2.21
     # via cffi
+pydantic==1.10.6
+    # via id
 pygments==2.13.0
     # via
     #   readme-renderer
@@ -48,6 +52,8 @@ readme-renderer==37.3
     # via twine
 requests==2.28.1
     # via
+    #   -r requirements/runtime.in
+    #   id
     #   requests-toolbelt
     #   twine
 requests-toolbelt==0.10.1
@@ -61,7 +67,9 @@ secretstorage==3.3.3
 six==1.16.0
     # via bleach
 twine==4.0.1
-    # via -r runtime.in
+    # via -r requirements/runtime.in
+typing-extensions==4.5.0
+    # via pydantic
 urllib3==1.26.13
     # via
     #   requests

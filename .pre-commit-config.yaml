@@ -105,11 +105,15 @@ repos:
     name: flake8 WPS-only
     args:
     - --ignore
+    # NOTE: WPS326: Found implicit string concatenation
+    # NOTE: WPS332: Found walrus operator
     - >-
       WPS102,
       WPS110,
       WPS111,
       WPS305,
+      WPS326,
+      WPS332,
       WPS347,
       WPS360,
       WPS421,
