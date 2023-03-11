@@ -23,7 +23,7 @@ inputs:
   packages-dir:  # Canonical alias for `packages_dir`
     description: The target directory for distribution
     required: false
-    default: dist
+    # default: dist  # TODO: uncomment once alias removed
   packages_dir:  # DEPRECATED ALIAS; TODO: Remove in v3+
     description: >-
       [DEPRECATED]
@@ -36,7 +36,7 @@ inputs:
   verify-metadata:  # Canonical alias for `verify_metadata`
     description: Check metadata before uploading
     required: false
-    default: 'true'
+    # default: 'true'  # TODO: uncomment once alias removed
   verify_metadata:  # DEPRECATED ALIAS; TODO: Remove in v3+
     description: >-
       [DEPRECATED]
@@ -51,7 +51,7 @@ inputs:
       Do not fail if a Python package distribution
       exists in the target package index
     required: false
-    default: 'false'
+    # default: 'false'  # TODO: uncomment once alias removed
   skip_existing:  # DEPRECATED ALIAS; TODO: Remove in v3+
     description: >-
       [DEPRECATED]
@@ -69,7 +69,7 @@ inputs:
   print-hash:  # Canonical alias for `print_hash`
     description: Show hash values of files to be uploaded
     required: false
-    default: 'false'
+    # default: 'false'  # TODO: uncomment once alias removed
   print_hash:  # DEPRECATED ALIAS; TODO: Remove in v3+
     description: >-
       [DEPRECATED]

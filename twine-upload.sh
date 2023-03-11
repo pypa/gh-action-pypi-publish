@@ -25,7 +25,10 @@ function get-normalized-input() {
 from os import getenv
 from sys import argv
 envvar_name = f"INPUT_{argv[1].upper()}"
-print(getenv(envvar_name, getenv(envvar_name.replace("-", "_"), "")), end="")
+print(
+  getenv(envvar_name) or getenv(envvar_name.replace("-", "_")) or "",
+  end="",
+)
     ' \
     "${var_name}"
 }
