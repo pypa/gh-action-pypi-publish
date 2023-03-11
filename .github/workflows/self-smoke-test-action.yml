@@ -91,7 +91,7 @@ jobs:
       with:
         user: ${{ env.devpi-username }}
         password: ${{ env.devpi-password }}
-        repository_url: >-
+        repository-url: >-
           http://devpi:${{ env.devpi-port }}/${{ env.devpi-username }}/public/
 
 ...
