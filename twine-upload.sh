@@ -18,6 +18,26 @@ export PATH="$(python -m site --user-base)/bin:${PATH}"
 export PYTHONPATH="$(python -m site --user-site):${PYTHONPATH}"
 
 
+function get-normalized-input() {
+  local var_name=${1}
+  python -c \
+    '
+from os import getenv
+from sys import argv
+envvar_name = f"INPUT_{argv[1].upper()}"
+print(getenv(envvar_name, getenv(envvar_name.replace("-", "_"), "")), end="")
+    ' \
+    "${var_name}"
+}
+
+
+INPUT_REPOSITORY_URL="$(get-normalized-input 'repository-url')"
+INPUT_PACKAGES_DIR="$(get-normalized-input 'packages-dir')"
+INPUT_VERIFY_METADATA="$(get-normalized-input 'verify-metadata')"
+INPUT_SKIP_EXISTING="$(get-normalized-input 'skip-existing')"
+INPUT_PRINT_HASH="$(get-normalized-input 'print-hash')"
+
+
 if [[
     "$INPUT_USER" == "__token__" &&
     ! "$INPUT_PASSWORD" =~ ^pypi-

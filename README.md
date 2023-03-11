@@ -99,7 +99,7 @@ project's specific needs.
 For example, you could implement a parallel workflow that
 pushes every commit to TestPyPI or your own index server,
 like `devpi`. For this, you'd need to (1) specify a custom
-`repository_url` value and (2) generate a unique version
+`repository-url` value and (2) generate a unique version
 number for each upload so that they'd not create a conflict.
 The latter is possible if you use `setuptools_scm` package but
 you could also invent your own solution based on the distance
@@ -114,7 +114,7 @@ The action invocation in this case would look like:
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
     password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-    repository_url: https://test.pypi.org/legacy/
+    repository-url: https://test.pypi.org/legacy/
 ```
 
 ### Customizing target package dists directory
@@ -128,7 +128,7 @@ would now look like:
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
     password: ${{ secrets.PYPI_API_TOKEN }}
-    packages_dir: custom-dir/
+    packages-dir: custom-dir/
 ```
 
 ### Disabling metadata verification
@@ -139,7 +139,7 @@ check with:
 
 ```yml
    with:
-     verify_metadata: false
+     verify-metadata: false
 ```
 
 ### Tolerating release package file duplicates
@@ -149,12 +149,12 @@ may hit race conditions. For example, when publishing from multiple CIs
 or even having workflows with the same steps triggered within GitHub
 Actions CI/CD for different events concerning the same high-level act.
 
-To facilitate this use-case, you may use `skip_existing` (disabled by
+To facilitate this use-case, you may use `skip-existing` (disabled by
 default) setting as follows:
 
 ```yml
    with:
-     skip_existing: true
+     skip-existing: true
 ```
 
 > **Pro tip**: try to avoid enabling this setting where possible. If you
@@ -177,7 +177,7 @@ It will show SHA256, MD5, BLAKE2-256 values of files to be uploaded.
 
 ```yml
   with:
-    print_hash: true
+    print-hash: true
 ```
 
 ### Specifying a different username

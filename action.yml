@@ -9,29 +9,74 @@ inputs:
   password:
     description: Password for your PyPI user or an access token
     required: true
-  repository_url:
+  repository-url:  # Canonical alias for `repository_url`
     description: The repository URL to use
     required: false
-  packages_dir:
+  repository_url:  # DEPRECATED ALIAS; TODO: Remove in v3+
+    description: >-
+      [DEPRECATED]
+      The repository URL to use
+    deprecationMessage: >-
+      The inputs have been normalized to use kebab-case.
+      Use `repository-url` instead.
+    required: false
+  packages-dir:  # Canonical alias for `packages_dir`
     description: The target directory for distribution
     required: false
     default: dist
-  verify_metadata:
+  packages_dir:  # DEPRECATED ALIAS; TODO: Remove in v3+
+    description: >-
+      [DEPRECATED]
+      The target directory for distribution
+    deprecationMessage: >-
+      The inputs have been normalized to use kebab-case.
+      Use `packages-dir` instead.
+    required: false
+    default: dist
+  verify-metadata:  # Canonical alias for `verify_metadata`
     description: Check metadata before uploading
     required: false
     default: 'true'
-  skip_existing:
+  verify_metadata:  # DEPRECATED ALIAS; TODO: Remove in v3+
+    description: >-
+      [DEPRECATED]
+      Check metadata before uploading
+    deprecationMessage: >-
+      The inputs have been normalized to use kebab-case.
+      Use `verify-metadata` instead.
+    required: false
+    default: 'true'
+  skip-existing:  # Canonical alias for `skip_existing`
     description: >-
       Do not fail if a Python package distribution
       exists in the target package index
+    required: false
+    default: 'false'
+  skip_existing:  # DEPRECATED ALIAS; TODO: Remove in v3+
+    description: >-
+      [DEPRECATED]
+      Do not fail if a Python package distribution
+      exists in the target package index
+    deprecationMessage: >-
+      The inputs have been normalized to use kebab-case.
+      Use `skip-existing` instead.
     required: false
     default: 'false'
   verbose:
     description: Show verbose output.
     required: false
     default: 'false'
-  print_hash:
+  print-hash:  # Canonical alias for `print_hash`
     description: Show hash values of files to be uploaded
+    required: false
+    default: 'false'
+  print_hash:  # DEPRECATED ALIAS; TODO: Remove in v3+
+    description: >-
+      [DEPRECATED]
+      Show hash values of files to be uploaded
+    deprecationMessage: >-
+      The inputs have been normalized to use kebab-case.
+      Use `print-hash` instead.
     required: false
     default: 'false'
 branding:
@@ -43,9 +88,9 @@ runs:
   args:
   - ${{ inputs.user }}
   - ${{ inputs.password }}
-  - ${{ inputs.repository_url }}
-  - ${{ inputs.packages_dir }}
-  - ${{ inputs.verify_metadata }}
-  - ${{ inputs.skip_existing }}
+  - ${{ inputs.repository-url }}
+  - ${{ inputs.packages-dir }}
+  - ${{ inputs.verify-metadata }}
+  - ${{ inputs.skip-existing }}
   - ${{ inputs.verbose }}
-  - ${{ inputs.print_hash }}
+  - ${{ inputs.print-hash }}
