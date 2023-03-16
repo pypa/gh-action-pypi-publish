@@ -62,6 +62,51 @@ The secret used in `${{ secrets.PYPI_API_TOKEN }}` needs to be created on the
 settings page of your project on GitHub. See [Creating & using secrets].
 
 
+### Publishing with OpenID Connect
+
+> **IMPORTANT**: This functionality is in beta, and will not work for you
+> unless you're a member of the PyPI OIDC beta testers' group. For more
+> information, see [warehouse#12965].
+
+This action supports PyPI's [OpenID Connect publishing]
+implementation, which allows authentication to PyPI without a manually
+configured API token or username/password combination. To perform
+[OIDC publishing][OpenID Connect Publishing] with this action, your project's
+OIDC publisher must already be configured on PyPI.
+
+To enter the OIDC flow, configure this action's job with the `id-token: write`
+permission and **without** an explicit username or password:
+
+```yaml
+jobs:
+  pypi-publish:
+    name: Upload release to PyPI
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # IMPORTANT: this permission is mandatory for OIDC publishing
+    steps:
+    # retrieve your distributions here
+
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+```
+
+Other indices that support OIDC publishing can also be used, like TestPyPI:
+
+```yaml
+- name: Publish package distributions to TestPyPI
+  uses: pypa/gh-action-pypi-publish@release/v1
+  with:
+    repository-url: https://test.pypi.org/legacy/
+```
+
+> **Pro tip**: only set the `id-token: write` permission in the job that does
+> publishing, not globally. Also, try to separate building from publishing
+> — this makes sure that any scripts maliciously injected into the build
+> or test environment won't be able to elevate privileges while flying under
+> the radar.
+
+
 ## Non-goals
 
 This GitHub Action [has nothing to do with _building package
@@ -221,3 +266,6 @@ https://packaging.python.org/glossary/#term-Distribution-Package
 https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg
 [SWUdocs]:
 https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md
+
+[warehouse#12965]: https://github.com/pypi/warehouse/issues/12965
+[OpenID Connect Publishing]: https://pypi.org/help/#openid-connect
