@@ -20,7 +20,7 @@ inputs:
       The inputs have been normalized to use kebab-case.
       Use `repository-url` instead.
     required: false
-    default: https://pypi.org/legacy/
+    default: https://upload.pypi.org/legacy/
   packages-dir:  # Canonical alias for `packages_dir`
     description: The target directory for distribution
     required: false
