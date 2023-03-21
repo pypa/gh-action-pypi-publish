@@ -55,10 +55,7 @@ def die(msg: str) -> NoReturn:
     with _GITHUB_STEP_SUMMARY.open("a", encoding="utf-8") as io:
         print(msg, file=io)
 
-    # NOTE: `msg` is Markdown formatted, so we emit only the header line to
-    # avoid clogging the console log with a full Markdown formatted document.
-    header = msg.splitlines()[0]
-    print(f"::error::OIDC exchange failure: {header}", file=sys.stderr)
+    print(f"::error::OIDC exchange failure: {msg}", file=sys.stderr)
     sys.exit(1)
 
 
