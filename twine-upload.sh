@@ -43,8 +43,19 @@ INPUT_PRINT_HASH="$(get-normalized-input 'print-hash')"
 if [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] ; then
     # No password supplied by the user implies that we're in the OIDC flow;
     # retrieve the OIDC credential and exchange it for a PyPI API token.
-    echo "::notice::In OIDC flow"
+    echo \
+        '::notice::Attempting to perform OIDC credential exchange ' \
+        'to retrieve a temporary short-lived API token for authentication ' \
+        "against ${INPUT_REPOSITORY_URL}"
     INPUT_PASSWORD="$(python /app/oidc-exchange.py)"
+elif [[ "${INPUT_USER}" == '__token__' ]]; then
+    echo \
+        '::notice::Using a user-provided API token for authentication ' \
+        "against ${INPUT_REPOSITORY_URL}"
+else
+    echo \
+        '::notice::Using a username + password pair for authentication ' \
+        "against ${INPUT_REPOSITORY_URL}}"
 fi
 
 if [[
