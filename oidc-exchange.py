@@ -10,6 +10,16 @@ import requests
 
 _GITHUB_STEP_SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY"))
 
+# The top-level error message that gets rendered.
+# This message wraps one of the other templates/messages defined below.
+_ERROR_SUMMARY_MESSAGE = """
+Trusted publisher (OIDC) exchange failure:
+
+{message}
+
+Read more about trusted publishers at https://docs.pypi.org/trusted-publishers/
+"""
+
 # Rendered if OIDC identity token retrieval fails for any reason.
 _TOKEN_RETRIEVAL_FAILED_MESSAGE = """
 OIDC token retrieval failed: {identity_error}
@@ -53,7 +63,7 @@ a few minutes and try again.
 
 def die(msg: str) -> NoReturn:
     with _GITHUB_STEP_SUMMARY.open("a", encoding="utf-8") as io:
-        print(msg, file=io)
+        print(_ERROR_SUMMARY_MESSAGE.format(message=msg), file=io)
 
     print(f"::error::OIDC exchange failure: {msg}", file=sys.stderr)
     sys.exit(1)
