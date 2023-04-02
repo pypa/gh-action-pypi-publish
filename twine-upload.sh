@@ -46,7 +46,7 @@ if [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] ; then
     echo \
         '::notice::Attempting to perform OIDC credential exchange' \
         'to retrieve a temporary short-lived API token for authentication' \
-        "against ${INPUT_REPOSITORY_URL} due to __token__ username with no " \
+        "against ${INPUT_REPOSITORY_URL} due to __token__ username with no" \
         'supplied password field'
     INPUT_PASSWORD="$(python /app/oidc-exchange.py)"
 elif [[ "${INPUT_USER}" == '__token__' ]]; then
