@@ -62,20 +62,25 @@ The secret used in `${{ secrets.PYPI_API_TOKEN }}` needs to be created on the
 settings page of your project on GitHub. See [Creating & using secrets].
 
 
-### Publishing with OpenID Connect
+### Trusted publishing
 
 > **IMPORTANT**: This functionality is in beta, and will not work for you
-> unless you're a member of the PyPI OIDC beta testers' group. For more
-> information, see [warehouse#12965].
+> unless you're a member of the PyPI trusted publishing beta testers' group.
+> For more information, see [warehouse#12965].
 
-This action supports PyPI's [OpenID Connect publishing]
+> **NOTE**: Trusted publishing is sometimes referred to by its
+> underlying technology -- OpenID Connect, or OIDC for short.
+> If you see references to "OIDC publishing" in the context of PyPI,
+> this is what they're referring to.
+
+This action supports PyPI's [trusted publishing]
 implementation, which allows authentication to PyPI without a manually
 configured API token or username/password combination. To perform
-[OIDC publishing][OpenID Connect Publishing] with this action, your project's
-OIDC publisher must already be configured on PyPI.
+[trusted publishing] with this action, your project's
+publisher must already be configured on PyPI.
 
-To enter the OIDC flow, configure this action's job with the `id-token: write`
-permission and **without** an explicit username or password:
+To enter the trusted publishing flow, configure this action's job with the
+`id-token: write` permission and **without** an explicit username or password:
 
 ```yaml
 jobs:
@@ -83,7 +88,7 @@ jobs:
     name: Upload release to PyPI
     runs-on: ubuntu-latest
     permissions:
-      id-token: write  # IMPORTANT: this permission is mandatory for OIDC publishing
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
     # retrieve your distributions here
 
@@ -91,7 +96,7 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
 ```
 
-Other indices that support OIDC publishing can also be used, like TestPyPI:
+Other indices that support trusted publishing can also be used, like TestPyPI:
 
 ```yaml
 - name: Publish package distributions to TestPyPI
@@ -268,4 +273,4 @@ https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direc
 https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md
 
 [warehouse#12965]: https://github.com/pypi/warehouse/issues/12965
-[OpenID Connect Publishing]: https://pypi.org/help/#openid-connect
+[trusted publishing]: https://docs.pypi.org/trusted-publishers/

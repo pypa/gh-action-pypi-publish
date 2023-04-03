@@ -13,7 +13,7 @@ _GITHUB_STEP_SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY"))
 # The top-level error message that gets rendered.
 # This message wraps one of the other templates/messages defined below.
 _ERROR_SUMMARY_MESSAGE = """
-Trusted publisher (OIDC) exchange failure:
+Trusted publishing exchange failure:
 
 {message}
 
@@ -24,11 +24,14 @@ publishing, then you should double-check your secret configuration and variable
 names.
 
 Read more about trusted publishers at https://docs.pypi.org/trusted-publishers/
+
+Read more about how this action uses trusted publishers at
+https://github.com/marketplace/actions/pypi-publish#trusted-publishing
 """
 
 # Rendered if OIDC identity token retrieval fails for any reason.
 _TOKEN_RETRIEVAL_FAILED_MESSAGE = """
-OIDC token retrieval failed: {identity_error}
+OpenID Connect token retrieval failed: {identity_error}
 
 This generally indicates a workflow configuration error, such as insufficient
 permissions. Make sure that your workflow has `id-token: write` configured
@@ -71,7 +74,7 @@ def die(msg: str) -> NoReturn:
     with _GITHUB_STEP_SUMMARY.open("a", encoding="utf-8") as io:
         print(_ERROR_SUMMARY_MESSAGE.format(message=msg), file=io)
 
-    print(f"::error::OIDC exchange failure: {msg}", file=sys.stderr)
+    print(f"::error::Trusted publishing exchange failure: {msg}", file=sys.stderr)
     sys.exit(1)
 
 
@@ -94,12 +97,14 @@ def assert_successful_audience_call(resp: requests.Response, domain: str):
         case HTTPStatus.FORBIDDEN:
             # This index supports OIDC, but forbids the client from using
             # it (either because it's disabled, limited to a beta group, etc.)
-            die(f"audience retrieval failed: repository at {domain} has OIDC disabled")
+            die(
+                f"audience retrieval failed: repository at {domain} has trusted publishing disabled",
+            )
         case HTTPStatus.NOT_FOUND:
             # This index does not support OIDC.
             die(
                 "audience retrieval failed: repository at "
-                f"{domain} does not indicate OIDC support",
+                f"{domain} does not indicate trusted publishing support",
             )
         case other:
             status = HTTPStatus(other)
@@ -124,7 +129,7 @@ assert_successful_audience_call(audience_resp, repository_domain)
 
 oidc_audience = audience_resp.json()["audience"]
 
-debug(f"selected OIDC token exchange endpoint: {token_exchange_url}")
+debug(f"selected trusted publishing exchange endpoint: {token_exchange_url}")
 
 try:
     oidc_token = id.detect_credential(audience=oidc_audience)
