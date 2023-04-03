@@ -44,7 +44,7 @@ if [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] ; then
     # No password supplied by the user implies that we're in the OIDC flow;
     # retrieve the OIDC credential and exchange it for a PyPI API token.
     echo \
-        '::notice::Attempting to perform OIDC credential exchange' \
+        '::notice::Attempting to perform trusted publishing exchange' \
         'to retrieve a temporary short-lived API token for authentication' \
         "against ${INPUT_REPOSITORY_URL} due to __token__ username with no" \
         'supplied password field'
