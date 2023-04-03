@@ -71,7 +71,7 @@ def die(msg: str) -> NoReturn:
     with _GITHUB_STEP_SUMMARY.open("a", encoding="utf-8") as io:
         print(_ERROR_SUMMARY_MESSAGE.format(message=msg), file=io)
 
-    print(f"::error::trusted publishing exchange failure: {msg}", file=sys.stderr)
+    print(f"::error::Trusted publishing exchange failure: {msg}", file=sys.stderr)
     sys.exit(1)
 
 
