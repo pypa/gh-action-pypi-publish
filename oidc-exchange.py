@@ -17,6 +17,12 @@ Trusted publisher (OIDC) exchange failure:
 
 {message}
 
+You're seeing this because the action wasn't given the inputs needed to
+perform password-based or token-based authentication. If you intended to
+perform one of those authentication methods instead of trusted
+publishing, then you should double-check your secret configuration and variable
+names.
+
 Read more about trusted publishers at https://docs.pypi.org/trusted-publishers/
 """
 
