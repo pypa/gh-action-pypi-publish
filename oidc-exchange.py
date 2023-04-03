@@ -24,6 +24,9 @@ publishing, then you should double-check your secret configuration and variable
 names.
 
 Read more about trusted publishers at https://docs.pypi.org/trusted-publishers/
+
+Read more about how this action uses trusted publishers at
+https://github.com/marketplace/actions/pypi-publish#trusted-publishing
 """
 
 # Rendered if OIDC identity token retrieval fails for any reason.
