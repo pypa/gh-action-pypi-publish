@@ -10,6 +10,9 @@ in the `dist/` directory to PyPI.
 This text suggests a minimalistic usage overview. For more detailed
 walkthrough check out the [PyPA guide].
 
+If you have any feedback regarding specific action versions, please leave
+comments in the corresponding [per-release announcement discussions].
+
 
 ## 🌇 `master` branch sunset ❗
 
@@ -257,6 +260,9 @@ https://github.com/pypa/gh-action-pypi-publish/actions/workflows/self-smoke-test
 https://results.pre-commit.ci/latest/github/pypa/gh-action-pypi-publish/unstable/v1
 [pre-commit.ci status badge]:
 https://results.pre-commit.ci/badge/github/pypa/gh-action-pypi-publish/unstable/v1.svg
+
+[per-release announcement discussions]:
+https://github.com/pypa/gh-action-pypi-publish/discussions/categories/announcements
 
 [Creating & using secrets]:
 https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets
