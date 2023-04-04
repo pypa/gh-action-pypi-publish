@@ -1,6 +1,7 @@
 ---
 ci:
   autoupdate_schedule: quarterly
+  default_language_version: python3.11
 
 repos:
 - repo: https://github.com/asottile/add-trailing-comma.git
@@ -94,7 +95,6 @@ repos:
     additional_dependencies:
     - flake8-2020 ~= 1.7.0
     - flake8-pytest-style ~= 1.6.0
-    language_version: python3
 
 - repo: https://github.com/PyCQA/flake8.git
   # NOTE: This is kept at v4 for until WPS starts supporting flake v5.
@@ -127,8 +127,7 @@ repos:
     - --select
     - WPS
     additional_dependencies:
-    - wemake-python-styleguide ~= 0.16.1
-    language_version: python3
+    - wemake-python-styleguide ~= 0.17.0
 
 - repo: https://github.com/PyCQA/pylint.git
   rev: v3.0.0a6
