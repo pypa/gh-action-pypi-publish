@@ -67,15 +67,6 @@ settings page of your project on GitHub. See [Creating & using secrets].
 
 ### Trusted publishing
 
-> **IMPORTANT**: This functionality is in beta, and will not work for you
-> unless you're a member of the PyPI trusted publishing beta testers' group.
-> For more information, see [warehouse#12965].
-
-> **NOTE**: Trusted publishing is sometimes referred to by its
-> underlying technology -- OpenID Connect, or OIDC for short.
-> If you see references to "OIDC publishing" in the context of PyPI,
-> this is what they're referring to.
-
 This action supports PyPI's [trusted publishing]
 implementation, which allows authentication to PyPI without a manually
 configured API token or username/password combination. To perform
