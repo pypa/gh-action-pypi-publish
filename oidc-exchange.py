@@ -96,7 +96,7 @@ def assert_successful_audience_call(resp: requests.Response, domain: str):
     match resp.status_code:
         case HTTPStatus.FORBIDDEN:
             # This index supports OIDC, but forbids the client from using
-            # it (either because it's disabled, limited to a beta group, etc.)
+            # it (either because it's disabled, ratelimited, etc.)
             die(
                 f"audience retrieval failed: repository at {domain} has trusted publishing disabled",
             )
