@@ -23,54 +23,16 @@ tag, or a full Git commit SHA.
 
 ## Usage
 
-To use the action add the following step to your workflow file (e.g.
-`.github/workflows/main.yml`)
-
-
-```yml
-- name: Publish a Python distribution to PyPI
-  uses: pypa/gh-action-pypi-publish@release/v1
-  with:
-    password: ${{ secrets.PYPI_API_TOKEN }}
-```
-
-> **Pro tip**: instead of using branch pointers, like `unstable/v1`, pin
-versions of Actions that you use to tagged versions or sha1 commit identifiers.
-This will make your workflows more secure and better reproducible, saving you
-from sudden and unpleasant surprises.
-
-A common use case is to upload packages only on a tagged commit, to do so add a
-filter to the step:
-
-
-```yml
-  if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-```
-
-So the full step would look like:
-
-
-```yml
-- name: Publish package
-  if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-  uses: pypa/gh-action-pypi-publish@release/v1
-  with:
-    password: ${{ secrets.PYPI_API_TOKEN }}
-```
-
-The example above uses the new [API token][PyPI API token] feature of
-PyPI, which is recommended to restrict the access the action has.
-
-The secret used in `${{ secrets.PYPI_API_TOKEN }}` needs to be created on the
-settings page of your project on GitHub. See [Creating & using secrets].
-
-
 ### Trusted publishing
 
 > **NOTE**: Trusted publishing is sometimes referred to by its
 > underlying technology -- OpenID Connect, or OIDC for short.
 > If you see references to "OIDC publishing" in the context of PyPI,
 > this is what they're referring to.
+
+This example jumps right into the current best practice. If you want to
+go for less secure scoped PyPI API tokens, check out [how to specify
+username and password].
 
 This action supports PyPI's [trusted publishing]
 implementation, which allows authentication to PyPI without a manually
@@ -82,6 +44,7 @@ To enter the trusted publishing flow, configure this action's job with the
 `id-token: write` permission and **without** an explicit username or password:
 
 ```yaml
+# .github/workflows/ci-cd.yml
 jobs:
   pypi-publish:
     name: Upload release to PyPI
@@ -98,6 +61,11 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
 ```
 
+> **Pro tip**: instead of using branch pointers, like `unstable/v1`, pin
+versions of Actions that you use to tagged versions or sha1 commit identifiers.
+This will make your workflows more secure and better reproducible, saving you
+from sudden and unpleasant surprises.
+
 Other indices that support trusted publishing can also be used, like TestPyPI:
 
 ```yaml
@@ -113,6 +81,13 @@ _(don't forget to update the environment name to `testpypi` or similar!)_
 > — this makes sure that any scripts maliciously injected into the build
 > or test environment won't be able to elevate privileges while flying under
 > the radar.
+
+A common use case is to upload packages only on a tagged commit, to do so add a
+filter to the job:
+
+```yml
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+```
 
 
 ## Non-goals
@@ -149,7 +124,7 @@ by putting them into the `dist/` folder prior to running this Action.
 For best results, figure out what kind of workflow fits your
 project's specific needs.
 
-For example, you could implement a parallel workflow that
+For example, you could implement a parallel job that
 pushes every commit to TestPyPI or your own index server,
 like `devpi`. For this, you'd need to (1) specify a custom
 `repository-url` value and (2) generate a unique version
@@ -158,8 +133,11 @@ The latter is possible if you use `setuptools_scm` package but
 you could also invent your own solution based on the distance
 to the latest tagged commit.
 
-You'll need to create another token for a separate host and then
-[save it as a GitHub repo secret][Creating & using secrets].
+You'll need to create another token for a separate host and then [save it as a
+GitHub repo secret][Creating & using secrets] under an environment used in
+your job. Though, passing a password would disable the secretless [trusted
+publishing] so it's better to configure it instead, when publishing to TestPyPI
+and not something custom.
 
 The action invocation in this case would look like:
 ```yml
@@ -180,7 +158,6 @@ would now look like:
 - name: Publish package to PyPI
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
-    password: ${{ secrets.PYPI_API_TOKEN }}
     packages-dir: custom-dir/
 ```
 
@@ -245,6 +222,18 @@ specify a custom username and password pair. This is how it's done.
     password: ${{ secrets.DEVPI_PASSWORD }}
 ```
 
+The secret used in `${{ secrets.DEVPI_PASSWORD }}` needs to be created on the
+environment page under the settings of your project on GitHub.
+See [Creating & using secrets].
+
+In the past, when publishing to PyPI, the most secure way of the access scoping
+for automatic publishing was to use the [API tokens][PyPI API token] feature of
+PyPI. One would make it project-scoped and save as an environment-bound secret
+in their GitHub repository settings, naming it `${{ secrets.PYPI_API_TOKEN }}`,
+for example. See [Creating & using secrets]. This is no longer encouraged when
+publishing to PyPI or TestPyPI, in favor of [trusted publishing].
+
+
 ## License
 
 The Dockerfile and associated scripts and documentation in this project
@@ -280,3 +269,5 @@ https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md
 
 [warehouse#12965]: https://github.com/pypi/warehouse/issues/12965
 [trusted publishing]: https://docs.pypi.org/trusted-publishers/
+
+[how to specify username and password]: #specifying-a-different-username
