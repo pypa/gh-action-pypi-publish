@@ -86,6 +86,9 @@ jobs:
   pypi-publish:
     name: Upload release to PyPI
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/<your-pypi-project-name>
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
@@ -103,6 +106,7 @@ Other indices that support trusted publishing can also be used, like TestPyPI:
   with:
     repository-url: https://test.pypi.org/legacy/
 ```
+_(don't forget to update the environment name to `testpypi` or similar!)_
 
 > **Pro tip**: only set the `id-token: write` permission in the job that does
 > publishing, not globally. Also, try to separate building from publishing
