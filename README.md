@@ -31,8 +31,8 @@ tag, or a full Git commit SHA.
 > this is what they're referring to.
 
 This example jumps right into the current best practice. If you want to
-go for less secure scoped PyPI API tokens, check out [how to specify
-username and password].
+use API tokens directly or a less secure username and password, check out
+[how to specify username and password].
 
 This action supports PyPI's [trusted publishing]
 implementation, which allows authentication to PyPI without a manually
@@ -230,9 +230,9 @@ In the past, when publishing to PyPI, the most secure way of the access scoping
 for automatic publishing was to use the [API tokens][PyPI API token] feature of
 PyPI. One would make it project-scoped and save as an environment-bound secret
 in their GitHub repository settings, naming it `${{ secrets.PYPI_API_TOKEN }}`,
-for example. See [Creating & using secrets]. This is no longer encouraged when
-publishing to PyPI or TestPyPI, in favor of [trusted publishing].
-
+for example. See [Creating & using secrets]. While still secure,
+[trusted publishing] is now encouraged over API tokens as a best practice
+on supported platforms (like GitHub).
 
 ## License
 
