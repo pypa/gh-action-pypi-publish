@@ -74,6 +74,10 @@ def die(msg: str) -> NoReturn:
     with _GITHUB_STEP_SUMMARY.open("a", encoding="utf-8") as io:
         print(_ERROR_SUMMARY_MESSAGE.format(message=msg), file=io)
 
+    # HACK: GitHub Actions' annotations don't work across multiple lines naively;
+    # translating `\n` into `%0A` (i.e., HTML percent-encoding) is known to work.
+    # See: https://github.com/actions/toolkit/issues/193
+    msg = msg.replace("\n", "%0A")
     print(f"::error::Trusted publishing exchange failure: {msg}", file=sys.stderr)
     sys.exit(1)
 
