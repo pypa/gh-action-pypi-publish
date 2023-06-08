@@ -56,7 +56,7 @@ elif [[ "${INPUT_USER}" == '__token__' ]]; then
 else
     echo \
         '::notice::Using a username + password pair for authentication' \
-        "against ${INPUT_REPOSITORY_URL}}"
+        "against ${INPUT_REPOSITORY_URL}"
 fi
 
 if [[
