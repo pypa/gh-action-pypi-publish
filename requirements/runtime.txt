@@ -14,7 +14,7 @@ charset-normalizer==2.1.1
     # via requests
 commonmark==0.9.1
     # via rich
-cryptography==39.0.1
+cryptography==41.0.0
     # via secretstorage
 docutils==0.19
     # via readme-renderer
