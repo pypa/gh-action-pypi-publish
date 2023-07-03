@@ -5,7 +5,7 @@ ci:
 
 repos:
 - repo: https://github.com/asottile/add-trailing-comma.git
-  rev: v2.4.0
+  rev: v3.0.0
   hooks:
   - id: add-trailing-comma
 
@@ -22,7 +22,7 @@ repos:
   - id: remove-tabs
 
 - repo: https://github.com/python-jsonschema/check-jsonschema.git
-  rev: 0.22.0
+  rev: 0.23.2
   hooks:
   - id: check-github-actions
   - id: check-github-workflows
@@ -62,12 +62,12 @@ repos:
     language_version: python3
 
 - repo: https://github.com/codespell-project/codespell
-  rev: v2.2.4
+  rev: v2.2.5
   hooks:
   - id: codespell
 
 - repo: https://github.com/adrienverge/yamllint.git
-  rev: v1.30.0
+  rev: v1.32.0
   hooks:
   - id: yamllint
     files: \.(yaml|yml)$
@@ -98,7 +98,7 @@ repos:
 
 - repo: https://github.com/PyCQA/flake8.git
   # NOTE: This is kept at v4 for until WPS starts supporting flake v5.
-  rev: 4.0.1  # enforce-version: 4.0.1
+  rev: 6.0.0  # enforce-version: 4.0.1
   hooks:
   - id: flake8
     alias: flake8-only-wps
