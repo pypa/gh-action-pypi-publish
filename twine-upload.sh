@@ -40,6 +40,12 @@ INPUT_VERIFY_METADATA="$(get-normalized-input 'verify-metadata')"
 INPUT_SKIP_EXISTING="$(get-normalized-input 'skip-existing')"
 INPUT_PRINT_HASH="$(get-normalized-input 'print-hash')"
 
+TRUSTED_PUBLISHING_NUDGE="::warning title=Upgrade to Trusted Publishing::\
+Trusted Publishers allows publishing packages to PyPI from automated \
+environments like GitHub Actions without needing to use username/password \
+combinations or API tokens to authenticate with PyPI. Read more: \
+https://docs.pypi.org/trusted-publishers"
+
 if [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] ; then
     # No password supplied by the user implies that we're in the OIDC flow;
     # retrieve the OIDC credential and exchange it for a PyPI API token.
@@ -53,10 +59,12 @@ elif [[ "${INPUT_USER}" == '__token__' ]]; then
     echo \
         '::notice::Using a user-provided API token for authentication' \
         "against ${INPUT_REPOSITORY_URL}"
+    echo "${TRUSTED_PUBLISHING_NUDGE}"
 else
     echo \
         '::notice::Using a username + password pair for authentication' \
         "against ${INPUT_REPOSITORY_URL}"
+    echo "${TRUSTED_PUBLISHING_NUDGE}"
 fi
 
 if [[
