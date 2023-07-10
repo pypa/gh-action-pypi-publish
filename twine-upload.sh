@@ -59,12 +59,18 @@ elif [[ "${INPUT_USER}" == '__token__' ]]; then
     echo \
         '::notice::Using a user-provided API token for authentication' \
         "against ${INPUT_REPOSITORY_URL}"
-    echo "${TRUSTED_PUBLISHING_NUDGE}"
+
+    if [[ "${INPUT_REPOSITORY_URL}" =~ pypi\.org ]]; then
+        echo "${TRUSTED_PUBLISHING_NUDGE}"
+    fi
 else
     echo \
         '::notice::Using a username + password pair for authentication' \
         "against ${INPUT_REPOSITORY_URL}"
-    echo "${TRUSTED_PUBLISHING_NUDGE}"
+
+    if [[ "${INPUT_REPOSITORY_URL}" =~ pypi\.org ]]; then
+        echo "${TRUSTED_PUBLISHING_NUDGE}"
+    fi
 fi
 
 if [[
