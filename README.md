@@ -18,7 +18,7 @@ comments in the corresponding [per-release announcement discussions].
 
 The `master` branch version has been sunset. Please, change the GitHub
 Action version you use from `master` to `release/v1` or use an exact
-tag, or a full Git commit SHA.
+tag, or opt-in to [use a full Git commit SHA] and Dependabot.
 
 
 ## Usage
@@ -249,6 +249,9 @@ https://github.com/pypa/gh-action-pypi-publish/actions/workflows/self-smoke-test
 https://results.pre-commit.ci/latest/github/pypa/gh-action-pypi-publish/unstable/v1
 [pre-commit.ci status badge]:
 https://results.pre-commit.ci/badge/github/pypa/gh-action-pypi-publish/unstable/v1.svg
+
+[use a full Git commit SHA]:
+https://julienrenaux.fr/2019/12/20/github-actions-security-risk/
 
 [per-release announcement discussions]:
 https://github.com/pypa/gh-action-pypi-publish/discussions/categories/announcements
