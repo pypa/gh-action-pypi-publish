@@ -4,34 +4,186 @@ description: Upload Python distribution packages to PyPI
 inputs:
   user:
     description: PyPI user
+    deprecationMessage: >
+      UNSUPPORTED GITHUB ACTION VERSION
+
+
+      You are using `pypa/gh-action-pypi-publish@master`.
+      The `master` branch of this project has been sunset and will not
+      receive any updates, not even security bug fixes. Please, make
+      sure to use a supported version. If you want to pin to v1 major
+      version, use `pypa/gh-action-pypi-publish@release/v1`. If you
+      feel adventurous, you may opt to use use
+      `pypa/gh-action-pypi-publish@unstable/v1` instead. A more
+      general recommendation is to pin to exact tags or commit SHAs.
+
+
+      Please also consider migrading your setup to use secretless publishing:
+      https://github.com/marketplace/actions/pypi-publish#trusted-publishing
+
+
+      https://stand-with-ukraine.pp.ua
     required: false
     default: __token__
   password:
     description: Password for your PyPI user or an access token
+    deprecationMessage: >
+      UNSUPPORTED GITHUB ACTION VERSION
+
+
+      You are using `pypa/gh-action-pypi-publish@master`.
+      The `master` branch of this project has been sunset and will not
+      receive any updates, not even security bug fixes. Please, make
+      sure to use a supported version. If you want to pin to v1 major
+      version, use `pypa/gh-action-pypi-publish@release/v1`. If you
+      feel adventurous, you may opt to use use
+      `pypa/gh-action-pypi-publish@unstable/v1` instead. A more
+      general recommendation is to pin to exact tags or commit SHAs.
+
+
+      Please also consider migrading your setup to use secretless publishing:
+      https://github.com/marketplace/actions/pypi-publish#trusted-publishing
+
+
+      https://stand-with-ukraine.pp.ua
     required: true
   repository_url:
     description: The repository URL to use
+    deprecationMessage: >
+      UNSUPPORTED GITHUB ACTION VERSION
+
+
+      You are using `pypa/gh-action-pypi-publish@master`.
+      The `master` branch of this project has been sunset and will not
+      receive any updates, not even security bug fixes. Please, make
+      sure to use a supported version. If you want to pin to v1 major
+      version, use `pypa/gh-action-pypi-publish@release/v1`. If you
+      feel adventurous, you may opt to use use
+      `pypa/gh-action-pypi-publish@unstable/v1` instead. A more
+      general recommendation is to pin to exact tags or commit SHAs.
+
+
+      Please also consider migrading your setup to use secretless publishing:
+      https://github.com/marketplace/actions/pypi-publish#trusted-publishing
+
+
+      https://stand-with-ukraine.pp.ua
     required: false
   packages_dir:
     description: The target directory for distribution
+    deprecationMessage: >
+      UNSUPPORTED GITHUB ACTION VERSION
+
+
+      You are using `pypa/gh-action-pypi-publish@master`.
+      The `master` branch of this project has been sunset and will not
+      receive any updates, not even security bug fixes. Please, make
+      sure to use a supported version. If you want to pin to v1 major
+      version, use `pypa/gh-action-pypi-publish@release/v1`. If you
+      feel adventurous, you may opt to use use
+      `pypa/gh-action-pypi-publish@unstable/v1` instead. A more
+      general recommendation is to pin to exact tags or commit SHAs.
+
+
+      Please also consider migrading your setup to use secretless publishing:
+      https://github.com/marketplace/actions/pypi-publish#trusted-publishing
+
+
+      https://stand-with-ukraine.pp.ua
     required: false
     default: dist
   verify_metadata:
     description: Check metadata before uploading
+    deprecationMessage: >
+      UNSUPPORTED GITHUB ACTION VERSION
+
+
+      You are using `pypa/gh-action-pypi-publish@master`.
+      The `master` branch of this project has been sunset and will not
+      receive any updates, not even security bug fixes. Please, make
+      sure to use a supported version. If you want to pin to v1 major
+      version, use `pypa/gh-action-pypi-publish@release/v1`. If you
+      feel adventurous, you may opt to use use
+      `pypa/gh-action-pypi-publish@unstable/v1` instead. A more
+      general recommendation is to pin to exact tags or commit SHAs.
+
+
+      Please also consider migrading your setup to use secretless publishing:
+      https://github.com/marketplace/actions/pypi-publish#trusted-publishing
+
+
+      https://stand-with-ukraine.pp.ua
     required: false
     default: true
   skip_existing:
     description: >-
       Do not fail if a Python package distribution
       exists in the target package index
+    deprecationMessage: >
+      UNSUPPORTED GITHUB ACTION VERSION
+
+
+      You are using `pypa/gh-action-pypi-publish@master`.
+      The `master` branch of this project has been sunset and will not
+      receive any updates, not even security bug fixes. Please, make
+      sure to use a supported version. If you want to pin to v1 major
+      version, use `pypa/gh-action-pypi-publish@release/v1`. If you
+      feel adventurous, you may opt to use use
+      `pypa/gh-action-pypi-publish@unstable/v1` instead. A more
+      general recommendation is to pin to exact tags or commit SHAs.
+
+
+      Please also consider migrading your setup to use secretless publishing:
+      https://github.com/marketplace/actions/pypi-publish#trusted-publishing
+
+
+      https://stand-with-ukraine.pp.ua
     required: false
     default: false
   verbose:
     description: Show verbose output.
+    deprecationMessage: >
+      UNSUPPORTED GITHUB ACTION VERSION
+
+
+      You are using `pypa/gh-action-pypi-publish@master`.
+      The `master` branch of this project has been sunset and will not
+      receive any updates, not even security bug fixes. Please, make
+      sure to use a supported version. If you want to pin to v1 major
+      version, use `pypa/gh-action-pypi-publish@release/v1`. If you
+      feel adventurous, you may opt to use use
+      `pypa/gh-action-pypi-publish@unstable/v1` instead. A more
+      general recommendation is to pin to exact tags or commit SHAs.
+
+
+      Please also consider migrading your setup to use secretless publishing:
+      https://github.com/marketplace/actions/pypi-publish#trusted-publishing
+
+
+      https://stand-with-ukraine.pp.ua
     required: false
     default: false
   print_hash:
     description: Show hash values of files to be uploaded
+    deprecationMessage: >
+      UNSUPPORTED GITHUB ACTION VERSION
+
+
+      You are using `pypa/gh-action-pypi-publish@master`.
+      The `master` branch of this project has been sunset and will not
+      receive any updates, not even security bug fixes. Please, make
+      sure to use a supported version. If you want to pin to v1 major
+      version, use `pypa/gh-action-pypi-publish@release/v1`. If you
+      feel adventurous, you may opt to use use
+      `pypa/gh-action-pypi-publish@unstable/v1` instead. A more
+      general recommendation is to pin to exact tags or commit SHAs.
+
+
+      Please also consider migrading your setup to use secretless publishing:
+      https://github.com/marketplace/actions/pypi-publish#trusted-publishing
+
+
+      https://stand-with-ukraine.pp.ua
     required: false
     default: false
 branding:
