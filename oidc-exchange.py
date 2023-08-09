@@ -146,7 +146,7 @@ def render_claims(token: str) -> str:
     _, payload, _ = token.split(".", 2)
     claims = json.loads(base64.urlsafe_b64decode(payload))
 
-    def _get(name: str) -> str:
+    def _get(name: str) -> str:  # noqa: WPS430
         return claims.get(name, "MISSING")
 
     return _RENDERED_CLAIMS.format(
