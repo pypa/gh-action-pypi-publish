@@ -207,8 +207,8 @@ if not mint_token_resp.ok:
 
     die(
         _SERVER_REFUSED_TOKEN_EXCHANGE_MESSAGE.format(
-            reasons=reasons, rendered_claims=rendered_claims
-        )
+            reasons=reasons, rendered_claims=rendered_claims,
+        ),
     )
 
 pypi_token = mint_token_payload.get("token")
