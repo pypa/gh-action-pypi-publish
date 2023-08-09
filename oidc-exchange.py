@@ -1,3 +1,5 @@
+import base64
+import json
 import os
 import sys
 from http import HTTPStatus
@@ -50,6 +52,25 @@ _SERVER_REFUSED_TOKEN_EXCHANGE_MESSAGE = """
 Token request failed: the server refused the request for the following reasons:
 
 {reasons}
+
+This generally indicates a trusted publisher configuration error, but could
+also indicate an internal error on GitHub or PyPI's part.
+
+{rendered_claims}
+"""
+
+_RENDERED_CLAIMS = """
+The claims rendered below are **for debugging purposes only**. You should **not**
+use them to configure a trusted publisher unless they already match your expectations.
+
+If a claim is not present in the claim set, then it is rendered as `MISSING`.
+
+* `sub`: `{sub}`
+* `repository`: `{repository}`
+* `repository_owner`: `{repository_owner}`
+* `repository_owner_id`: `{repository_owner_id}`
+* `job_workflow_ref`: `{job_workflow_ref}`
+* `ref`: `{ref}`
 """
 
 # Rendered if the package index's token response isn't valid JSON.
@@ -121,6 +142,23 @@ def assert_successful_audience_call(resp: requests.Response, domain: str):
             )
 
 
+def render_claims(oidc_token: str) -> str:
+    _, payload, _ = oidc_token.split(".", 2)
+    claims = json.loads(base64.urlsafe_b64decode(payload))
+
+    def _get(name: str) -> str:
+        return claims.get(name, "MISSING")
+
+    return _RENDERED_CLAIMS.format(
+        sub=_get("sub"),
+        repository=_get("repository"),
+        repository_owner=_get("repository_owner"),
+        repository_owner_id=_get("repository_owner_id"),
+        job_workflow_ref=_get("job_workflow_ref"),
+        ref=_get("ref"),
+    )
+
+
 repository_url = get_normalized_input("repository-url")
 repository_domain = urlparse(repository_url).netloc
 token_exchange_url = f"https://{repository_domain}/_/oidc/github/mint-token"
@@ -165,7 +203,13 @@ if not mint_token_resp.ok:
         for error in mint_token_payload["errors"]
     )
 
-    die(_SERVER_REFUSED_TOKEN_EXCHANGE_MESSAGE.format(reasons=reasons))
+    rendered_claims = render_claims(oidc_token)
+
+    die(
+        _SERVER_REFUSED_TOKEN_EXCHANGE_MESSAGE.format(
+            reasons=reasons, rendered_claims=rendered_claims
+        )
+    )
 
 pypi_token = mint_token_payload.get("token")
 if pypi_token is None:
