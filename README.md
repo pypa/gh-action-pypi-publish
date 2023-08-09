@@ -63,8 +63,8 @@ jobs:
 ```
 
 > [!NOTE]
-> Instead of using branch pointers, like `unstable/v1`, pin versions of Actions
-> that you use to tagged versions or sha1 commit identifiers.
+> Pro tip: instead of using branch pointers, like `unstable/v1`, pin versions of
+> Actions that you use to tagged versions or sha1 commit identifiers.
 > This will make your workflows more secure and better reproducible, saving you
 > from sudden and unpleasant surprises.
 
@@ -79,7 +79,7 @@ Other indices that support trusted publishing can also be used, like TestPyPI:
 _(don't forget to update the environment name to `testpypi` or similar!)_
 
 > [!NOTE]
-> Only set the `id-token: write` permission in the job that does
+> Pro tip: only set the `id-token: write` permission in the job that does
 > publishing, not globally. Also, try to separate building from publishing
 > — this makes sure that any scripts maliciously injected into the build
 > or test environment won't be able to elevate privileges while flying under
@@ -192,7 +192,7 @@ default) setting as follows:
 ```
 
 > [!NOTE]
-> Try to avoid enabling this setting where possible. If you
+> Pro tip: try to avoid enabling this setting where possible. If you
 > have steps for publishing to both PyPI and TestPyPI, consider only using
 > it for the latter, having the former fail loudly on duplicates.
 
