@@ -25,7 +25,8 @@ tag, or opt-in to [use a full Git commit SHA] and Dependabot.
 
 ### Trusted publishing
 
-> **NOTE**: Trusted publishing is sometimes referred to by its
+> [!NOTE]
+> Trusted publishing is sometimes referred to by its
 > underlying technology -- OpenID Connect, or OIDC for short.
 > If you see references to "OIDC publishing" in the context of PyPI,
 > this is what they're referring to.
@@ -61,10 +62,11 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
 ```
 
-> **Pro tip**: instead of using branch pointers, like `unstable/v1`, pin
-versions of Actions that you use to tagged versions or sha1 commit identifiers.
-This will make your workflows more secure and better reproducible, saving you
-from sudden and unpleasant surprises.
+> [!NOTE]
+> Instead of using branch pointers, like `unstable/v1`, pin versions of Actions
+> that you use to tagged versions or sha1 commit identifiers.
+> This will make your workflows more secure and better reproducible, saving you
+> from sudden and unpleasant surprises.
 
 Other indices that support trusted publishing can also be used, like TestPyPI:
 
@@ -76,7 +78,8 @@ Other indices that support trusted publishing can also be used, like TestPyPI:
 ```
 _(don't forget to update the environment name to `testpypi` or similar!)_
 
-> **Pro tip**: only set the `id-token: write` permission in the job that does
+> [!NOTE]
+> Only set the `id-token: write` permission in the job that does
 > publishing, not globally. Also, try to separate building from publishing
 > — this makes sure that any scripts maliciously injected into the build
 > or test environment won't be able to elevate privileges while flying under
@@ -96,7 +99,8 @@ This GitHub Action [has nothing to do with _building package
 distributions_]. Users are responsible for preparing dists for upload
 by putting them into the `dist/` folder prior to running this Action.
 
-> **IMPORTANT**: Since this GitHub Action is docker-based, it can only
+> [!IMPORTANT]
+> Since this GitHub Action is docker-based, it can only
 > be used from within GNU/Linux based jobs in GitHub Actions CI/CD
 > workflows. This is by design and is unlikely to change due to a number
 > of considerations we rely on.
@@ -187,9 +191,10 @@ default) setting as follows:
      skip-existing: true
 ```
 
-> **Pro tip**: try to avoid enabling this setting where possible. If you
-have steps for publishing to both PyPI and TestPyPI, consider only using
-it for the latter, having the former fail loudly on duplicates.
+> [!NOTE]
+> Try to avoid enabling this setting where possible. If you
+> have steps for publishing to both PyPI and TestPyPI, consider only using
+> it for the latter, having the former fail loudly on duplicates.
 
 ### For Debugging
 
