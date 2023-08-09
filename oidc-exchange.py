@@ -142,8 +142,8 @@ def assert_successful_audience_call(resp: requests.Response, domain: str):
             )
 
 
-def render_claims(oidc_token: str) -> str:
-    _, payload, _ = oidc_token.split(".", 2)
+def render_claims(token: str) -> str:
+    _, payload, _ = token.split(".", 2)
     claims = json.loads(base64.urlsafe_b64decode(payload))
 
     def _get(name: str) -> str:
