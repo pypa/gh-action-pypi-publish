@@ -39,7 +39,7 @@ This action supports PyPI's [trusted publishing]
 implementation, which allows authentication to PyPI without a manually
 configured API token or username/password combination. To perform
 [trusted publishing] with this action, your project's
-publisher must already be configured on PyPI.
+publisher must already be [configured on PyPI].
 
 To enter the trusted publishing flow, configure this action's job with the
 `id-token: write` permission and **without** an explicit username or password:
@@ -277,5 +277,6 @@ https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md
 
 [warehouse#12965]: https://github.com/pypi/warehouse/issues/12965
 [trusted publishing]: https://docs.pypi.org/trusted-publishers/
+[configured on PyPI]: https://docs.pypi.org/trusted-publishers/adding-a-publisher/
 
 [how to specify username and password]: #specifying-a-different-username
