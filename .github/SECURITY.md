@@ -20,7 +20,7 @@ prefer that you fill out a [vulnerability report on GitHub]
 directly.
 
 [vulnerability report on GitHub]:
-/pypa/gh-action-pypi-publish/security/advisories/new
+//github.com/pypa/gh-action-pypi-publish/security/advisories/new
 
 
 ## Don't have a GitHub account?
