@@ -71,6 +71,9 @@ If a claim is not present in the claim set, then it is rendered as `MISSING`.
 * `repository_owner_id`: `{repository_owner_id}`
 * `job_workflow_ref`: `{job_workflow_ref}`
 * `ref`: `{ref}`
+
+See https://docs.pypi.org/trusted-publishers/troubleshooting/ for more help
+
 """
 
 # Rendered if the package index's token response isn't valid JSON.

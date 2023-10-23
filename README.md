@@ -25,6 +25,9 @@ tag, or opt-in to [use a full Git commit SHA] and Dependabot.
 
 ### Trusted publishing
 
+> [!NOTE] Trusted publishing does not support reusable workflows at this time,
+> please use a username/token instead.
+
 > [!NOTE]
 > Trusted publishing is sometimes referred to by its
 > underlying technology -- OpenID Connect, or OIDC for short.
