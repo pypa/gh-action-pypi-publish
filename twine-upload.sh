@@ -40,6 +40,13 @@ INPUT_VERIFY_METADATA="$(get-normalized-input 'verify-metadata')"
 INPUT_SKIP_EXISTING="$(get-normalized-input 'skip-existing')"
 INPUT_PRINT_HASH="$(get-normalized-input 'print-hash')"
 
+PASSWORD_DEPRECATION_NUDGE="::error title=Password-based uploads deprecated::\
+Starting in 2024, PyPI will require all users to enable Two-Factor \
+Authentication. This will consequently require all users to switch \
+to either Trusted Publishers (preferred) or API tokens for package \
+uploads. Read more: \
+https://blog.pypi.org/posts/2023-05-25-securing-pypi-with-2fa/"
+
 TRUSTED_PUBLISHING_NUDGE="::warning title=Upgrade to Trusted Publishing::\
 Trusted Publishers allows publishing packages to PyPI from automated \
 environments like GitHub Actions without needing to use username/password \
@@ -69,6 +76,7 @@ else
         "against ${INPUT_REPOSITORY_URL}"
 
     if [[ "${INPUT_REPOSITORY_URL}" =~ pypi\.org ]]; then
+        echo "${PASSWORD_DEPRECATION_NUDGE}"
         echo "${TRUSTED_PUBLISHING_NUDGE}"
     fi
 fi
