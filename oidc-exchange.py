@@ -72,7 +72,7 @@ If a claim is not present in the claim set, then it is rendered as `MISSING`.
 * `job_workflow_ref`: `{job_workflow_ref}`
 * `ref`: `{ref}`
 
-See https://docs.pypi.org/trusted-publishers/troubleshooting/ for more help
+See https://docs.pypi.org/trusted-publishers/troubleshooting/ for more help.
 
 """
 
