@@ -56,15 +56,11 @@ https://docs.pypi.org/trusted-publishers"
 if [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] ; then
     # No password supplied by the user implies that we're in the OIDC flow;
     # retrieve the OIDC credential and exchange it for a PyPI API token.
-    echo \
-        '::notice::Attempting to perform trusted publishing exchange' \
-        'to retrieve a temporary short-lived API token for authentication' \
-        "against ${INPUT_REPOSITORY_URL} due to __token__ username with no" \
-        'supplied password field'
+    echo "::debug::Authenticating to ${INPUT_REPOSITORY_URL} via Trusted Publishing"
     INPUT_PASSWORD="$(python /app/oidc-exchange.py)"
 elif [[ "${INPUT_USER}" == '__token__' ]]; then
     echo \
-        '::notice::Using a user-provided API token for authentication' \
+        '::debug::Using a user-provided API token for authentication' \
         "against ${INPUT_REPOSITORY_URL}"
 
     if [[ "${INPUT_REPOSITORY_URL}" =~ pypi\.org ]]; then
@@ -72,7 +68,7 @@ elif [[ "${INPUT_USER}" == '__token__' ]]; then
     fi
 else
     echo \
-        '::notice::Using a username + password pair for authentication' \
+        '::debug::Using a username + password pair for authentication' \
         "against ${INPUT_REPOSITORY_URL}"
 
     if [[ "${INPUT_REPOSITORY_URL}" =~ pypi\.org ]]; then
