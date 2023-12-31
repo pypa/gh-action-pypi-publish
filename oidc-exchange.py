@@ -47,6 +47,19 @@ permissions:
 Learn more at https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#adding-permissions-settings.
 """
 
+# Specialization of the token retrieval failure case, when we know that
+# the failure cause is use within a third-party PR.
+_TOKEN_RETRIEVAL_FAILED_3P_PR_MESSAGE = """
+OpenID Connect token retrieval failed: {identity_error}
+
+The workflow context indicates that this action was called from a
+pull request on a fork. GitHub doesn't give these workflows OIDC permissions,
+even if `id-token: write` is explicitly configured.
+
+To fix this, change your publishing workflow to use an event that
+forks of your repository cannot trigger (such as tag or release creation).
+"""
+
 # Rendered if the package index refuses the given OIDC token.
 _SERVER_REFUSED_TOKEN_EXCHANGE_MESSAGE = """
 Token request failed: the server refused the request for the following reasons:
@@ -162,6 +175,27 @@ def render_claims(token: str) -> str:
     )
 
 
+def event_is_third_party_pr() -> bool:
+    # Non-`pull_request` events cannot be from third-party PRs.
+    if os.getenv("GITHUB_EVENT_NAME") != "pull_request":
+        return False
+
+    if event_path := os.getenv("GITHUB_EVENT_PATH"):
+        try:
+            event = json.loads(Path(event_path).read_text())
+            try:
+                return event["pull_request"]["head"]["repo"]["fork"]
+            except KeyError:
+                return False
+        except json.JSONDecodeError:
+            debug("unexpected: GITHUB_EVENT_PATH does not contain valid JSON")
+            return False
+
+    # No GITHUB_EVENT_PATH indicates a weird GitHub or runner bug.
+    debug("unexpected: no GITHUB_EVENT_PATH to check")
+    return False
+
+
 repository_url = get_normalized_input("repository-url")
 repository_domain = urlparse(repository_url).netloc
 token_exchange_url = f"https://{repository_domain}/_/oidc/github/mint-token"
@@ -179,7 +213,10 @@ debug(f"selected trusted publishing exchange endpoint: {token_exchange_url}")
 try:
     oidc_token = id.detect_credential(audience=oidc_audience)
 except id.IdentityError as identity_error:
-    die(_TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error))
+    if event_is_third_party_pr():
+        die(_TOKEN_RETRIEVAL_FAILED_3P_PR_MESSAGE.format(identity_error=identity_error))
+    else:
+        die(_TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error))
 
 # Now we can do the actual token exchange.
 mint_token_resp = requests.post(
