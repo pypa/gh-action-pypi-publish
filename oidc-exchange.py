@@ -217,8 +217,8 @@ except id.IdentityError as identity_error:
     if event_is_third_party_pr():
         die(
             _TOKEN_RETRIEVAL_FAILED_FORK_PR_MESSAGE.format(
-                identity_error=identity_error
-            )
+                identity_error=identity_error,
+            ),
         )
     else:
         die(_TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error))
