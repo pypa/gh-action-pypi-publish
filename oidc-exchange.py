@@ -49,7 +49,7 @@ Learn more at https://docs.github.com/en/actions/deployment/security-hardening-y
 
 # Specialization of the token retrieval failure case, when we know that
 # the failure cause is use within a third-party PR.
-_TOKEN_RETRIEVAL_FAILED_3P_PR_MESSAGE = """
+_TOKEN_RETRIEVAL_FAILED_FORK_PR_MESSAGE = """
 OpenID Connect token retrieval failed: {identity_error}
 
 The workflow context indicates that this action was called from a
@@ -183,12 +183,13 @@ def event_is_third_party_pr() -> bool:
     if event_path := os.getenv("GITHUB_EVENT_PATH"):
         try:
             event = json.loads(Path(event_path).read_text())
-            try:
-                return event["pull_request"]["head"]["repo"]["fork"]
-            except KeyError:
-                return False
         except json.JSONDecodeError:
             debug("unexpected: GITHUB_EVENT_PATH does not contain valid JSON")
+            return False
+
+        try:
+            return event["pull_request"]["head"]["repo"]["fork"]
+        except KeyError:
             return False
 
     # No GITHUB_EVENT_PATH indicates a weird GitHub or runner bug.
@@ -214,7 +215,11 @@ try:
     oidc_token = id.detect_credential(audience=oidc_audience)
 except id.IdentityError as identity_error:
     if event_is_third_party_pr():
-        die(_TOKEN_RETRIEVAL_FAILED_3P_PR_MESSAGE.format(identity_error=identity_error))
+        die(
+            _TOKEN_RETRIEVAL_FAILED_FORK_PR_MESSAGE.format(
+                identity_error=identity_error
+            )
+        )
     else:
         die(_TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error))
 
