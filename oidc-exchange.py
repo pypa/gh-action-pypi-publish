@@ -182,7 +182,7 @@ def event_is_third_party_pr() -> bool:
 
     if event_path := os.getenv("GITHUB_EVENT_PATH"):
         try:
-            event = json.loads(Path(event_path).read_text())
+            event = json.loads(Path(event_path).read_bytes())
         except json.JSONDecodeError:
             debug("unexpected: GITHUB_EVENT_PATH does not contain valid JSON")
             return False
