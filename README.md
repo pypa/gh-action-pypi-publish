@@ -55,6 +55,7 @@ jobs:
       url: https://pypi.org/p/<your-pypi-project-name>
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+      # NOTE: setting this permission will remove all other permissions. If you need to do a actions/checkout, for example, you will need to set the "contents" permission to "read"
     steps:
     # retrieve your distributions here
 
