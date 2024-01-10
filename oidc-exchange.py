@@ -164,7 +164,7 @@ def render_claims(token: str) -> str:
 
 repository_url = get_normalized_input("repository-url")
 repository_domain = urlparse(repository_url).netloc
-token_exchange_url = f"https://{repository_domain}/_/oidc/github/mint-token"
+token_exchange_url = f"https://{repository_domain}/_/oidc/mint-token"
 
 # Indices are expected to support `https://{domain}/_/oidc/audience`,
 # which tells OIDC exchange clients which audience to use.
