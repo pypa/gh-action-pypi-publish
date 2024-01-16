@@ -74,7 +74,7 @@ Other indices that support trusted publishing can also be used, like TestPyPI:
 - name: Publish package distributions to TestPyPI
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
-    repository-url: https://test.pypi.org/legacy/
+    repository_url: https://test.pypi.org/legacy/
 ```
 _(don't forget to update the environment name to `testpypi` or similar!)_
 
@@ -131,7 +131,7 @@ project's specific needs.
 For example, you could implement a parallel job that
 pushes every commit to TestPyPI or your own index server,
 like `devpi`. For this, you'd need to (1) specify a custom
-`repository-url` value and (2) generate a unique version
+`repository_url` value and (2) generate a unique version
 number for each upload so that they'd not create a conflict.
 The latter is possible if you use `setuptools_scm` package but
 you could also invent your own solution based on the distance
@@ -149,7 +149,7 @@ The action invocation in this case would look like:
   uses: pypa/gh-action-pypi-publish@release/v1
   with:
     password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-    repository-url: https://test.pypi.org/legacy/
+    repository_url: https://test.pypi.org/legacy/
 ```
 
 ### Customizing target package dists directory
