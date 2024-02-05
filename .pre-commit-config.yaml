@@ -10,7 +10,7 @@ repos:
   - id: add-trailing-comma
 
 - repo: https://github.com/PyCQA/isort.git
-  rev: 5.12.0
+  rev: 5.13.2
   hooks:
   - id: isort
     args:
@@ -22,7 +22,7 @@ repos:
   - id: remove-tabs
 
 - repo: https://github.com/python-jsonschema/check-jsonschema.git
-  rev: 0.27.0
+  rev: 0.27.3
   hooks:
   - id: check-github-actions
   - id: check-github-workflows
@@ -37,7 +37,7 @@ repos:
   - id: check-readthedocs
 
 - repo: https://github.com/pre-commit/pre-commit-hooks.git
-  rev: v4.4.0
+  rev: v4.5.0
   hooks:
   # Side-effects:
   - id: end-of-file-fixer
@@ -67,7 +67,7 @@ repos:
   - id: codespell
 
 - repo: https://github.com/adrienverge/yamllint.git
-  rev: v1.32.0
+  rev: v1.33.0
   hooks:
   - id: yamllint
     files: \.(yaml|yml)$
@@ -130,7 +130,7 @@ repos:
     - wemake-python-styleguide ~= 0.17.0
 
 - repo: https://github.com/PyCQA/pylint.git
-  rev: v3.0.0
+  rev: v3.0.3
   hooks:
   - id: pylint
     args:
