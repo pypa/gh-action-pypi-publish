@@ -215,14 +215,12 @@ debug(f"selected trusted publishing exchange endpoint: {token_exchange_url}")
 try:
     oidc_token = id.detect_credential(audience=oidc_audience)
 except id.IdentityError as identity_error:
-    if event_is_third_party_pr():
-        die(
-            _TOKEN_RETRIEVAL_FAILED_FORK_PR_MESSAGE.format(
-                identity_error=identity_error,
-            ),
-        )
-    else:
-        die(_TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error))
+    cause_msg_tmpl = (
+        _TOKEN_RETRIEVAL_FAILED_FORK_PR_MESSAGE if event_is_third_party_pr()
+        else _TOKEN_RETRIEVAL_FAILED_MESSAGE
+    )
+    for_cause_msg = cause_msg_tmpl.format(identity_error=identity_error)
+    die(for_cause_msg)
 
 # Now we can do the actual token exchange.
 mint_token_resp = requests.post(
