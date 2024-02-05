@@ -57,7 +57,8 @@ pull request on a fork. GitHub doesn't give these workflows OIDC permissions,
 even if `id-token: write` is explicitly configured.
 
 To fix this, change your publishing workflow to use an event that
-forks of your repository cannot trigger (such as tag or release creation).
+forks of your repository cannot trigger (such as tag or release
+creation, or a manually triggered workflow dispatch).
 """
 
 # Rendered if the package index refuses the given OIDC token.
