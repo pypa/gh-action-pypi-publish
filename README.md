@@ -25,6 +25,12 @@ tag, or opt-in to [use a full Git commit SHA] and Dependabot.
 
 ### Trusted publishing
 
+> [!NOTE] Trusted publishing cannot be used from within a reusable workflow at this
+> time. It is recommended to instead create a non-reusable workflow that contains a
+> job calling your reusable workflow, and then do the trusted publishing step from
+> a separate job within that non-reusable workflow. Alternatively, you can still
+> use a username/token inside the reusable workflow.
+
 > [!NOTE]
 > Trusted publishing is sometimes referred to by its
 > underlying technology -- OpenID Connect, or OIDC for short.

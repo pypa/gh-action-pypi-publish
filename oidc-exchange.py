@@ -85,6 +85,9 @@ If a claim is not present in the claim set, then it is rendered as `MISSING`.
 * `repository_owner_id`: `{repository_owner_id}`
 * `job_workflow_ref`: `{job_workflow_ref}`
 * `ref`: `{ref}`
+
+See https://docs.pypi.org/trusted-publishers/troubleshooting/ for more help.
+
 """
 
 # Rendered if the package index's token response isn't valid JSON.
@@ -201,7 +204,7 @@ def event_is_third_party_pr() -> bool:
 
 repository_url = get_normalized_input("repository-url")
 repository_domain = urlparse(repository_url).netloc
-token_exchange_url = f"https://{repository_domain}/_/oidc/github/mint-token"
+token_exchange_url = f"https://{repository_domain}/_/oidc/mint-token"
 
 # Indices are expected to support `https://{domain}/_/oidc/audience`,
 # which tells OIDC exchange clients which audience to use.
