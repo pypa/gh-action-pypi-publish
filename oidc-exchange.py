@@ -181,21 +181,22 @@ def event_is_third_party_pr() -> bool:
     if os.getenv("GITHUB_EVENT_NAME") != "pull_request":
         return False
 
-    if event_path := os.getenv("GITHUB_EVENT_PATH"):
-        try:
-            event = json.loads(Path(event_path).read_bytes())
-        except json.JSONDecodeError:
-            debug("unexpected: GITHUB_EVENT_PATH does not contain valid JSON")
-            return False
+    event_path = os.getenv("GITHUB_EVENT_PATH")
+    if not event_path:
+        # No GITHUB_EVENT_PATH indicates a weird GitHub or runner bug.
+        debug("unexpected: no GITHUB_EVENT_PATH to check")
+        return False
 
-        try:
-            return event["pull_request"]["head"]["repo"]["fork"]
-        except KeyError:
-            return False
+    try:
+        event = json.loads(Path(event_path).read_bytes())
+    except json.JSONDecodeError:
+        debug("unexpected: GITHUB_EVENT_PATH does not contain valid JSON")
+        return False
 
-    # No GITHUB_EVENT_PATH indicates a weird GitHub or runner bug.
-    debug("unexpected: no GITHUB_EVENT_PATH to check")
-    return False
+    try:
+        return event["pull_request"]["head"]["repo"]["fork"]
+    except KeyError:
+        return False
 
 
 repository_url = get_normalized_input("repository-url")
