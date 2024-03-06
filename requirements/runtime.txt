@@ -40,7 +40,7 @@ mdurl==0.1.2
     # via markdown-it-py
 more-itertools==9.1.0
     # via jaraco-classes
-pkginfo==1.9.6
+pkginfo==1.10.0
     # via twine
 pycparser==2.21
     # via cffi
