@@ -6,8 +6,6 @@
 #
 annotated-types==0.5.0
     # via pydantic
-bleach==6.0.0
-    # via readme-renderer
 certifi==2023.7.22
     # via requests
 cffi==1.15.1
@@ -40,6 +38,8 @@ mdurl==0.1.2
     # via markdown-it-py
 more-itertools==9.1.0
     # via jaraco-classes
+nh3==0.2.15
+    # via readme-renderer
 pkginfo==1.10.0
     # via twine
 pycparser==2.21
@@ -52,7 +52,7 @@ pygments==2.15.1
     # via
     #   readme-renderer
     #   rich
-readme-renderer==40.0
+readme-renderer==43.0
     # via twine
 requests==2.31.0
     # via
@@ -68,8 +68,6 @@ rich==13.4.2
     # via twine
 secretstorage==3.3.3
     # via keyring
-six==1.16.0
-    # via bleach
 twine==5.0.0
     # via -r runtime.in
 typing-extensions==4.7.1
@@ -80,7 +78,5 @@ urllib3==2.0.7
     # via
     #   requests
     #   twine
-webencodings==0.5.1
-    # via bleach
 zipp==3.16.0
     # via importlib-metadata
