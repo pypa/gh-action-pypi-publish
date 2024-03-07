@@ -70,7 +70,7 @@ secretstorage==3.3.3
     # via keyring
 six==1.16.0
     # via bleach
-twine==4.0.2
+twine==5.0.0
     # via -r runtime.in
 typing-extensions==4.7.1
     # via
