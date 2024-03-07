@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 LABEL "maintainer" "Sviatoslav Sydorenko <wk+pypa@sydorenko.org.ua>"
 LABEL "repository" "https://github.com/pypa/gh-action-pypi-publish"
@@ -11,7 +11,7 @@ ENV PIP_NO_CACHE_DIR 1
 ENV PIP_ROOT_USER_ACTION ignore
 
 ENV PATH "/root/.local/bin:${PATH}"
-ENV PYTHONPATH "/root/.local/lib/python3.11/site-packages"
+ENV PYTHONPATH "/root/.local/lib/python3.12/site-packages"
 
 COPY requirements requirements
 RUN \
