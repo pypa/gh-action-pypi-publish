@@ -39,7 +39,6 @@ INPUT_PACKAGES_DIR="$(get-normalized-input 'packages-dir')"
 INPUT_VERIFY_METADATA="$(get-normalized-input 'verify-metadata')"
 INPUT_SKIP_EXISTING="$(get-normalized-input 'skip-existing')"
 INPUT_PRINT_HASH="$(get-normalized-input 'print-hash')"
-INPUT_DISABLE_PROGRESS_BAR="$(get-normalized-input 'disable-progress-bar')"
 
 PASSWORD_DEPRECATION_NUDGE="::error title=Password-based uploads deprecated::\
 Starting in 2024, PyPI will require all users to enable Two-Factor \
@@ -121,7 +120,7 @@ if [[ ${INPUT_VERIFY_METADATA,,} != "false" ]] ; then
     twine check ${INPUT_PACKAGES_DIR%%/}/*
 fi
 
-TWINE_EXTRA_ARGS=
+TWINE_EXTRA_ARGS="--disable-progress-bar"
 if [[ ${INPUT_SKIP_EXISTING,,} != "false" ]] ; then
     TWINE_EXTRA_ARGS=--skip-existing
 fi
@@ -133,8 +132,6 @@ fi
 if [[ ${INPUT_PRINT_HASH,,} != "false" || ${INPUT_VERBOSE,,} != "false" ]] ; then
     python /app/print-hash.py ${INPUT_PACKAGES_DIR%%/}
 fi
-
-TWINE_EXTRA_ARGS="--disable-progress-bar $TWINE_EXTRA_ARGS"
 
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \
