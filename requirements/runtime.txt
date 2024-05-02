@@ -6,6 +6,8 @@
 #
 annotated-types==0.6.0
     # via pydantic
+betterproto==2.0.0b6
+    # via sigstore-protobuf-specs
 certifi==2024.2.2
     # via requests
 cffi==1.16.0
@@ -13,13 +15,32 @@ cffi==1.16.0
 charset-normalizer==3.3.2
     # via requests
 cryptography==42.0.7
-    # via secretstorage
+    # via
+    #   pyopenssl
+    #   pypi-attestation-models
+    #   sigstore
+dnspython==2.6.1
+    # via email-validator
 docutils==0.21.2
     # via readme-renderer
+email-validator==2.1.1
+    # via pydantic
+grpclib==0.4.7
+    # via betterproto
+h2==4.1.0
+    # via grpclib
+hpack==4.0.0
+    # via h2
+hyperframe==6.0.1
+    # via h2
 id==1.4.0
-    # via -r runtime.in
+    # via
+    #   -r runtime.in
+    #   sigstore
 idna==3.7
-    # via requests
+    # via
+    #   email-validator
+    #   requests
 importlib-metadata==7.1.0
     # via twine
 jaraco-classes==3.4.0
@@ -28,10 +49,6 @@ jaraco-context==5.3.0
     # via keyring
 jaraco-functools==4.0.1
     # via keyring
-jeepney==0.8.0
-    # via
-    #   keyring
-    #   secretstorage
 keyring==25.2.1
     # via twine
 markdown-it-py==3.0.0
@@ -42,20 +59,38 @@ more-itertools==10.2.0
     # via
     #   jaraco-classes
     #   jaraco-functools
+multidict==6.0.5
+    # via grpclib
 nh3==0.2.17
     # via readme-renderer
 pkginfo==1.10.0
     # via twine
+platformdirs==4.2.2
+    # via sigstore
+pyasn1==0.6.0
+    # via sigstore
 pycparser==2.22
     # via cffi
 pydantic==2.7.1
-    # via id
+    # via
+    #   id
+    #   pypi-attestation-models
+    #   sigstore
+    #   sigstore-rekor-types
 pydantic-core==2.18.2
     # via pydantic
 pygments==2.18.0
     # via
     #   readme-renderer
     #   rich
+pyjwt==2.8.0
+    # via sigstore
+pyopenssl==24.1.0
+    # via sigstore
+pypi-attestation-models==0.0.2
+    # via -r runtime.in
+python-dateutil==2.9.0.post0
+    # via betterproto
 readme-renderer==43.0
     # via twine
 requests==2.31.0
@@ -63,15 +98,33 @@ requests==2.31.0
     #   -r runtime.in
     #   id
     #   requests-toolbelt
+    #   sigstore
+    #   tuf
     #   twine
 requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
+rfc8785==0.1.2
+    # via sigstore
 rich==13.7.1
-    # via twine
-secretstorage==3.3.3
-    # via keyring
+    # via
+    #   sigstore
+    #   twine
+securesystemslib==1.0.0
+    # via tuf
+sigstore==3.0.0
+    # via
+    #   -r runtime.in
+    #   pypi-attestation-models
+sigstore-protobuf-specs==0.3.2
+    # via sigstore
+sigstore-rekor-types==0.0.13
+    # via sigstore
+six==1.16.0
+    # via python-dateutil
+tuf==5.0.0
+    # via sigstore
 twine==5.1.0
     # via -r runtime.in
 typing-extensions==4.11.0

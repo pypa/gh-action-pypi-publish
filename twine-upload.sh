@@ -39,6 +39,7 @@ INPUT_PACKAGES_DIR="$(get-normalized-input 'packages-dir')"
 INPUT_VERIFY_METADATA="$(get-normalized-input 'verify-metadata')"
 INPUT_SKIP_EXISTING="$(get-normalized-input 'skip-existing')"
 INPUT_PRINT_HASH="$(get-normalized-input 'print-hash')"
+INPUT_ATTESTATIONS="$(get-normalized-input 'attestations')"
 
 PASSWORD_DEPRECATION_NUDGE="::error title=Password-based uploads disabled::\
 As of 2024, PyPI requires all users to enable Two-Factor \
@@ -52,6 +53,33 @@ Trusted Publishers allows publishing packages to PyPI from automated \
 environments like GitHub Actions without needing to use username/password \
 combinations or API tokens to authenticate with PyPI. Read more: \
 https://docs.pypi.org/trusted-publishers"
+
+ATTESTATIONS_WITHOUT_TP_WARNING="::warning title=attestations setting ignored::\
+The workflow was run with 'attestations: true', but an explicit password was \
+also supplied, disabling Trusted Publishing. As a result, the attestations \
+setting is ignored."
+
+ATTESTATIONS_WRONG_INDEX_WARNING="::warning title=attestations setting ignored::\
+The workflow was run with 'attestations: true', but the specified repository URL \
+does not support PEP 740 attestations. As a result, the attestations setting \
+is ignored."
+
+if [[ "${INPUT_ATTESTATIONS}" != "false" ]] ; then
+    # Setting `attestations: true` and explicitly passing a password indicates
+    # user confusion, since attestations (currently) require Trusted Publishing.
+    if [[ -n "${INPUT_PASSWORD}" ]] ; then
+        echo "${ATTESTATIONS_WITHOUT_TP_WARNING}"
+        INPUT_ATTESTATIONS="false"
+    fi
+
+    # Setting `attestations: true` with an index other than PyPI or TestPyPI
+    # indicates user confusion, since attestations are not supported on other
+    # indices presently.
+    if [[ ! "${INPUT_REPOSITORY_URL}" =~ pypi\.org ]] ; then
+        echo "${ATTESTATIONS_WRONG_INDEX_WARNING}"
+        INPUT_ATTESTATIONS="false"
+    fi
+fi
 
 if [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] ; then
     # No password supplied by the user implies that we're in the OIDC flow;
@@ -128,6 +156,15 @@ fi
 
 if [[ ${INPUT_VERBOSE,,} != "false" ]] ; then
     TWINE_EXTRA_ARGS="--verbose $TWINE_EXTRA_ARGS"
+fi
+
+if [[ ${INPUT_ATTESTATIONS,,} != "false" ]] ; then
+    # NOTE: Intentionally placed after `twine check`, to prevent attestation
+    # generation on distributions with invalid metadata.
+    echo "::debug::Generating and uploading PEP 740 attestations"
+    python /app/attestations.py "${INPUT_PACKAGES_DIR%%/}"
+
+    TWINE_EXTRA_ARGS="--attestations $TWINE_EXTRA_ARGS"
 fi
 
 if [[ ${INPUT_PRINT_HASH,,} != "false" || ${INPUT_VERBOSE,,} != "false" ]] ; then

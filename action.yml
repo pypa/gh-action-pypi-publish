@@ -80,6 +80,13 @@ inputs:
       Use `print-hash` instead.
     required: false
     default: 'false'
+  attestations:
+    description: >-
+      [EXPERIMENTAL]
+      Enable experimental support for PEP 740 attestations.
+      Only works with PyPI and TestPyPI via Trusted Publishing.
+    required: false
+    default: 'false'
 branding:
   color: yellow
   icon: upload-cloud
@@ -95,3 +102,4 @@ runs:
   - ${{ inputs.skip-existing }}
   - ${{ inputs.verbose }}
   - ${{ inputs.print-hash }}
+  - ${{ inputs.attestations }}

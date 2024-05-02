@@ -1,9 +1,14 @@
 twine
 
-# NOTE: Used to detect an ambient OIDC credential for OIDC publishing.
+# NOTE: Used to detect an ambient OIDC credential for OIDC publishing,
+# as well as PEP 740 attestations.
 id ~= 1.0
 
 # NOTE: This is pulled in transitively through `twine`, but we also declare
 # NOTE: it explicitly here because `oidc-exchange.py` uses it.
 # Ref: https://github.com/di/id
 requests
+
+# NOTE: Used to generate attestations.
+pypi-attestation-models == 0.0.2
+sigstore ~= 3.0.0
