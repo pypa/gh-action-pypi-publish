@@ -42,7 +42,7 @@ INPUT_PRINT_HASH="$(get-normalized-input 'print-hash')"
 
 PASSWORD_DEPRECATION_NUDGE="::error title=Password-based uploads disabled::\
 As of 2024, PyPI requires all users to enable Two-Factor \
-Authentication. This consequentlys require all users to switch \
+Authentication. This consequently requires all users to switch \
 to either Trusted Publishers (preferred) or API tokens for package \
 uploads. Read more: \
 https://blog.pypi.org/posts/2023-05-25-securing-pypi-with-2fa/"
