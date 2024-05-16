@@ -128,6 +128,7 @@ repos:
     - WPS
     additional_dependencies:
     - wemake-python-styleguide ~= 0.17.0
+    language_version: python3.11  # flake8-commas doesn't work w/ Python 3.12
 
 - repo: https://github.com/PyCQA/pylint.git
   rev: v3.0.3
