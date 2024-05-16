@@ -120,9 +120,9 @@ if [[ ${INPUT_VERIFY_METADATA,,} != "false" ]] ; then
     twine check ${INPUT_PACKAGES_DIR%%/}/*
 fi
 
-TWINE_EXTRA_ARGS="--disable-progress-bar $TWINE_EXTRA_ARGS"
+TWINE_EXTRA_ARGS=--disable-progress-bar
 if [[ ${INPUT_SKIP_EXISTING,,} != "false" ]] ; then
-    TWINE_EXTRA_ARGS=--skip-existing
+    TWINE_EXTRA_ARGS="${TWINE_EXTRA_ARGS} --skip-existing"
 fi
 
 if [[ ${INPUT_VERBOSE,,} != "false" ]] ; then
