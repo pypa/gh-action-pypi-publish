@@ -63,6 +63,8 @@ multidict==6.0.5
     # via grpclib
 nh3==0.2.17
     # via readme-renderer
+packaging==24.1
+    # via pypi-attestation-models
 pkginfo==1.10.0
     # via twine
 platformdirs==4.2.2
@@ -87,7 +89,7 @@ pyjwt==2.8.0
     # via sigstore
 pyopenssl==24.1.0
     # via sigstore
-pypi-attestation-models==0.0.2
+pypi-attestation-models==0.0.4
     # via -r runtime.in
 python-dateutil==2.9.0.post0
     # via betterproto
@@ -118,7 +120,9 @@ sigstore==3.0.0
     #   -r runtime.in
     #   pypi-attestation-models
 sigstore-protobuf-specs==0.3.2
-    # via sigstore
+    # via
+    #   pypi-attestation-models
+    #   sigstore
 sigstore-rekor-types==0.0.13
     # via sigstore
 six==1.16.0
