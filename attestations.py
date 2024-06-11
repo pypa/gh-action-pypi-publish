@@ -30,16 +30,8 @@ attestations for its inputs, but failed to do so.
 _TOKEN_RETRIEVAL_FAILED_MESSAGE = """
 OpenID Connect token retrieval failed: {identity_error}
 
-This generally indicates a workflow configuration error, such as insufficient
-permissions. Make sure that your workflow has `id-token: write` configured
-at the job level, e.g.:
-
-```yaml
-permissions:
-  id-token: write
-```
-
-Learn more at https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#adding-permissions-settings.
+This failure occurred after a successful Trusted Publishing Flow,
+suggesting a transient error.
 """  # noqa: S105; not a password
 
 
@@ -88,7 +80,8 @@ try:
 except IdentityError as identity_error:
     # NOTE: We only perform attestations in trusted publishing flows, so we
     # don't need to re-check for the "PR from fork" error mode, only
-    # generic token retrieval errors.
+    # generic token retrieval errors. We also render a simpler error,
+    # since permissions can't be to blame at this stage.
     cause = _TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error)
     die(cause)
 
