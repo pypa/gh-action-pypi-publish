@@ -260,10 +260,11 @@ upload them all together by enabling the `attestations` setting:
      attestations: true
 ```
 
-This will use `sigstore` to create attestation objects for each distribution package,
-signing them with the identity provided by the GitHub's OIDC token associated with the
-current workflow. This means both the trusted publishing authentication and the
-attestations are tied to the same identity.
+This will use [Sigstore](https://www.sigstore.dev/) to create attestation
+objects for each distribution package, signing them with the identity provided
+by the GitHub's OIDC token associated with the current workflow. This means
+both the trusted publishing authentication and the attestations are tied to the
+same identity.
 
 ## License
 
