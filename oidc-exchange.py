@@ -87,7 +87,6 @@ If a claim is not present in the claim set, then it is rendered as `MISSING`.
 * `ref`: `{ref}`
 
 See https://docs.pypi.org/trusted-publishers/troubleshooting/ for more help.
-
 """
 
 # Rendered if the package index's token response isn't valid JSON.
@@ -97,6 +96,8 @@ Token request failed: the index produced an unexpected
 
 This strongly suggests a server configuration or downtime issue; wait
 a few minutes and try again.
+
+You can monitor PyPI's status here: https://status.python.org/
 """  # noqa: S105; not a password
 
 # Rendered if the package index's token response isn't a valid API token payload.
