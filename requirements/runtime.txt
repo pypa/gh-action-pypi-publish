@@ -89,7 +89,7 @@ pyjwt==2.8.0
     # via sigstore
 pyopenssl==24.1.0
     # via sigstore
-pypi-attestation-models==0.0.4
+pypi-attestation-models==0.0.5
     # via -r runtime.in
 python-dateutil==2.9.0.post0
     # via betterproto
