@@ -105,6 +105,10 @@ filter to the job:
 > Support for generating and uploading [digital attestations] is currently
 > experimental and limited only to Trusted Publishing flows using PyPI or TestPyPI.
 
+> [!NOTE]
+> Generating and uploading digital attestations currently requires
+> authentication with a [trusted publisher].
+
 You can generate signed [digital attestations] for all the distribution files and
 upload them all together by enabling the `attestations` setting:
 
@@ -309,3 +313,4 @@ https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md
 
 [digital attestations]: https://peps.python.org/pep-0740/
 [Sigstore]: https://www.sigstore.dev/
+[trusted publisher]: #trusted-publishing
