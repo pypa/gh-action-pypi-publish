@@ -99,6 +99,25 @@ filter to the job:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
 ```
 
+### Generating and uploading attestations
+
+> [!IMPORTANT]
+> Support for generating and uploading [PEP 740 attestations] is currently
+> experimental and limited only to Trusted Publishing flows using PyPI or TestPyPI.
+
+You can generate signed [PEP 740 attestations] for all the distribution files and
+upload them all together by enabling the `attestations` setting:
+
+```yml
+   with:
+     attestations: true
+```
+
+This will use [Sigstore] to create attestation
+objects for each distribution package, signing them with the identity provided
+by the GitHub's OIDC token associated with the current workflow. This means
+both the trusted publishing authentication and the attestations are tied to the
+same identity.
 
 ## Non-goals
 
@@ -246,26 +265,6 @@ for example. See [Creating & using secrets]. While still secure,
 [trusted publishing] is now encouraged over API tokens as a best practice
 on supported platforms (like GitHub).
 
-### Generating and uploading attestations (EXPERIMENTAL)
-
-> [!NOTE]
-> Support for generating and uploading [PEP 740 attestations] is currently
-> experimental and limited only to Trusted Publishing flows using PyPI or TestPyPI.
-
-You can generate signed [PEP 740 attestations] for all the distribution files and
-upload them all together by enabling the `attestations` setting:
-
-```yml
-   with:
-     attestations: true
-```
-
-This will use [Sigstore](https://www.sigstore.dev/) to create attestation
-objects for each distribution package, signing them with the identity provided
-by the GitHub's OIDC token associated with the current workflow. This means
-both the trusted publishing authentication and the attestations are tied to the
-same identity.
-
 ## License
 
 The Dockerfile and associated scripts and documentation in this project
@@ -309,3 +308,4 @@ https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md
 [how to specify username and password]: #specifying-a-different-username
 
 [PEP 740 attestations]: https://peps.python.org/pep-0740/
+[Sigstore]: https://www.sigstore.dev/
