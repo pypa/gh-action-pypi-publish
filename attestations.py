@@ -96,5 +96,6 @@ for dist in dists:
 
 
 with SigningContext.production().signer(identity, cache=True) as s:
+    debug(f'attesting to dists: {dists}')
     for dist in dists:
         attest_dist(dist, s)
