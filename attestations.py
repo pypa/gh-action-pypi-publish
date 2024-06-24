@@ -51,18 +51,17 @@ def debug(msg: str):
     print(f'::debug::{msg}', file=sys.stderr)
 
 
-# pylint: disable=redefined-outer-name
-def attest_dist(dist: Path, signer: Signer) -> None:
+def attest_dist(dist_path: Path, signer: Signer) -> None:
     # We are the publishing step, so there should be no pre-existing publish
     # attestation. The presence of one indicates user confusion.
-    attestation_path = Path(f'{dist}.publish.attestation')
+    attestation_path = Path(f'{dist_path}.publish.attestation')
     if attestation_path.is_file():
-        die(f'{dist} already has a publish attestation: {attestation_path}')
+        die(f'{dist_path} already has a publish attestation: {attestation_path}')
 
-    attestation = Attestation.sign(signer, dist)
+    attestation = Attestation.sign(signer, dist_path)
 
     attestation_path.write_text(attestation.model_dump_json(), encoding='utf-8')
-    debug(f'saved publish attestation: {dist=} {attestation_path=}')
+    debug(f'saved publish attestation: {dist_path=} {attestation_path=}')
 
 
 def get_identity_token() -> IdentityToken:
@@ -96,6 +95,6 @@ for dist in dists:
         die(f'Path looks like a distribution but is not a file: {dist}')
 
 
-with SigningContext.production().signer(identity, cache=True) as signer:
+with SigningContext.production().signer(identity, cache=True) as s:
     for dist in dists:
-        attest_dist(dist, signer)
+        attest_dist(dist, s)
