@@ -89,12 +89,13 @@ except IdentityError as identity_error:
 dists = [sdist.absolute() for sdist in packages_dir.glob('*.tar.gz')]
 dists.extend(whl.absolute() for whl in packages_dir.glob('*.whl'))
 
+# Make sure everything that looks like a dist actually is one.
+# We do this up-front to prevent partial signing.
+for dist in dists:
+    if not dist.is_file():
+        die(f'Path looks like a distribution but is not a file: {dist}')
+
+
 with SigningContext.production().signer(identity, cache=True) as signer:
     for dist in dists:
-        # This should never really happen, but some versions of GitHub's
-        # download-artifact will create a subdirectory with the same name
-        # as the artifact being downloaded, e.g. `dist/foo.whl/foo.whl`.
-        if not dist.is_file():
-            die(f'Path looks like a distribution but is not a file: {dist}')
-
         attest_dist(dist, signer)
