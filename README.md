@@ -102,10 +102,10 @@ filter to the job:
 ### Generating and uploading attestations
 
 > [!IMPORTANT]
-> Support for generating and uploading [PEP 740 attestations] is currently
+> Support for generating and uploading [digital attestations] is currently
 > experimental and limited only to Trusted Publishing flows using PyPI or TestPyPI.
 
-You can generate signed [PEP 740 attestations] for all the distribution files and
+You can generate signed [digital attestations] for all the distribution files and
 upload them all together by enabling the `attestations` setting:
 
 ```yml
@@ -307,5 +307,5 @@ https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md
 
 [how to specify username and password]: #specifying-a-different-username
 
-[PEP 740 attestations]: https://peps.python.org/pep-0740/
+[digital attestations]: https://peps.python.org/pep-0740/
 [Sigstore]: https://www.sigstore.dev/
