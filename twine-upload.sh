@@ -161,7 +161,7 @@ fi
 if [[ ${INPUT_ATTESTATIONS,,} != "false" ]] ; then
     # NOTE: Intentionally placed after `twine check`, to prevent attestation
     # generation on distributions with invalid metadata.
-    echo "::debug::Generating and uploading PEP 740 attestations"
+    echo "::notice::Generating and uploading digital attestations"
     python /app/attestations.py "${INPUT_PACKAGES_DIR%%/}"
 
     TWINE_EXTRA_ARGS="--attestations $TWINE_EXTRA_ARGS"
