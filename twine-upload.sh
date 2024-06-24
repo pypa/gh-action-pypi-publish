@@ -64,10 +64,13 @@ The workflow was run with 'attestations: true', but the specified repository URL
 does not support PEP 740 attestations. As a result, the attestations setting \
 is ignored."
 
+[[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] \
+    && TRUSTED_PUBLISHING=true || TRUSTED_PUBLISHING=false
+
 if [[ "${INPUT_ATTESTATIONS}" != "false" ]] ; then
-    # Setting `attestations: true` and explicitly passing a password indicates
-    # user confusion, since attestations (currently) require Trusted Publishing.
-    if [[ -n "${INPUT_PASSWORD}" ]] ; then
+    # Setting `attestations: true` without Trusted Publishing indicates
+    # user confusion, since attestations (currently) require it.
+    if ! "${TRUSTED_PUBLISHING}" ; then
         echo "${ATTESTATIONS_WITHOUT_TP_WARNING}"
         INPUT_ATTESTATIONS="false"
     fi
@@ -81,7 +84,7 @@ if [[ "${INPUT_ATTESTATIONS}" != "false" ]] ; then
     fi
 fi
 
-if [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] ; then
+if "${TRUSTED_PUBLISHING}" ; then
     # No password supplied by the user implies that we're in the OIDC flow;
     # retrieve the OIDC credential and exchange it for a PyPI API token.
     echo "::debug::Authenticating to ${INPUT_REPOSITORY_URL} via Trusted Publishing"
