@@ -17,7 +17,7 @@ charset-normalizer==3.3.2
 cryptography==42.0.7
     # via
     #   pyopenssl
-    #   pypi-attestation-models
+    #   pypi-attestations
     #   sigstore
 dnspython==2.6.1
     # via email-validator
@@ -64,7 +64,7 @@ multidict==6.0.5
 nh3==0.2.17
     # via readme-renderer
 packaging==24.1
-    # via pypi-attestation-models
+    # via pypi-attestations
 pkginfo==1.10.0
     # via twine
 platformdirs==4.2.2
@@ -76,7 +76,7 @@ pycparser==2.22
 pydantic==2.7.1
     # via
     #   id
-    #   pypi-attestation-models
+    #   pypi-attestations
     #   sigstore
     #   sigstore-rekor-types
 pydantic-core==2.18.2
@@ -89,7 +89,7 @@ pyjwt==2.8.0
     # via sigstore
 pyopenssl==24.1.0
     # via sigstore
-pypi-attestation-models==0.0.5
+pypi-attestations==0.0.6
     # via -r runtime.in
 python-dateutil==2.9.0.post0
     # via betterproto
@@ -118,10 +118,10 @@ securesystemslib==1.0.0
 sigstore==3.0.0
     # via
     #   -r runtime.in
-    #   pypi-attestation-models
+    #   pypi-attestations
 sigstore-protobuf-specs==0.3.2
     # via
-    #   pypi-attestation-models
+    #   pypi-attestations
     #   sigstore
 sigstore-rekor-types==0.0.13
     # via sigstore

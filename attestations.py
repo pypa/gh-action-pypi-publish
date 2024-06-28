@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 from typing import NoReturn
 
-from pypi_attestation_models import Attestation
+from pypi_attestations import Attestation
 from sigstore.oidc import IdentityError, IdentityToken, detect_credential
 from sigstore.sign import Signer, SigningContext
 
