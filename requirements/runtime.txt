@@ -95,7 +95,7 @@ python-dateutil==2.9.0.post0
     # via betterproto
 readme-renderer==43.0
     # via twine
-requests==2.32.0
+requests==2.32.3
     # via
     #   -r runtime.in
     #   id
@@ -129,7 +129,7 @@ six==1.16.0
     # via python-dateutil
 tuf==5.0.0
     # via sigstore
-twine==5.1.0
+twine==5.1.1
     # via -r runtime.in
 typing-extensions==4.11.0
     # via
