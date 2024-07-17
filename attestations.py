@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 from typing import NoReturn
 
-from pypi_attestations import Attestation
+from pypi_attestations import Attestation, Distribution
 from sigstore.oidc import IdentityError, IdentityToken, detect_credential
 from sigstore.sign import Signer, SigningContext
 
@@ -58,7 +58,8 @@ def attest_dist(dist_path: Path, signer: Signer) -> None:
     if attestation_path.is_file():
         die(f'{dist_path} already has a publish attestation: {attestation_path}')
 
-    attestation = Attestation.sign(signer, dist_path)
+    dist = Distribution.from_file(dist_path)
+    attestation = Attestation.sign(signer, dist)
 
     attestation_path.write_text(attestation.model_dump_json(), encoding='utf-8')
     debug(f'saved publish attestation: {dist_path=} {attestation_path=}')
