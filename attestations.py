@@ -83,8 +83,7 @@ def main() -> None:
         # don't need to re-check for the "PR from fork" error mode, only
         # generic token retrieval errors. We also render a simpler error,
         # since permissions can't be to blame at this stage.
-        cause = _TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error)
-        die(cause)
+        die(_TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error))
 
     # Collect all sdists and wheels.
     dist_paths = [sdist.absolute() for sdist in packages_dir.glob('*.tar.gz')]
@@ -100,6 +99,7 @@ def main() -> None:
         debug(f'attesting to dists: {dist_paths}')
         for dist_path in dist_paths:
             attest_dist(dist_path, s)
+
 
 if __name__ == '__main__':
     main()
