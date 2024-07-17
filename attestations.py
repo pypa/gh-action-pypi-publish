@@ -73,7 +73,7 @@ def get_identity_token() -> IdentityToken:
     return IdentityToken(oidc_token)
 
 
-if __name__ == '__main__':
+def main() -> None:
     packages_dir = Path(sys.argv[1])
 
     try:
@@ -87,17 +87,19 @@ if __name__ == '__main__':
         die(cause)
 
     # Collect all sdists and wheels.
-    dists = [sdist.absolute() for sdist in packages_dir.glob('*.tar.gz')]
-    dists.extend(whl.absolute() for whl in packages_dir.glob('*.whl'))
+    dist_paths = [sdist.absolute() for sdist in packages_dir.glob('*.tar.gz')]
+    dist_paths.extend(whl.absolute() for whl in packages_dir.glob('*.whl'))
 
     # Make sure everything that looks like a dist actually is one.
     # We do this up-front to prevent partial signing.
-    for dist in dists:
-        if not dist.is_file():
-            die(f'Path looks like a distribution but is not a file: {dist}')
-
+    for dist_path in dist_paths:
+        if not dist_path.is_file():
+            die(f'Path looks like a distribution but is not a file: {dist_path}')
 
     with SigningContext.production().signer(identity, cache=True) as s:
-        debug(f'attesting to dists: {dists}')
-        for dist in dists:
-            attest_dist(dist, s)
+        debug(f'attesting to dists: {dist_paths}')
+        for dist_path in dist_paths:
+            attest_dist(dist_path, s)
+
+if __name__ == '__main__':
+    main()
