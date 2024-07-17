@@ -73,30 +73,31 @@ def get_identity_token() -> IdentityToken:
     return IdentityToken(oidc_token)
 
 
-packages_dir = Path(sys.argv[1])
+if __name__ == '__main__':
+    packages_dir = Path(sys.argv[1])
 
-try:
-    identity = get_identity_token()
-except IdentityError as identity_error:
-    # NOTE: We only perform attestations in trusted publishing flows, so we
-    # don't need to re-check for the "PR from fork" error mode, only
-    # generic token retrieval errors. We also render a simpler error,
-    # since permissions can't be to blame at this stage.
-    cause = _TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error)
-    die(cause)
+    try:
+        identity = get_identity_token()
+    except IdentityError as identity_error:
+        # NOTE: We only perform attestations in trusted publishing flows, so we
+        # don't need to re-check for the "PR from fork" error mode, only
+        # generic token retrieval errors. We also render a simpler error,
+        # since permissions can't be to blame at this stage.
+        cause = _TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error)
+        die(cause)
 
-# Collect all sdists and wheels.
-dists = [sdist.absolute() for sdist in packages_dir.glob('*.tar.gz')]
-dists.extend(whl.absolute() for whl in packages_dir.glob('*.whl'))
+    # Collect all sdists and wheels.
+    dists = [sdist.absolute() for sdist in packages_dir.glob('*.tar.gz')]
+    dists.extend(whl.absolute() for whl in packages_dir.glob('*.whl'))
 
-# Make sure everything that looks like a dist actually is one.
-# We do this up-front to prevent partial signing.
-for dist in dists:
-    if not dist.is_file():
-        die(f'Path looks like a distribution but is not a file: {dist}')
-
-
-with SigningContext.production().signer(identity, cache=True) as s:
-    debug(f'attesting to dists: {dists}')
+    # Make sure everything that looks like a dist actually is one.
+    # We do this up-front to prevent partial signing.
     for dist in dists:
-        attest_dist(dist, s)
+        if not dist.is_file():
+            die(f'Path looks like a distribution but is not a file: {dist}')
+
+
+    with SigningContext.production().signer(identity, cache=True) as s:
+        debug(f'attesting to dists: {dists}')
+        for dist in dists:
+            attest_dist(dist, s)
