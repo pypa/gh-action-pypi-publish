@@ -54,15 +54,15 @@ environments like GitHub Actions without needing to use username/password \
 combinations or API tokens to authenticate with PyPI. Read more: \
 https://docs.pypi.org/trusted-publishers"
 
-ATTESTATIONS_WITHOUT_TP_WARNING="::warning title=attestations setting ignored::\
-The workflow was run with the 'attestations: true' setting, but an explicit \
+ATTESTATIONS_WITHOUT_TP_WARNING="::warning title=attestations input ignored::\
+The workflow was run with the 'attestations: true' input, but an explicit \
 password was also set, disabling Trusted Publishing. As a result, the \
-attestations setting is ignored."
+attestations input is ignored."
 
-ATTESTATIONS_WRONG_INDEX_WARNING="::warning title=attestations setting ignored::\
-The workflow was run with 'attestations: true' setting, but the specified \
+ATTESTATIONS_WRONG_INDEX_WARNING="::warning title=attestations input ignored::\
+The workflow was run with 'attestations: true' input, but the specified \
 repository URL does not support PEP 740 attestations. As a result, the \
-attestations setting is ignored."
+attestations input is ignored."
 
 [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] \
     && TRUSTED_PUBLISHING=true || TRUSTED_PUBLISHING=false
