@@ -55,14 +55,14 @@ combinations or API tokens to authenticate with PyPI. Read more: \
 https://docs.pypi.org/trusted-publishers"
 
 ATTESTATIONS_WITHOUT_TP_WARNING="::warning title=attestations setting ignored::\
-The workflow was run with 'attestations: true', but an explicit password was \
-also supplied, disabling Trusted Publishing. As a result, the attestations \
-setting is ignored."
+The workflow was run with the 'attestations: true' setting, but an explicit \
+password was also set, disabling Trusted Publishing. As a result, the \
+attestations setting is ignored."
 
 ATTESTATIONS_WRONG_INDEX_WARNING="::warning title=attestations setting ignored::\
-The workflow was run with 'attestations: true', but the specified repository URL \
-does not support PEP 740 attestations. As a result, the attestations setting \
-is ignored."
+The workflow was run with 'attestations: true' setting, but the specified \
+repository URL does not support PEP 740 attestations. As a result, the \
+attestations setting is ignored."
 
 [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] \
     && TRUSTED_PUBLISHING=true || TRUSTED_PUBLISHING=false
