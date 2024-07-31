@@ -89,7 +89,7 @@ pyjwt==2.8.0
     # via sigstore
 pyopenssl==24.1.0
     # via sigstore
-pypi-attestations==0.0.9
+pypi-attestations==0.0.10
     # via -r runtime.in
 python-dateutil==2.9.0.post0
     # via betterproto
@@ -115,7 +115,7 @@ rich==13.7.1
     #   twine
 securesystemslib==1.0.0
     # via tuf
-sigstore==3.0.0
+sigstore==3.1.0
     # via
     #   -r runtime.in
     #   pypi-attestations

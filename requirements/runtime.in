@@ -10,5 +10,5 @@ id ~= 1.0
 requests
 
 # NOTE: Used to generate attestations.
-pypi-attestations ~= 0.0.9
-sigstore ~= 3.0.0
+pypi-attestations ~= 0.0.10
+sigstore ~= 3.1.0
