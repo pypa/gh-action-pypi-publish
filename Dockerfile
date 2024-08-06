@@ -27,6 +27,7 @@ WORKDIR /app
 COPY LICENSE.md .
 COPY twine-upload.sh .
 COPY print-hash.py .
+COPY print-pkg-name.py .
 COPY oidc-exchange.py .
 COPY attestations.py .
 

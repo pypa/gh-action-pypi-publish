@@ -41,6 +41,10 @@ INPUT_SKIP_EXISTING="$(get-normalized-input 'skip-existing')"
 INPUT_PRINT_HASH="$(get-normalized-input 'print-hash')"
 INPUT_ATTESTATIONS="$(get-normalized-input 'attestations')"
 
+REPOSITORY_NAME="$(echo ${GITHUB_REPOSITORY} | cut -d'/' -f2)"
+WORKFLOW_FILENAME="$(echo ${GITHUB_WORKFLOW_REF} | cut -d'/' -f5- | cut -d'@' -f1)"
+PACKAGE_NAME="$(python /app/print-pkg-name.py ${INPUT_PACKAGES_DIR%%/})"
+
 PASSWORD_DEPRECATION_NUDGE="::error title=Password-based uploads disabled::\
 As of 2024, PyPI requires all users to enable Two-Factor \
 Authentication. This consequently requires all users to switch \
@@ -63,6 +67,20 @@ ATTESTATIONS_WRONG_INDEX_WARNING="::warning title=attestations input ignored::\
 The workflow was run with 'attestations: true' input, but the specified \
 repository URL does not support PEP 740 attestations. As a result, the \
 attestations input is ignored."
+
+if [[ ! "${INPUT_REPOSITORY_URL}" =~ pypi\.org || -z "${PACKAGE_NAME}" ]] ; then
+    TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE=""
+else
+    if [[ "${INPUT_REPOSITORY_URL}" =~ test\.pypi\.org ]] ; then
+        INDEX_URL="https://test.pypi.org"
+    else
+        INDEX_URL="https://pypi.org"
+    fi
+    TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE="::warning title=Create a Trusted Publisher::\
+A new Trusted Publisher for the currently running publishing workflow can be created \
+by accessing the following link while logged-in as a maintainer of the package: \
+${INDEX_URL}/manage/project/${PACKAGE_NAME}/settings/publishing/?provider=github&owner=${GITHUB_REPOSITORY_OWNER}&repository=${REPOSITORY_NAME}&workflow_filename=${WORKFLOW_FILENAME}"
+fi
 
 [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] \
     && TRUSTED_PUBLISHING=true || TRUSTED_PUBLISHING=false
@@ -96,6 +114,7 @@ elif [[ "${INPUT_USER}" == '__token__' ]]; then
 
     if [[ "${INPUT_REPOSITORY_URL}" =~ pypi\.org ]]; then
         echo "${TRUSTED_PUBLISHING_NUDGE}"
+        echo "${TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE}"
     fi
 else
     echo \
@@ -105,6 +124,7 @@ else
     if [[ "${INPUT_REPOSITORY_URL}" =~ pypi\.org ]]; then
         echo "${PASSWORD_DEPRECATION_NUDGE}"
         echo "${TRUSTED_PUBLISHING_NUDGE}"
+        echo "${TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE}"
         exit 1
     fi
 fi
