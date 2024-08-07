@@ -64,7 +64,9 @@ multidict==6.0.5
 nh3==0.2.17
     # via readme-renderer
 packaging==24.1
-    # via pypi-attestations
+    # via
+    #   -r runtime.in
+    #   pypi-attestations
 pkginfo==1.10.0
     # via twine
 platformdirs==4.2.2

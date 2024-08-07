@@ -24,7 +24,7 @@ def safe_parse_pkg_name(file_path: pathlib.Path) -> str | None:
     return None
 
 
-packages_dir = pathlib.Path(sys.argv[1]).resolve().absolute()
+packages_dir = pathlib.Path(sys.argv[1]).resolve()
 
 pkg_names = {safe_parse_pkg_name(f) for f in packages_dir.iterdir()}
 pkg_names.discard(None)

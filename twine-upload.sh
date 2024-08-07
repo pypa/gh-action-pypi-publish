@@ -69,6 +69,10 @@ The workflow was run with 'attestations: true' input, but the specified \
 repository URL does not support PEP 740 attestations. As a result, the \
 attestations input is ignored."
 
+MAGIC_LINK_MESSAGE="::warning title=Create a Trusted Publisher::\
+A new Trusted Publisher for the currently running publishing workflow can be created \
+by accessing the following link(s) while logged-in as an owner of the package(s):"
+
 if [[ ! "${INPUT_REPOSITORY_URL}" =~ pypi\.org || ${#PACKAGE_NAMES[@]} -eq 0 ]] ; then
     TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE=""
 else
@@ -79,13 +83,11 @@ else
     fi
     ALL_LINKS=""
     for PACKAGE_NAME in "${PACKAGE_NAMES[@]}"; do
-        LINK="${INDEX_URL}/manage/project/${PACKAGE_NAME}/settings/publishing/?provider=github&owner=${GITHUB_REPOSITORY_OWNER}&repository=${REPOSITORY_NAME}&workflow_filename=${WORKFLOW_FILENAME}"
+        LINK="- ${INDEX_URL}/manage/project/${PACKAGE_NAME}/settings/publishing/?provider=github&owner=${GITHUB_REPOSITORY_OWNER}&repository=${REPOSITORY_NAME}&workflow_filename=${WORKFLOW_FILENAME}"
         ALL_LINKS+="$LINK"$'\n'
     done
-    TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE="::warning title=Create a Trusted Publisher::\
-A new Trusted Publisher for the currently running publishing workflow can be created \
-by accessing the following link(s) while logged-in as a maintainer of the package(s): \"
-${ALL_LINKS}"
+    TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE="${MAGIC_LINK_MESSAGE}"$'\n'"${ALL_LINKS}"
+    echo "${MAGIC_LINK_MESSAGE}" >> $GITHUB_STEP_SUMMARY
 fi
 
 [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] \
