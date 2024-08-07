@@ -43,7 +43,8 @@ INPUT_ATTESTATIONS="$(get-normalized-input 'attestations')"
 
 REPOSITORY_NAME="$(echo ${GITHUB_REPOSITORY} | cut -d'/' -f2)"
 WORKFLOW_FILENAME="$(echo ${GITHUB_WORKFLOW_REF} | cut -d'/' -f5- | cut -d'@' -f1)"
-PACKAGE_NAME="$(python /app/print-pkg-name.py ${INPUT_PACKAGES_DIR%%/})"
+PACKAGE_NAMES=()
+while IFS='' read -r line; do PACKAGE_NAMES+=("$line"); done < <(python /app/print-pkg-names.py "${INPUT_PACKAGES_DIR%%/}")
 
 PASSWORD_DEPRECATION_NUDGE="::error title=Password-based uploads disabled::\
 As of 2024, PyPI requires all users to enable Two-Factor \
@@ -68,7 +69,7 @@ The workflow was run with 'attestations: true' input, but the specified \
 repository URL does not support PEP 740 attestations. As a result, the \
 attestations input is ignored."
 
-if [[ ! "${INPUT_REPOSITORY_URL}" =~ pypi\.org || -z "${PACKAGE_NAME}" ]] ; then
+if [[ ! "${INPUT_REPOSITORY_URL}" =~ pypi\.org || ${#PACKAGE_NAMES[@]} -eq 0 ]] ; then
     TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE=""
 else
     if [[ "${INPUT_REPOSITORY_URL}" =~ test\.pypi\.org ]] ; then
@@ -76,10 +77,15 @@ else
     else
         INDEX_URL="https://pypi.org"
     fi
+    ALL_LINKS=""
+    for PACKAGE_NAME in "${PACKAGE_NAMES[@]}"; do
+        LINK="${INDEX_URL}/manage/project/${PACKAGE_NAME}/settings/publishing/?provider=github&owner=${GITHUB_REPOSITORY_OWNER}&repository=${REPOSITORY_NAME}&workflow_filename=${WORKFLOW_FILENAME}"
+        ALL_LINKS+="$LINK"$'\n'
+    done
     TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE="::warning title=Create a Trusted Publisher::\
 A new Trusted Publisher for the currently running publishing workflow can be created \
-by accessing the following link while logged-in as a maintainer of the package: \
-${INDEX_URL}/manage/project/${PACKAGE_NAME}/settings/publishing/?provider=github&owner=${GITHUB_REPOSITORY_OWNER}&repository=${REPOSITORY_NAME}&workflow_filename=${WORKFLOW_FILENAME}"
+by accessing the following link(s) while logged-in as a maintainer of the package(s): \"
+${ALL_LINKS}"
 fi
 
 [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] \
