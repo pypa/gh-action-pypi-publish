@@ -163,7 +163,7 @@ fi
 
 if [[ ${INPUT_ATTESTATIONS,,} != "false" ]] ; then
     # NOTE: Intentionally placed after `twine check`, to prevent attestation
-    # generation on distributions with invalid metadata.
+    # NOTE: generation on distributions with invalid metadata.
     echo "::notice::Generating and uploading digital attestations"
     python /app/attestations.py "${INPUT_PACKAGES_DIR%%/}"
 

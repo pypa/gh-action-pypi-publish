@@ -1,7 +1,7 @@
 twine
 
 # NOTE: Used to detect an ambient OIDC credential for OIDC publishing,
-# as well as PEP 740 attestations.
+# NOTE: as well as PEP 740 attestations.
 id ~= 1.0
 
 # NOTE: This is pulled in transitively through `twine`, but we also declare
