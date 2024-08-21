@@ -72,7 +72,7 @@ def attest_dist(dist_path: Path, signer: Signer) -> None:
     # We are the publishing step, so there should be no pre-existing publish
     # attestation. The presence of one indicates user confusion.
     attestation_path = Path(f'{dist_path}.publish.attestation')
-    if attestation_path.is_file():
+    if attestation_path.exists():
         die(f'{dist_path} already has a publish attestation: {attestation_path}')
 
     dist = Distribution.from_file(dist_path)
