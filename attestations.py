@@ -51,6 +51,23 @@ def debug(msg: str):
     print(f'::debug::{msg}', file=sys.stderr)
 
 
+def collect_dists(packages_dir: Path) -> list[Path]:
+    # Collect all sdists and wheels.
+    dist_paths = [sdist.resolve() for sdist in packages_dir.glob('*.tar.gz')]
+    dist_paths.extend(whl.resolve() for whl in packages_dir.glob('*.whl'))
+
+    # Make sure everything that looks like a dist actually is one.
+    # We do this up-front to prevent partial signing.
+    if (invalid_dists := [path for path in dist_paths if path.is_file()]):
+        invalid_dist_list = ', '.join(map(str, invalid_dists))
+        die(
+            'The following paths look like distributions but '
+            f'are not actually files: {invalid_dist_list}',
+        )
+
+    return dist_paths
+
+
 def attest_dist(dist_path: Path, signer: Signer) -> None:
     # We are the publishing step, so there should be no pre-existing publish
     # attestation. The presence of one indicates user confusion.
@@ -85,18 +102,7 @@ def main() -> None:
         # since permissions can't be to blame at this stage.
         die(_TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error))
 
-    # Collect all sdists and wheels.
-    dist_paths = [sdist.absolute() for sdist in packages_dir.glob('*.tar.gz')]
-    dist_paths.extend(whl.absolute() for whl in packages_dir.glob('*.whl'))
-
-    # Make sure everything that looks like a dist actually is one.
-    # We do this up-front to prevent partial signing.
-    if (invalid_dists := [_path for _path in dist_paths if _path.is_file()]):
-        invalid_dist_list = ', '.join(map(str, invalid_dists))
-        die(
-            'The following paths look like distributions but '
-            f'are not actually files: {invalid_dist_list}',
-        )
+    dist_paths = collect_dists(packages_dir)
 
     with SigningContext.production().signer(identity, cache=True) as s:
         debug(f'attesting to dists: {dist_paths}')
