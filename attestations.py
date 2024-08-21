@@ -91,9 +91,12 @@ def main() -> None:
 
     # Make sure everything that looks like a dist actually is one.
     # We do this up-front to prevent partial signing.
-    for dist_path in dist_paths:
-        if not dist_path.is_file():
-            die(f'Path looks like a distribution but is not a file: {dist_path}')
+    if (invalid_dists := [_path for _path in dist_paths if _path.is_file()]):
+        invalid_dist_list = ', '.join(map(str, invalid_dists))
+        die(
+            'The following paths look like distributions but '
+            f'are not actually files: {invalid_dist_list}',
+        )
 
     with SigningContext.production().signer(identity, cache=True) as s:
         debug(f'attesting to dists: {dist_paths}')
