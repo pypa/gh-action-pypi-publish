@@ -27,8 +27,8 @@ def safe_parse_pkg_name(file_path: pathlib.Path) -> str | None:
 packages_dir = pathlib.Path(sys.argv[1]).resolve()
 
 pkg_names = {
-  pkg_name for file_path in packages_dir.iterdir()
-  if (pkg_name := safe_parse_pkg_name(file_path)) is not None
+    pkg_name for file_path in packages_dir.iterdir() if
+    (pkg_name := safe_parse_pkg_name(file_path)) is not None
 }
 
 for package_name in sorted(pkg_names):
