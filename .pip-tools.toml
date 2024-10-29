@@ -2,3 +2,4 @@
 allow-unsafe = true
 resolver = "backtracking"
 strip-extras = true
+generate-hashes = true
