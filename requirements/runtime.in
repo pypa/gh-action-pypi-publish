@@ -1,7 +1,7 @@
 -c runtime-constraints.in  # limits known broken versions
 
-# NOTE: v6 is needed to support metadata v2.4
-twine >= 6.0
+# NOTE: v6.1 is needed to fully support metadata v2.4
+twine >= 6.1
 
 # NOTE: Used to detect an ambient OIDC credential for OIDC publishing,
 # NOTE: as well as PEP 740 attestations.
