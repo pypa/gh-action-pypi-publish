@@ -28,7 +28,6 @@ COPY LICENSE.md .
 COPY twine-upload.sh .
 COPY print-hash.py .
 COPY print-pkg-names.py .
-COPY oidc-exchange.py .
 COPY attestations.py .
 
 RUN chmod +x twine-upload.sh
