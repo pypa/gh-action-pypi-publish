@@ -7,6 +7,9 @@ packages_dir = pathlib.Path(sys.argv[1]).resolve()
 print('Showing hash values of files to be uploaded:')
 
 for file_object in packages_dir.iterdir():
+    if file_object.is_dir():
+        continue
+
     sha256 = hashlib.sha256()
     md5 = hashlib.md5()  # noqa: S324; only use for reference
     blake2_256 = hashlib.blake2b(digest_size=256 // 8)
