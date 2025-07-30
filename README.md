@@ -117,7 +117,7 @@ filter to the job:
 > Generating and uploading digital attestations currently requires
 > authentication with a [trusted publisher].
 
-To enable the generation of [digital attestations] for all the distribution 
+To enable the generation of [digital attestations] for all the distribution
 files and uploading them along with these, set `attestations` as follows:
 
 ```yml
