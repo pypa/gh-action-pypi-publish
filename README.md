@@ -117,9 +117,8 @@ filter to the job:
 > Generating and uploading digital attestations currently requires
 > authentication with a [trusted publisher].
 
-Generating signed [digital attestations] for all the distribution files
-and uploading them all together is now on by default for all projects
-using Trusted Publishing. To disable it, set `attestations` as follows:
+To enable the generation of [digital attestations] for all the distribution 
+files and uploading them along with these, set `attestations` as follows:
 
 ```yml
    with:

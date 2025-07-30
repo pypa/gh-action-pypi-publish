@@ -86,7 +86,7 @@ inputs:
       Enable experimental support for PEP 740 attestations.
       Only works with PyPI and TestPyPI via Trusted Publishing.
     required: false
-    default: 'true'
+    default: 'false'
 branding:
   color: yellow
   icon: upload-cloud
