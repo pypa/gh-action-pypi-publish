@@ -118,9 +118,10 @@ fi
 
 if "${TRUSTED_PUBLISHING}" ; then
     # No password supplied by the user implies that we're in the OIDC flow;
-    # retrieve the OIDC credential and exchange it for a PyPI API token.
+    # call twine with an empty password, since twine will detect it's running
+    # inside CI/CD, retrieve the OIDC token and exchange it for a PyPI API token.
     echo "::debug::Authenticating to ${INPUT_REPOSITORY_URL} via Trusted Publishing"
-    INPUT_PASSWORD="$(python /app/oidc-exchange.py)"
+    INPUT_PASSWORD=""
 elif [[ "${INPUT_USER}" == '__token__' ]]; then
     echo \
         '::debug::Using a user-provided API token for authentication' \
@@ -145,7 +146,8 @@ fi
 
 if [[
     "$INPUT_USER" == "__token__" &&
-    ! "$INPUT_PASSWORD" =~ ^pypi-
+    ! "$INPUT_PASSWORD" =~ ^pypi- &&
+    "${TRUSTED_PUBLISHING}" == false
   ]]
 then
     if [[ -z "$INPUT_PASSWORD" ]]; then
@@ -208,7 +210,14 @@ if [[ ${INPUT_PRINT_HASH,,} != "false" || ${INPUT_VERBOSE,,} != "false" ]] ; the
     python /app/print-hash.py ${INPUT_PACKAGES_DIR%%/}
 fi
 
-TWINE_USERNAME="$INPUT_USER" \
-TWINE_PASSWORD="$INPUT_PASSWORD" \
-TWINE_REPOSITORY_URL="$INPUT_REPOSITORY_URL" \
-  exec twine upload ${TWINE_EXTRA_ARGS} ${INPUT_PACKAGES_DIR%%/}/*
+# Using Trusted Publishing with twine requires not setting the password env var.
+if "${TRUSTED_PUBLISHING}" ; then
+  TWINE_USERNAME="$INPUT_USER" \
+  TWINE_REPOSITORY_URL="$INPUT_REPOSITORY_URL" \
+    exec twine upload ${TWINE_EXTRA_ARGS} ${INPUT_PACKAGES_DIR%%/}/*
+else
+  TWINE_USERNAME="$INPUT_USER" \
+  TWINE_PASSWORD="$INPUT_PASSWORD" \
+  TWINE_REPOSITORY_URL="$INPUT_REPOSITORY_URL" \
+    exec twine upload ${TWINE_EXTRA_ARGS} ${INPUT_PACKAGES_DIR%%/}/*
+fi

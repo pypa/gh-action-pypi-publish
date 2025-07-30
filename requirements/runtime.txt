@@ -36,7 +36,6 @@ hyperframe==6.1.0
     # via h2
 id==1.5.0
     # via
-    #   -r runtime.in
     #   sigstore
     #   twine
 idna==3.10
@@ -104,7 +103,6 @@ readme-renderer==44.0
     # via twine
 requests==2.32.3
     # via
-    #   -r runtime.in
     #   id
     #   pypi-attestations
     #   requests-toolbelt
