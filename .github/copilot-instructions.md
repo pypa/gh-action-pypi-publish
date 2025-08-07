@@ -77,7 +77,7 @@ PyPI Publish is a Docker-based GitHub Action for uploading Python distribution p
 ├── action.yml                  # Main GitHub Action definition
 ├── Dockerfile                  # Container build instructions
 ├── twine-upload.sh            # Main upload orchestration script
-├── oidc-exchange.py           # OIDC token exchange for Trusted Publishing  
+├── oidc-exchange.py           # OIDC token exchange for Trusted Publishing
 ├── attestations.py            # PEP 740 attestation generation
 ├── print-hash.py              # File hash calculation and display
 ├── print-pkg-names.py         # Package name extraction from distributions
@@ -107,7 +107,7 @@ PyPI Publish is a Docker-based GitHub Action for uploading Python distribution p
 
 ### Always Validate Before Committing
 - Run `python3 -m py_compile *.py` to check Python syntax
-- Run `bash -n twine-upload.sh` to check shell script syntax  
+- Run `bash -n twine-upload.sh` to check shell script syntax
 - Test any changes with local test scenarios shown above
 - If pre-commit works: `pre-commit run --all-files`
 
