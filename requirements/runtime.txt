@@ -6,8 +6,6 @@
 #
 annotated-types==0.7.0
     # via pydantic
-betterproto==2.0.0b6
-    # via sigstore-protobuf-specs
 certifi==2025.8.3
     # via requests
 cffi==1.17.1
@@ -19,7 +17,6 @@ cryptography==45.0.7
     #   pyopenssl
     #   pypi-attestations
     #   rfc3161-client
-    #   secretstorage
     #   sigstore
 dnspython==2.7.0
     # via email-validator
@@ -27,14 +24,6 @@ docutils==0.22
     # via readme-renderer
 email-validator==2.3.0
     # via pydantic
-grpclib==0.4.8
-    # via betterproto
-h2==4.3.0
-    # via grpclib
-hpack==4.1.0
-    # via h2
-hyperframe==6.1.0
-    # via h2
 id==1.5.0
     # via
     #   -r runtime.in
@@ -50,10 +39,6 @@ jaraco-context==6.0.1
     # via keyring
 jaraco-functools==4.3.0
     # via keyring
-jeepney==0.9.0
-    # via
-    #   keyring
-    #   secretstorage
 keyring==25.6.0
     # via twine
 markdown-it-py==4.0.0
@@ -64,8 +49,6 @@ more-itertools==10.8.0
     # via
     #   jaraco-classes
     #   jaraco-functools
-multidict==6.6.4
-    # via grpclib
 nh3==0.3.0
     # via readme-renderer
 packaging==25.0
@@ -86,6 +69,7 @@ pydantic==2.11.7
     # via
     #   pypi-attestations
     #   sigstore
+    #   sigstore-models
     #   sigstore-rekor-types
 pydantic-core==2.33.2
     # via pydantic
@@ -97,10 +81,8 @@ pyjwt==2.10.1
     # via sigstore
 pyopenssl==25.1.0
     # via sigstore
-pypi-attestations==0.0.27
+pypi-attestations==0.0.29
     # via -r runtime.in
-python-dateutil==2.9.0.post0
-    # via betterproto
 readme-renderer==44.0
     # via twine
 requests==2.32.5
@@ -125,22 +107,18 @@ rich==14.1.0
     # via
     #   sigstore
     #   twine
-secretstorage==3.3.3
-    # via keyring
 securesystemslib==1.3.0
     # via tuf
-sigstore==3.6.5
+sigstore==4.1.0
     # via
     #   -r runtime.in
     #   pypi-attestations
-sigstore-protobuf-specs==0.3.2
+sigstore-models==0.0.5
     # via
     #   pypi-attestations
     #   sigstore
 sigstore-rekor-types==0.0.18
     # via sigstore
-six==1.17.0
-    # via python-dateutil
 tuf==6.0.0
     # via sigstore
 twine==6.1.0
@@ -149,6 +127,7 @@ typing-extensions==4.15.0
     # via
     #   pydantic
     #   pydantic-core
+    #   sigstore-models
     #   typing-inspection
 typing-inspection==0.4.1
     # via pydantic

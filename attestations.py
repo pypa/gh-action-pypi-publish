@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import NoReturn
 
 from pypi_attestations import Attestation, Distribution
+from sigstore.models import ClientTrustConfig
 from sigstore.oidc import IdentityError, IdentityToken, detect_credential
 from sigstore.sign import Signer, SigningContext
 
@@ -141,7 +142,7 @@ def main() -> None:
         # since permissions can't be to blame at this stage.
         die(_TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error))
 
-    with SigningContext.production().signer(identity, cache=True) as signer:
+    with SigningContext.from_trust_config(ClientTrustConfig.production()).signer(identity, cache=True) as signer:
         debug(f'attesting to dists: {dist_to_attestation_map.keys()}')
         for dist_path, attestation_path in dist_to_attestation_map.items():
             attest_dist(dist_path, attestation_path, signer)
