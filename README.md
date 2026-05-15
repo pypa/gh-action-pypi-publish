@@ -75,11 +75,20 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
 ```
 
-> [!NOTE]
-> Pro tip: instead of using branch pointers, like `unstable/v1`, pin versions of
-> Actions that you use to tagged versions or sha1 commit identifiers.
-> This will make your workflows more secure and more reproducible, saving you
-> from sudden and unpleasant surprises.
+### Pinning to a commit SHA
+
+```yaml
+- name: Publish package distributions to PyPI
+  uses: pypa/gh-action-pypi-publish@<full-commit-sha>  # release/v1
+  with:
+    use-canonical-image: true
+```
+
+> [!IMPORTANT]
+> When pinning by SHA, set `use-canonical-image: true`. By default it will
+> look for ghcr.io/{username}/{repo}@{branch}
+> `use-canonical-image` forces the canonical
+> `ghcr.io/pypa/gh-action-pypi-publish:release-v1` image.
 
 Other indices that support trusted publishing can also be used, like TestPyPI:
 

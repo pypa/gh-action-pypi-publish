@@ -8,12 +8,16 @@ REQUIRED = 'required'
 REF = os.environ['REF']
 REPO = os.environ['REPO']
 REPO_ID = os.environ['REPO_ID']
+USE_CANONICAL_IMAGE = os.environ.get('USE_CANONICAL_IMAGE', '').lower() == 'true'
 REPO_ID_GH_ACTION = '178055147'
+CANONICAL_IMAGE = 'docker://ghcr.io/pypa/gh-action-pypi-publish:release-v1'
 
 ACTION_SHELL_CHECKOUT_PATH = pathlib.Path(__file__).parent.resolve()
 
 
 def set_image(ref: str, repo: str, repo_id: str) -> str:
+    if USE_CANONICAL_IMAGE:
+        return CANONICAL_IMAGE
     if repo_id == REPO_ID_GH_ACTION:
         return str(ACTION_SHELL_CHECKOUT_PATH / 'Dockerfile')
     docker_ref = ref.replace('/', '-')

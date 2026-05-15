@@ -86,6 +86,16 @@ inputs:
       Only works with PyPI and TestPyPI via Trusted Publishing.
     required: false
     default: 'true'
+  use-canonical-image:
+    description: >-
+      Pull the prebuilt Docker image from the canonical
+      `ghcr.io/pypa/gh-action-pypi-publish:release-v1` reference instead of
+      resolving it from the workflow context. Use this when pinning the
+      action by commit SHA or invoking it through another composite action,
+      where `github.action_repository` may resolve to the caller's repo
+      and break image resolution.
+    required: false
+    default: 'false'
 branding:
   color: yellow
   icon: upload-cloud
@@ -152,6 +162,7 @@ runs:
           github.event.pull_request.base.repo.id
           || github.repository_id
         }}
+      USE_CANONICAL_IMAGE: ${{ inputs.use-canonical-image }}
     shell: bash
   - name: Run Docker container
     # The generated trampoline action must exist in the allowlisted
