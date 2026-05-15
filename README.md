@@ -20,20 +20,9 @@ comments in the corresponding [per-release announcement discussions].
 > [PyPA guide] example. See the [non-goals] for more detail.
 
 
-## 🌇 `master` branch sunset ❗
-
-The `master` branch version has been sunset. Please, change the GitHub
-Action version you use from `master` to `release/v1` or use an exact
-tag, or opt-in to [use a full Git commit SHA] and Dependabot.
-
-
 ## Usage
 
 ### Trusted Publishing
-
-> [!NOTE]
-> If using trusted published from a workflow, the action needs to be invoked with
-> `use-canonical-image: true`.
 
 > [!NOTE]
 > Trusted Publishing is sometimes referred to by its
@@ -71,21 +60,6 @@ jobs:
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
 ```
-
-### Pinning to a commit SHA
-
-```yaml
-- name: Publish package distributions to PyPI
-  uses: pypa/gh-action-pypi-publish@<full-commit-sha>  # release/v1
-  with:
-    use-canonical-image: true
-```
-
-> [!IMPORTANT]
-> When pinning by SHA, set `use-canonical-image: true`. By default it will
-> look for ghcr.io/{username}/{repo}@{branch}
-> `use-canonical-image` forces the canonical
-> `ghcr.io/pypa/gh-action-pypi-publish:release-v1` image.
 
 Other indices that support trusted publishing can also be used, like TestPyPI:
 
@@ -206,13 +180,6 @@ Trusted Publishing cannot be tested in CI at the moment, sadly. It is
 supported and bugs should be reported but it may take time to sort out
 as it often requires cross-project collaboration to debug (sometimes,
 problems occur due to changes in PyPI and not in the action).
-
-The only case that is explicitly unsupported at the moment is [Trusted
-Publishing][trusted publisher] in reusable workflows. This requires
-support on the PyPI side and is being worked on. Please, do not report
-bugs related to this case. The current recommendation is to put
-everything else you want into a reusable workflow but keep the job
-calling `pypi-publish` in a top-level one.
 
 Invoking `pypi-publish` from composite actions is unsupported. It is not
 tested. GitHub Runners have limitations and bugs in this case. But more

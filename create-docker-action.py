@@ -14,18 +14,6 @@ CANONICAL_IMAGE = 'docker://ghcr.io/pypa/gh-action-pypi-publish:release-v1'
 
 ACTION_SHELL_CHECKOUT_PATH = pathlib.Path(__file__).parent.resolve()
 
-
-def set_image(ref: str, repo: str, repo_id: str) -> str:
-    if USE_CANONICAL_IMAGE:
-        return CANONICAL_IMAGE
-    if repo_id == REPO_ID_GH_ACTION:
-        return str(ACTION_SHELL_CHECKOUT_PATH / 'Dockerfile')
-    docker_ref = ref.replace('/', '-')
-    return f'docker://ghcr.io/{repo}:{docker_ref}'
-
-
-image = set_image(REF, REPO, REPO_ID)
-
 action = {
     'name': '🏃',
     DESCRIPTION: (
@@ -71,7 +59,7 @@ action = {
     },
     'runs': {
         'using': 'docker',
-        'image': image,
+        'image': CANONICAL_IMAGE,
     },
 }
 
