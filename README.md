@@ -139,6 +139,12 @@ They are typically expected to do this in a _separate GitHub Actions
 CI/CD job_ running before the one where they call this action and having
 restricted privileges.
 
+Only files recognized by Twine as Python distribution packages should be
+present in the target directory. This usually means wheels (`*.whl`) and
+source distributions (`*.tar.gz`). Remove application binaries, logs, and
+other build artifacts before publishing, or download the publishable dists
+into a dedicated directory and point `packages-dir` at it.
+
 > [!IMPORTANT]
 > Since this GitHub Action is docker-based, it can only
 > be used from within GNU/Linux based jobs in GitHub Actions CI/CD
