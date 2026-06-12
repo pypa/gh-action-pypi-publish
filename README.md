@@ -297,10 +297,13 @@ default) setting as follows:
      skip-existing: true
 ```
 
-> [!NOTE]
-> Pro tip: try to avoid enabling this setting where possible. If you
-> have steps for publishing to both PyPI and TestPyPI, consider only using
-> it for the latter, having the former fail loudly on duplicates.
+> [!WARNING]
+> Avoid enabling `skip-existing` unless your release process intentionally
+> tolerates duplicate files. Duplicate upload errors can signal real release
+> problems, such as publishing the same version twice, reusing stale files, or
+> racing multiple workflows against the same distribution. If you publish to
+> both PyPI and TestPyPI, consider using `skip-existing` only for TestPyPI and
+> letting the PyPI upload fail loudly on duplicates.
 
 ### For Debugging
 
