@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import NoReturn
 
 from pypi_attestations import Attestation, Distribution
+from sigstore.models import ClientTrustConfig
 from sigstore.oidc import IdentityError, IdentityToken, detect_credential
 from sigstore.sign import Signer, SigningContext
 
@@ -13,7 +14,7 @@ sigstore_logger = logging.getLogger('sigstore')
 sigstore_logger.setLevel(logging.DEBUG)
 sigstore_logger.addHandler(logging.StreamHandler())
 
-_GITHUB_STEP_SUMMARY = Path(os.getenv('GITHUB_STEP_SUMMARY'))
+_GITHUB_STEP_SUMMARY = Path(os.environ['GITHUB_STEP_SUMMARY'])
 
 # The top-level error message that gets rendered.
 # This message wraps one of the other templates/messages defined below.
@@ -82,8 +83,8 @@ def assert_attestations_do_not_pre_exist(
 
     existing_attestations_list = '\n'.join(map(str, existing_attestations))
     error_message = (
-        'The following distributions already have publish attestations:'
-        f'{existing_attestations_list}',
+        'The following distributions already have publish attestations: '
+        f'{existing_attestations_list}'
     )
     die(error_message)
 
@@ -122,6 +123,8 @@ def get_identity_token() -> IdentityToken:
     # from the environment or if the token is malformed.
     # NOTE: audience is always sigstore.
     oidc_token = detect_credential()
+    if oidc_token is None:
+        raise IdentityError('Attempted to discover OIDC in broken environment')
     return IdentityToken(oidc_token)
 
 
@@ -139,7 +142,7 @@ def main() -> None:
         # since permissions can't be to blame at this stage.
         die(_TOKEN_RETRIEVAL_FAILED_MESSAGE.format(identity_error=identity_error))
 
-    with SigningContext.production().signer(identity, cache=True) as signer:
+    with SigningContext.from_trust_config(ClientTrustConfig.production()).signer(identity, cache=True) as signer:
         debug(f'attesting to dists: {dist_to_attestation_map.keys()}')
         for dist_path, attestation_path in dist_to_attestation_map.items():
             attest_dist(dist_path, attestation_path, signer)

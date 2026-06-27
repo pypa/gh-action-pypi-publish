@@ -59,8 +59,7 @@ action = {
         },
         'attestations': {
             DESCRIPTION: (
-                '[EXPERIMENTAL]'
-                ' Enable experimental support for PEP 740 attestations.'
+                ' Enable support for PEP 740 attestations.'
                 ' Only works with PyPI and TestPyPI via Trusted Publishing.'
             ),
             REQUIRED: False,

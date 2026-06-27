@@ -4,7 +4,7 @@ import sys
 from packaging import utils
 
 
-def debug(msg: str):
+def debug(msg: str) -> None:
     print(f'::debug::{msg.title()}', file=sys.stderr)
 
 

@@ -66,7 +66,7 @@ inputs:
   verbose:
     description: Show verbose output.
     required: false
-    default: 'false'
+    default: 'true'
   print-hash:  # Canonical alias for `print_hash`
     description: Show hash values of files to be uploaded
     required: false
@@ -79,11 +79,10 @@ inputs:
       The inputs have been normalized to use kebab-case.
       Use `print-hash` instead.
     required: false
-    default: 'false'
+    default: 'true'
   attestations:
     description: >-
-      [EXPERIMENTAL]
-      Enable experimental support for PEP 740 attestations.
+      Enable support for PEP 740 attestations.
       Only works with PyPI and TestPyPI via Trusted Publishing.
     required: false
     default: 'true'
@@ -100,7 +99,7 @@ runs:
       exit 1
     shell: bash -eEuo pipefail {0}
   - name: Reset path if needed
-    run: |
+    run: | # zizmor: ignore[github-env] PATH is not user-controlled
       # Reset path if needed
       # https://github.com/pypa/gh-action-pypi-publish/issues/112
       if [[ $PATH != *"/usr/bin"* ]]; then
@@ -111,25 +110,6 @@ runs:
         echo "\$PATH reset. \$PATH=$PATH"
       fi
     shell: bash
-  - name: Set repo and ref from which to run Docker container action
-    id: set-repo-and-ref
-    run: |
-      # Set repo and ref from which to run Docker container action
-      # to handle cases in which `github.action_` context is not set
-      # https://github.com/actions/runner/issues/2473
-      REF=${{ env.ACTION_REF || env.PR_REF || github.ref_name }}
-      REPO=${{ env.ACTION_REPO || env.PR_REPO || github.repository }}
-      REPO_ID=${{ env.PR_REPO_ID || github.repository_id }}
-      echo "ref=$REF" >>"$GITHUB_OUTPUT"
-      echo "repo=$REPO" >>"$GITHUB_OUTPUT"
-      echo "repo-id=$REPO_ID" >>"$GITHUB_OUTPUT"
-    shell: bash
-    env:
-      ACTION_REF: ${{ github.action_ref }}
-      ACTION_REPO: ${{ github.action_repository }}
-      PR_REF: ${{ github.event.pull_request.head.ref }}
-      PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
-      PR_REPO_ID: ${{ github.event.pull_request.base.repo.id }}
   - name: Discover pre-installed Python
     id: pre-installed-python
     run: |
@@ -139,7 +119,8 @@ runs:
   - name: Install Python 3
     if: steps.pre-installed-python.outputs.python-path == ''
     id: new-python
-    uses: actions/setup-python@v5
+    # yamllint disable-line rule:line-length
+    uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
     with:
       python-version: 3.x
   - name: Create Docker container action
@@ -151,9 +132,26 @@ runs:
         || steps.pre-installed-python.outputs.python-path
       }} '${{ github.action_path }}/create-docker-action.py'
     env:
-      REF: ${{ steps.set-repo-and-ref.outputs.ref }}
-      REPO: ${{ steps.set-repo-and-ref.outputs.repo }}
-      REPO_ID: ${{ steps.set-repo-and-ref.outputs.repo-id }}
+      # Set repo and ref from which to run Docker container action
+      # to handle cases in which `github.action_` context is not set
+      # https://github.com/actions/runner/issues/2473
+      REF: >-
+        ${{
+          github.action_ref
+          || github.event.pull_request.head.ref
+          || github.ref_name
+        }}
+      REPO: >-
+        ${{
+          github.action_repository
+          || github.event.pull_request.head.repo.full_name
+          || github.repository
+        }}
+      REPO_ID: >-
+        ${{
+          github.event.pull_request.base.repo.id
+          || github.repository_id
+        }}
     shell: bash
   - name: Run Docker container
     # The generated trampoline action must exist in the allowlisted

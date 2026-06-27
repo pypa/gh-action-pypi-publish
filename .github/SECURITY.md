@@ -29,4 +29,4 @@ Alternatively, drop an email to
 ``wk+gh-action-pypi-publish-security`` at ``sydorenko`` dot
 ``org`` dot ``ua`` instead of filing a ticket or posting to
 _any_ public groups. We will try to assess the problem in
-timely manner and disclose it in a responsible way.
+a timely manner and disclose it in a responsible way.

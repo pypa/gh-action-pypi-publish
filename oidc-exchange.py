@@ -2,15 +2,15 @@ import base64
 import json
 import os
 import sys
+import typing as t
 from http import HTTPStatus
 from pathlib import Path
-from typing import NoReturn
 from urllib.parse import urlparse
 
 import id  # pylint: disable=redefined-builtin
 import requests
 
-_GITHUB_STEP_SUMMARY = Path(os.getenv('GITHUB_STEP_SUMMARY'))
+_GITHUB_STEP_SUMMARY = Path(os.environ['GITHUB_STEP_SUMMARY'])
 
 # The top-level error message that gets rendered.
 # This message wraps one of the other templates/messages defined below.
@@ -86,8 +86,33 @@ If a claim is not present in the claim set, then it is rendered as `MISSING`.
 * `workflow_ref`: `{workflow_ref}`
 * `job_workflow_ref`: `{job_workflow_ref}`
 * `ref`: `{ref}`
+* `environment`: `{environment}`
 
 See https://docs.pypi.org/trusted-publishers/troubleshooting/ for more help.
+"""
+
+_REUSABLE_WORKFLOW_WARNING = """
+The claims in this token suggest that the calling workflow is a reusable workflow.
+
+In particular, this action was initiated by:
+
+    {job_workflow_ref}
+
+Whereas its parent workflow is:
+
+    {workflow_ref}
+
+Reusable workflows are **not currently supported** by PyPI's Trusted Publishing
+functionality, and are subject to breakage. Users are **strongly encouraged**
+to avoid using reusable workflows for Trusted Publishing until support
+becomes official. Please, do not report bugs if this breaks.
+
+For more information, see:
+
+* https://docs.pypi.org/trusted-publishers/troubleshooting/#reusable-workflows-on-github
+* https://github.com/pypa/gh-action-pypi-publish/issues/166 — subscribe to
+  this issue to watch the progress and learn when reusable workflows become
+  supported officially
 """
 
 # Rendered if the package index's token response isn't valid JSON.
@@ -110,7 +135,51 @@ a few minutes and try again.
 """  # noqa: S105; not a password
 
 
-def die(msg: str) -> NoReturn:
+class TrustedPublishingClaims(t.TypedDict):
+    sub: str
+    repository: str
+    repository_owner: str
+    repository_owner_id: str
+    workflow_ref: str
+    job_workflow_ref: str
+    ref: str
+    environment: str
+
+
+class PullRequestRepoGitHubEventObject(t.TypedDict):
+    fork: bool
+
+
+class PullRequestHeadGitHubEventObject(t.TypedDict):
+    repo: PullRequestRepoGitHubEventObject
+
+
+class PullRequestGitHubEventObject(t.TypedDict):
+    head: PullRequestHeadGitHubEventObject
+
+
+class ThirdPartyPullRequestGitHubEvent(t.TypedDict):
+    pull_request: PullRequestGitHubEventObject
+
+
+class TrustedPublishingAudience(t.TypedDict):
+    audience: str
+
+
+class TrustedPublishingTokenRetrievalError(t.TypedDict):
+    code: str
+    description: str
+
+
+class TrustedPublishingToken(t.TypedDict):
+    message: str
+    errors: list[TrustedPublishingTokenRetrievalError]
+    token: str
+    success: bool
+    expires: int
+
+
+def die(msg: str) -> t.NoReturn:
     with _GITHUB_STEP_SUMMARY.open('a', encoding='utf-8') as io:
         print(_ERROR_SUMMARY_MESSAGE.format(message=msg), file=io)
 
@@ -122,7 +191,15 @@ def die(msg: str) -> NoReturn:
     sys.exit(1)
 
 
-def debug(msg: str):
+def warn(msg: str) -> None:
+    with _GITHUB_STEP_SUMMARY.open('a', encoding='utf-8') as io:
+        print(msg, file=io)
+
+    msg = msg.replace('\n', '%0A')
+    print(f'::warning::Potential workflow misconfiguration: {msg}', file=sys.stderr)
+
+
+def debug(msg: str) -> None:
     print(f'::debug::{msg.title()}', file=sys.stderr)
 
 
@@ -133,7 +210,7 @@ def get_normalized_input(name: str) -> str | None:
     return os.getenv(name.replace('-', '_'))
 
 
-def assert_successful_audience_call(resp: requests.Response, domain: str):
+def assert_successful_audience_call(resp: requests.Response, domain: str) -> None:
     if resp.ok:
         return
 
@@ -161,15 +238,21 @@ def assert_successful_audience_call(resp: requests.Response, domain: str):
             )
 
 
-def render_claims(token: str) -> str:
+def extract_claims(token: str) -> TrustedPublishingClaims:
     _, payload, _ = token.split('.', 2)
 
     # urlsafe_b64decode needs padding; JWT payloads don't contain any.
     payload += '=' * (4 - (len(payload) % 4))
-    claims = json.loads(base64.urlsafe_b64decode(payload))
 
+    claims: TrustedPublishingClaims = json.loads(
+        base64.urlsafe_b64decode(payload),
+    )
+    return claims
+
+
+def render_claims(claims: TrustedPublishingClaims) -> str:
     def _get(name: str) -> str:  # noqa: WPS430
-        return claims.get(name, 'MISSING')
+        return str(claims.get(name, 'MISSING'))
 
     return _RENDERED_CLAIMS.format(
         sub=_get('sub'),
@@ -179,6 +262,24 @@ def render_claims(token: str) -> str:
         workflow_ref=_get('workflow_ref'),
         job_workflow_ref=_get('job_workflow_ref'),
         ref=_get('ref'),
+        environment=_get('environment'),
+    )
+
+
+def warn_on_reusable_workflow(claims: TrustedPublishingClaims) -> None:
+    # A reusable workflow is identified by having different values
+    # for its workflow_ref (the initiating workflow) and job_workflow_ref
+    # (the reusable workflow).
+    workflow_ref = claims.get('workflow_ref')
+    job_workflow_ref = claims.get('job_workflow_ref')
+
+    if workflow_ref == job_workflow_ref:
+        return
+
+    warn(
+        _REUSABLE_WORKFLOW_WARNING.format(
+            workflow_ref=workflow_ref, job_workflow_ref=job_workflow_ref,
+        ),
     )
 
 
@@ -194,7 +295,9 @@ def event_is_third_party_pr() -> bool:
         return False
 
     try:
-        event = json.loads(Path(event_path).read_bytes())
+        event: ThirdPartyPullRequestGitHubEvent = json.loads(
+            Path(event_path).read_bytes(),
+        )
     except json.JSONDecodeError:
         debug('unexpected: GITHUB_EVENT_PATH does not contain valid JSON')
         return False
@@ -205,8 +308,17 @@ def event_is_third_party_pr() -> bool:
         return False
 
 
+def _detect_credential(audience: str, /) -> str:
+    token = id.detect_credential(audience=audience)
+    if token is None:
+        raise id.IdentityError(
+            'Attempted to discover OIDC in broken environment',
+        )
+    return token
+
+
 repository_url = get_normalized_input('repository-url')
-repository_domain = urlparse(repository_url).netloc
+repository_domain = str(urlparse(repository_url).netloc)
 token_exchange_url = f'https://{repository_domain}/_/oidc/mint-token'
 
 # Indices are expected to support `https://{domain}/_/oidc/audience`,
@@ -215,29 +327,41 @@ audience_url = f'https://{repository_domain}/_/oidc/audience'
 audience_resp = requests.get(audience_url, timeout=5)  # S113 wants a timeout
 assert_successful_audience_call(audience_resp, repository_domain)
 
-oidc_audience = audience_resp.json()['audience']
+
+oidc_audience_resp: TrustedPublishingAudience = audience_resp.json()
+oidc_audience = oidc_audience_resp['audience']
 
 debug(f'selected trusted publishing exchange endpoint: {token_exchange_url}')
 
+
 try:
-    oidc_token = id.detect_credential(audience=oidc_audience)
+    oidc_token = _detect_credential(oidc_audience)
 except id.IdentityError as identity_error:
     cause_msg_tmpl = (
-        _TOKEN_RETRIEVAL_FAILED_FORK_PR_MESSAGE if event_is_third_party_pr()
+        _TOKEN_RETRIEVAL_FAILED_FORK_PR_MESSAGE
+        if event_is_third_party_pr()
         else _TOKEN_RETRIEVAL_FAILED_MESSAGE
     )
     for_cause_msg = cause_msg_tmpl.format(identity_error=identity_error)
     die(for_cause_msg)
 
+
+# Perform a non-fatal check to see if we're running on a reusable
+# workflow, and emit a warning if so.
+oidc_claims = extract_claims(oidc_token)
+warn_on_reusable_workflow(oidc_claims)
+
+oidc_token_payload: dict[str, str] = {'token': oidc_token}
 # Now we can do the actual token exchange.
 mint_token_resp = requests.post(
     token_exchange_url,
-    json={'token': oidc_token},
+    json=oidc_token_payload,
     timeout=5,  # S113 wants a timeout
 )
 
+
 try:
-    mint_token_payload = mint_token_resp.json()
+    mint_token_payload: TrustedPublishingToken = mint_token_resp.json()
 except requests.JSONDecodeError:
     # Token exchange failure normally produces a JSON error response, but
     # we might have hit a server error instead.
@@ -255,7 +379,7 @@ if not mint_token_resp.ok:
         for error in mint_token_payload['errors']
     )
 
-    rendered_claims = render_claims(oidc_token)
+    rendered_claims = render_claims(oidc_claims)
 
     die(
         _SERVER_REFUSED_TOKEN_EXCHANGE_MESSAGE.format(

@@ -9,7 +9,7 @@
 
 This action allows you to upload your [Python distribution packages]
 in the `dist/` directory to PyPI.
-This text suggests a minimalistic usage overview. For more detailed
+This text suggests a minimalistic usage overview. For a more detailed
 walkthrough check out the [PyPA guide].
 
 If you have any feedback regarding specific action versions, please leave
@@ -29,7 +29,7 @@ tag, or opt-in to [use a full Git commit SHA] and Dependabot.
 
 ## Usage
 
-### Trusted publishing
+### Trusted Publishing
 
 > [!NOTE]
 > Trusted publishing cannot be used from within a reusable workflow at this
@@ -39,7 +39,7 @@ tag, or opt-in to [use a full Git commit SHA] and Dependabot.
 > use a username/token inside the reusable workflow.
 
 > [!NOTE]
-> Trusted publishing is sometimes referred to by its
+> Trusted Publishing is sometimes referred to by its
 > underlying technology -- OpenID Connect, or OIDC for short.
 > If you see references to "OIDC publishing" in the context of PyPI,
 > this is what they're referring to.
@@ -78,7 +78,7 @@ jobs:
 > [!NOTE]
 > Pro tip: instead of using branch pointers, like `unstable/v1`, pin versions of
 > Actions that you use to tagged versions or sha1 commit identifiers.
-> This will make your workflows more secure and better reproducible, saving you
+> This will make your workflows more secure and more reproducible, saving you
 > from sudden and unpleasant surprises.
 
 Other indices that support trusted publishing can also be used, like TestPyPI:
@@ -98,7 +98,7 @@ _(don't forget to update the environment name to `testpypi` or similar!)_
 > or test environment won't be able to elevate privileges while flying under
 > the radar.
 
-A common use case is to upload packages only on a tagged commit, to do so add a
+A common use case is to upload packages only on a tagged commit. To do so, add a
 filter to the job:
 
 ```yml
@@ -109,9 +109,7 @@ filter to the job:
 
 > [!IMPORTANT]
 > Support for generating and uploading [digital attestations] is currently
-> experimental and limited only to Trusted Publishing flows using PyPI or TestPyPI.
-> Support for this feature is not yet stable; the settings and behavior described
-> below may change without prior notice.
+> limited to Trusted Publishing flows using PyPI or TestPyPI.
 
 > [!NOTE]
 > Generating and uploading digital attestations currently requires
@@ -128,7 +126,7 @@ using Trusted Publishing. To disable it, set `attestations` as follows:
 
 The attestation objects are created using [Sigstore] for each
 distribution package, signing them with the identity provided
-by the GitHub's OIDC token associated with the current workflow. This means
+by GitHub's OIDC token associated with the current workflow. This means
 both the trusted publishing authentication and the attestations are tied to the
 same identity.
 
@@ -193,7 +191,7 @@ artifact in that job, and then invoke the publishing job that would run
 within GitHub-provided runners, downloading the artifact with the dists
 and publishing them. Such separation is the _recommended_/**supported**
 way of handling this scenario.
-Our understandng is that Trusted publishing is expected to work on
+Our understanding is that Trusted Publishing is expected to work on
 self-hosted runners. It is backed by OIDC. If it doesn't work, you
 should probably ask GitHub if you missed something. We wouldn't be able
 to assist here.
@@ -306,7 +304,7 @@ default) setting as follows:
 
 ### For Debugging
 
-Sometimes, `twine upload` can fail and to debug use the `verbose` setting as follows:
+Sometimes, `twine upload` can fail. To debug, use the `verbose` setting as follows:
 
 ```yml
    with:
@@ -316,7 +314,7 @@ Sometimes, `twine upload` can fail and to debug use the `verbose` setting as fol
 ### Showing hash values of files to be uploaded
 
 You may want to verify whether the files on PyPI were automatically uploaded by CI script.
-It will show SHA256, MD5, BLAKE2-256 values of files to be uploaded.
+It will show the SHA256, MD5, BLAKE2-256 values of files to be uploaded.
 
 ```yml
   with:
