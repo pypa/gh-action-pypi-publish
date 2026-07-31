@@ -95,6 +95,7 @@ jobs:
       run: python3 -m pip install build twine
       env:
         PIP_CONSTRAINT: test/requirements/runtime.txt
+        PIP_NO_REQUIRE_HASHES: 1  # FIXME: incomplete lock file explodes
     - name: Create the stub package importable directory
       run: mkdir -pv src/test_package
     - name: Populate the stub package `__init__.py`
