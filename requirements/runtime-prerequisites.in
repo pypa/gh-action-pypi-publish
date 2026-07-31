@@ -1,1 +1,9 @@
-pip
+# NOTE: pip v26.1 fixed a bug in the resolvelib depresolver implementation
+# that prevented us  from using `--require-hashes` in constraint files since
+# roughly year 2020. But now we can get back to using it.
+#
+# Refs:
+# * https://pip.pypa.io/en/stable/news/#v26-1
+# * https://github.com/pypa/pip/issues/9243
+# * https://github.com/pypa/pip/pull/13887
+pip >= 26.1
