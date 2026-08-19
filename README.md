@@ -135,6 +135,9 @@ same identity.
 This GitHub Action [has nothing to do with _building package
 distributions_]. Users are responsible for preparing dists for upload
 by putting them into the `dist/` folder prior to running this Action.
+The package directory must contain only distribution files supported by
+Twine, normally wheels and source distributions. Remove unrelated files such
+as build logs or application executables before running the action.
 They are typically expected to do this in a _separate GitHub Actions
 CI/CD job_ running before the one where they call this action and having
 restricted privileges.
