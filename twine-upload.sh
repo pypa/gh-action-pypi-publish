@@ -211,4 +211,27 @@ fi
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \
 TWINE_REPOSITORY_URL="$INPUT_REPOSITORY_URL" \
-  exec twine upload ${TWINE_EXTRA_ARGS} ${INPUT_PACKAGES_DIR%%/}/*
+  twine upload ${TWINE_EXTRA_ARGS} ${INPUT_PACKAGES_DIR%%/}/*
+
+{
+    echo "## Package publishing results"
+    echo
+    echo "Successfully uploaded distributions to ${INPUT_REPOSITORY_URL}."
+    echo
+
+    if [[ "${INPUT_REPOSITORY_URL}" =~ test\.pypi\.org ]]; then
+        PROJECT_INDEX_URL="https://test.pypi.org/project"
+    elif [[ "${INPUT_REPOSITORY_URL}" =~ pypi\.org ]]; then
+        PROJECT_INDEX_URL="https://pypi.org/project"
+    else
+        PROJECT_INDEX_URL=""
+    fi
+
+    for PACKAGE_NAME in "${PACKAGE_NAMES[@]}"; do
+        if [[ -n "${PROJECT_INDEX_URL}" ]]; then
+            echo "- [\`${PACKAGE_NAME}\`](${PROJECT_INDEX_URL}/${PACKAGE_NAME}/)"
+        else
+            echo "- \`${PACKAGE_NAME}\`"
+        fi
+    done
+} >> "${GITHUB_STEP_SUMMARY}"
