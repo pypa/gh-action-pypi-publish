@@ -91,10 +91,16 @@ jobs:
       with:
         path: test
         persist-credentials: false
+    - name: Configure Python with pip supporting hashes in constraints
+      uses: actions/setup-python@v7
+      with:
+        python-version: 3.13  # same as container + pip-tools + hash support
     - name: Install the packaging-related tools
-      run: python3 -m pip install build twine
-      env:
-        PIP_CONSTRAINT: test/requirements/runtime.txt
+      run: >-
+        python3 -Im pip install
+        --constraint=test/requirements/test-smoke-prerequisites.txt
+        --only-binary=:all:
+        --requirement=test/requirements/test-smoke-prerequisites.in
     - name: Create the stub package importable directory
       run: mkdir -pv src/test_package
     - name: Populate the stub package `__init__.py`

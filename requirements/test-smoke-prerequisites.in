@@ -1,0 +1,4 @@
+-c runtime.in  # to somewhat match runtime
+
+build  # for building the stub dist
+twine  # for uploading the stub dist
