@@ -1,0 +1,62 @@
+name: "Publish Major-Minor-Tags"
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  push-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install packaging
+        run: python -m pip install -U packaging --user
+      - name: Get versions
+        id: get_versions
+        shell: python
+        run: |
+          from packaging.version import parse
+
+          tag_ref = "${{ github.ref }}"
+          tag_name = tag_ref.split("/")[-1]
+          version = parse(tag_name)
+          print(f"tag_name: {tag_name}")
+          print(f"version: {version}")
+          if version.is_prerelease:
+              print("No tags created (dev or pre version)!")
+              exit(0)
+
+          print("Creating new major and minor tags!")
+          print(f"::set-output name=original_tag_name::{tag_name}")
+          print(f"::set-output name=major_version::v{version.major}")
+          print(f"::set-output name=minor_version::v{version.major}.{version.minor}")      
+      - name: Setup git user as [bot]
+        run: |
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+      - name: Create major + minor tags
+        if: steps.get_versions.outputs.original_tag_name != ''
+        env:
+          original_tag_name: ${{ steps.get_versions.outputs.original_tag_name }}
+          major_version: ${{ steps.get_versions.outputs.major_version }}
+          minor_version: ${{ steps.get_versions.outputs.minor_version }}
+        run: |
+          git tag --annotate '${{ env.major_version }}' \
+            --message='Major version tag of: ${{ env.original_tag_name }}' \
+            --message="Original tag SHA1: $(git rev-parse ${{ env.original_tag_name }})"
+          git tag --annotate '${{ env.minor_version }}' \
+            --message='Minor version tag of: ${{ env.original_tag_name }}' \
+            --message="Original tag SHA1: $(git rev-parse ${{ env.original_tag_name }})"
+      - name: Push major + minor tags
+        if: steps.get_versions.outputs.original_tag_name != ''
+        env:
+          major_version: ${{ steps.get_versions.outputs.major_version }}
+          minor_version: ${{ steps.get_versions.outputs.minor_version }}
+        run: |
+          git push --force --atomic origin \
+            '${{ env.major_version }}' \
+            '${{ env.minor_version }}'
