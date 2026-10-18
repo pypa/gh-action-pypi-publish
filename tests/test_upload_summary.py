@@ -1,7 +1,7 @@
-from pathlib import Path
-from tempfile import TemporaryDirectory
 import os
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 import upload_summary
@@ -14,7 +14,7 @@ class SummaryTests(unittest.TestCase):
             for name in ('example-1.0-py3-none-any.whl', 'example-1.0.tar.gz', 'README.md'):
                 (directory / name).touch()
             content = upload_summary.render_summary(
-                directory, 'https://upload.pypi.org/legacy/', 'false'
+                directory, 'https://upload.pypi.org/legacy/', 'false',
             )
         self.assertIn('**Package index:** PyPI', content)
         self.assertIn('**Distribution files:** 2', content)
@@ -47,12 +47,14 @@ class SummaryTests(unittest.TestCase):
             (directory / 'one-1.0.whl').touch()
             summary_file = directory / 'job-summary.md'
             summary_file.write_text('Earlier step notes\n', encoding='utf-8')
-            with patch.dict(os.environ, {
-                'GITHUB_STEP_SUMMARY': str(summary_file),
-                'PYPI_SUMMARY_PACKAGES_DIR': str(directory),
-                'PYPI_SUMMARY_REPOSITORY_URL': 'https://test.pypi.org/legacy/',
-                'PYPI_SUMMARY_SKIP_EXISTING': 'false',
-            }):
+            with patch.dict(
+                os.environ, {
+                    'GITHUB_STEP_SUMMARY': str(summary_file),
+                    'PYPI_SUMMARY_PACKAGES_DIR': str(directory),
+                    'PYPI_SUMMARY_REPOSITORY_URL': 'https://test.pypi.org/legacy/',
+                    'PYPI_SUMMARY_SKIP_EXISTING': 'false',
+                },
+            ):
                 upload_summary.main()
             report = summary_file.read_text(encoding='utf-8')
         self.assertTrue(report.startswith('Earlier step notes\n'))

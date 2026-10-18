@@ -36,7 +36,7 @@ def render_summary(packages_dir: Path, repository_url: str, skip_existing: str) 
     if skip_existing.lower() != 'false':
         lines.append(
             '**Skip existing:** Enabled. Files already on the index '
-            'may not have been uploaded.'
+            'may not have been uploaded.',
         )
     else:
         lines.append('**Skip existing:** Disabled.')
