@@ -176,3 +176,11 @@ runs:
       verbose: ${{ inputs.verbose }}
       print-hash: ${{ inputs.print-hash || inputs.print_hash }}
       attestations: ${{ inputs.attestations }}
+  - name: Summarize successful publication
+    if: success()
+    shell: bash
+    env:
+      PYPI_SUMMARY_PACKAGES_DIR: ${{ inputs.packages-dir || inputs.packages_dir }}
+      PYPI_SUMMARY_REPOSITORY_URL: ${{ inputs.repository-url || inputs.repository_url }}
+      PYPI_SUMMARY_SKIP_EXISTING: ${{ inputs.skip-existing || inputs.skip_existing }}
+    run: python3 "$GITHUB_ACTION_PATH/upload_summary.py"

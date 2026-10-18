@@ -38,6 +38,12 @@ jobs:
         github.event_name == 'pull_request'
         && github.base_ref != github.event.repository.default_branch
       run: exit 1
+    - name: Check out summary implementation
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+    - name: Test upload summary (no network or package publishing)
+      run: python3 -m unittest discover -s tests -v
 
   fail-fast:
 
