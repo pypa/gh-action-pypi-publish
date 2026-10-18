@@ -16,13 +16,12 @@ class SummaryTests(unittest.TestCase):
             content = upload_summary.render_summary(
                 directory, 'https://upload.pypi.org/legacy/', 'false',
             )
-        expected_text = (
+        for expected in (
             '**Package index:** PyPI',
             '**Distribution files:** 2',
             'example-1.0.tar.gz',
             'not independently verified',
-        )
-        for expected in expected_text:
+        ):
             with self.subTest(expected=expected):
                 self.assertIn(expected, content)  # noqa: PT009
         self.assertNotIn('README.md', content)  # noqa: PT009
