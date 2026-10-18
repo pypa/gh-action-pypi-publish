@@ -18,7 +18,7 @@ def _index_label(repository_url: str) -> str:
 
 def _display_name(filename: str) -> str:
     # Filename is controlled by workflow inputs. Escape markup and newlines.
-    safe = ''.join(c if c.isprintable() and c not in '\r\n' else '?' for c in filename)
+    safe = filename.replace('\r', '?').replace('\n', '?')
     return html.escape(safe[:200], quote=True)
 
 
@@ -33,19 +33,20 @@ def render_summary(packages_dir: Path, repository_url: str, skip_existing: str) 
         'Twine finished without an error. These files were supplied to the '
         'publishing step, not independently verified on the remote index.', '',
     ]
-    if skip_existing.lower() != 'false':
+    if skip_existing.lower() == 'false':
+        lines.append('**Skip existing:** Disabled.')
+    else:
         lines.append(
             '**Skip existing:** Enabled. Files already on the index '
             'may not have been uploaded.',
         )
-    else:
-        lines.append('**Skip existing:** Disabled.')
     lines.extend(['', f'**Distribution files:** {len(names)}', ''])
     for filename in names[:50]:
         lines.append(f'- <code>{_display_name(filename)}</code>')
     if len(names) > 50:
-        lines.append(f'- … and {len(names) - 50} more files')
-    return '\n'.join(lines) + '\n'
+        extra_count = len(names) - 50
+        lines.append(f'- … and {extra_count} more files')
+    return '\n'.join([*lines, ''])
 
 
 def main() -> None:

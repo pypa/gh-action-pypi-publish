@@ -43,7 +43,7 @@ jobs:
       with:
         persist-credentials: false
     - name: Test upload summary (no network or package publishing)
-      run: python3 -m unittest discover -s tests -v
+      run: python3 -m unittest discover -s tests -p '*_test.py' -v
 
   fail-fast:
 
