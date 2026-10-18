@@ -16,11 +16,11 @@ class SummaryTests(unittest.TestCase):
             content = upload_summary.render_summary(
                 directory, 'https://upload.pypi.org/legacy/', 'false',
             )
-        assert '**Package index:** PyPI' in content
-        assert '**Distribution files:** 2' in content
-        assert 'example-1.0.tar.gz' in content
-        assert 'README.md' not in content
-        assert 'not independently verified' in content
+        self.assertIn('**Package index:** PyPI', content)  # noqa: PT009
+        self.assertIn('**Distribution files:** 2', content)  # noqa: PT009
+        self.assertIn('example-1.0.tar.gz', content)  # noqa: PT009
+        self.assertNotIn('README.md', content)  # noqa: PT009
+        self.assertIn('not independently verified', content)  # noqa: PT009
 
     def test_redacts_custom_index_credentials(self) -> None:
         with TemporaryDirectory() as temp:
@@ -31,11 +31,11 @@ class SummaryTests(unittest.TestCase):
                 'https://person:secret@internal.example.net/legacy/?token=password',
                 'True',
             )
-        assert 'Custom package index' in summary
-        assert 'may not have been uploaded' in summary
-        assert 'a|&lt;bad&gt;.whl' in summary
-        assert 'secret' not in summary
-        assert 'password' not in summary
+        self.assertIn('Custom package index', summary)  # noqa: PT009
+        self.assertIn('may not have been uploaded', summary)  # noqa: PT009
+        self.assertIn('a|&lt;bad&gt;.whl', summary)  # noqa: PT009
+        self.assertNotIn('secret', summary)  # noqa: PT009
+        self.assertNotIn('password', summary)  # noqa: PT009
 
     def test_unset_summary_file_is_noop(self) -> None:
         with patch.dict(os.environ, {}, clear=True):
@@ -57,9 +57,9 @@ class SummaryTests(unittest.TestCase):
             ):
                 upload_summary.main()
             report = summary_file.read_text(encoding='utf-8')
-        assert report.startswith('Earlier step notes\n')
-        assert '**Package index:** TestPyPI' in report
-        assert '<code>one-1.0.whl</code>' in report
+        self.assertTrue(report.startswith('Earlier step notes\n'))  # noqa: PT009
+        self.assertIn('**Package index:** TestPyPI', report)  # noqa: PT009
+        self.assertIn('<code>one-1.0.whl</code>', report)  # noqa: PT009
 
 
 if __name__ == '__main__':
