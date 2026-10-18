@@ -16,11 +16,16 @@ class SummaryTests(unittest.TestCase):
             content = upload_summary.render_summary(
                 directory, 'https://upload.pypi.org/legacy/', 'false',
             )
-        self.assertIn('**Package index:** PyPI', content)  # noqa: PT009
-        self.assertIn('**Distribution files:** 2', content)  # noqa: PT009
-        self.assertIn('example-1.0.tar.gz', content)  # noqa: PT009
+        expected_text = (
+            '**Package index:** PyPI',
+            '**Distribution files:** 2',
+            'example-1.0.tar.gz',
+            'not independently verified',
+        )
+        for expected in expected_text:
+            with self.subTest(expected=expected):
+                self.assertIn(expected, content)  # noqa: PT009
         self.assertNotIn('README.md', content)  # noqa: PT009
-        self.assertIn('not independently verified', content)  # noqa: PT009
 
     def test_redacts_custom_index_credentials(self) -> None:
         with TemporaryDirectory() as temp:
@@ -31,11 +36,12 @@ class SummaryTests(unittest.TestCase):
                 'https://person:secret@internal.example.net/legacy/?token=password',
                 'True',
             )
-        self.assertIn('Custom package index', summary)  # noqa: PT009
-        self.assertIn('may not have been uploaded', summary)  # noqa: PT009
-        self.assertIn('a|&lt;bad&gt;.whl', summary)  # noqa: PT009
-        self.assertNotIn('secret', summary)  # noqa: PT009
-        self.assertNotIn('password', summary)  # noqa: PT009
+        for expected in ('Custom package index', 'may not have been uploaded', 'a|&lt;bad&gt;.whl'):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, summary)  # noqa: PT009
+        for secret in ('secret', 'password'):
+            with self.subTest(secret=secret):
+                self.assertNotIn(secret, summary)  # noqa: PT009
 
     def test_unset_summary_file_is_noop(self) -> None:
         with patch.dict(os.environ, {}, clear=True):
@@ -58,8 +64,9 @@ class SummaryTests(unittest.TestCase):
                 upload_summary.main()
             report = summary_file.read_text(encoding='utf-8')
         self.assertTrue(report.startswith('Earlier step notes\n'))  # noqa: PT009
-        self.assertIn('**Package index:** TestPyPI', report)  # noqa: PT009
-        self.assertIn('<code>one-1.0.whl</code>', report)  # noqa: PT009
+        for expected in ('**Package index:** TestPyPI', '<code>one-1.0.whl</code>'):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, report)  # noqa: PT009
 
 
 if __name__ == '__main__':
