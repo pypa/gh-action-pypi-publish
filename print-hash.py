@@ -4,15 +4,10 @@ import sys
 
 packages_dir = pathlib.Path(sys.argv[1]).resolve()
 
-print('Showing hash values of files to be uploaded:')
-
 for file_object in packages_dir.iterdir():
     sha256 = hashlib.sha256()
     md5 = hashlib.md5()  # noqa: S324; only use for reference
     blake2_256 = hashlib.blake2b(digest_size=256 // 8)
-
-    print(file_object)
-    print('')
 
     content = file_object.read_bytes()
 
@@ -20,7 +15,14 @@ for file_object in packages_dir.iterdir():
     md5.update(content)
     blake2_256.update(content)
 
-    print(f'SHA256: {sha256.hexdigest()}')
-    print(f'MD5: {md5.hexdigest()}')
-    print(f'BLAKE2-256: {blake2_256.hexdigest()}')
-    print('')
+    print(
+        ":".join(
+            (
+                sha256.hexdigest(),
+                md5.hexdigest(),
+                blake2_256.hexdigest(),
+                file_object.name,
+            ),
+        ),
+        end="\0",
+    )

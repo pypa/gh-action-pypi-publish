@@ -204,9 +204,8 @@ if [[ ${INPUT_ATTESTATIONS,,} != "false" ]] ; then
     TWINE_EXTRA_ARGS="--attestations $TWINE_EXTRA_ARGS"
 fi
 
-if [[ ${INPUT_PRINT_HASH,,} != "false" || ${INPUT_VERBOSE,,} != "false" ]] ; then
-    python /app/print-hash.py ${INPUT_PACKAGES_DIR%%/}
-fi
+echo -n "hashes=" >> ${GITHUB_OUTPUT}
+python /app/print-hash.py ${INPUT_PACKAGES_DIR%%/} >> ${GITHUB_OUTPUT}
 
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \

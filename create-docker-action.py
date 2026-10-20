@@ -53,16 +53,17 @@ action = {
             REQUIRED: False,
         },
         'verbose': {DESCRIPTION: 'Show verbose output.', REQUIRED: False},
-        'print-hash': {
-            DESCRIPTION: 'Show hash values of files to be uploaded',
-            REQUIRED: False,
-        },
         'attestations': {
             DESCRIPTION: (
                 ' Enable support for PEP 740 attestations.'
                 ' Only works with PyPI and TestPyPI via Trusted Publishing.'
             ),
             REQUIRED: False,
+        },
+    },
+    'outputs': {
+        'hashes': {
+            DESCRIPTION: 'Hash values of uploaded files',
         },
     },
     'runs': {
