@@ -2,8 +2,10 @@
 # that prevented us from using `--require-hashes` in constraint files since
 # roughly year 2020. But now we can get back to using it.
 #
+# NOTE: pip v26.2.2 updated the vendored CA bundles
+#
 # Refs:
 # * https://pip.pypa.io/en/stable/news/#v26-1
 # * https://github.com/pypa/pip/issues/9243
 # * https://github.com/pypa/pip/pull/13887
-pip >= 26.1
+pip >= 26.2.2
