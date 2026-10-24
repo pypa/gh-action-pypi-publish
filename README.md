@@ -27,6 +27,15 @@ Action version you use from `master` to `release/v1` or use an exact
 tag, or opt-in to [use a full Git commit SHA] and Dependabot.
 
 
+## Workflow publication summary
+
+After a successful publishing step, the action adds a small report to the
+GitHub Actions job summary. It lists distribution filenames supplied to
+Twine, identifies PyPI or TestPyPI (or a custom index), and notes whether
+the skip-existing option was enabled. A successful Twine exit does not by
+itself prove every file is remotely available, especially with skip-existing.
+The report never prints a custom index URL or publishing credentials.
+
 ## Usage
 
 ### Trusted Publishing
