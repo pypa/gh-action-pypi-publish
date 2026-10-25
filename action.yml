@@ -68,13 +68,13 @@ inputs:
     required: false
     default: 'true'
   print-hash:  # Canonical alias for `print_hash`
-    description: Show hash values of files to be uploaded
+    description: Show hash values of uploaded files
     required: false
     # default: 'false'  # TODO: uncomment once alias removed
   print_hash:  # DEPRECATED ALIAS; TODO: Remove in v3+
     description: >-
       [DEPRECATED]
-      Show hash values of files to be uploaded
+      Show hash values of uploaded files
     deprecationMessage: >-
       The inputs have been normalized to use kebab-case.
       Use `print-hash` instead.
@@ -86,6 +86,10 @@ inputs:
       Only works with PyPI and TestPyPI via Trusted Publishing.
     required: false
     default: 'true'
+outputs:
+  hashes:
+    description: Hash values of uploaded files
+    value: ${{ steps.rundocker.outputs.hashes }}
 branding:
   color: yellow
   icon: upload-cloud
@@ -154,6 +158,7 @@ runs:
         }}
     shell: bash
   - name: Run Docker container
+    id: rundocker
     # The generated trampoline action must exist in the allowlisted
     # runner-defined working directory so it can be referenced by the
     # relative path starting with `./`.
@@ -174,5 +179,19 @@ runs:
       verify-metadata: ${{ inputs.verify-metadata || inputs.verify_metadata }}
       skip-existing: ${{ inputs.skip-existing || inputs.skip_existing }}
       verbose: ${{ inputs.verbose }}
-      print-hash: ${{ inputs.print-hash || inputs.print_hash }}
       attestations: ${{ inputs.attestations }}
+  - name: Print hashes
+    if: inputs.print-hash || inputs.print_hash
+    run: |
+      echo -n ${{ steps.rundocker.outputs.hashes }} | mapfile -d '' HASHES
+      echo Showing hash values of uploaded files:
+      for HASH in "${HASHES[@]}" ; do
+        IFS=":" read -r SHA256 MD5 BLAKE2_256 FILE_OBJECT
+        echo $FILE_OBJECT
+        echo
+        echo SHA256: $SHA256
+        echo MD5: $MD5
+        echo BLAKE2-256: $BLAKE_256
+        echo
+      done
+    shell: bash
