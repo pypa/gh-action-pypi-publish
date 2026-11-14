@@ -15,6 +15,9 @@ repos:
   - id: isort
     args:
     - --honor-noqa
+    # NOTE: The Claude Code hooks are shared unchanged across projects
+    # NOTE: with different import styles.
+    exclude: ^\.claude/hooks/
 
 - repo: https://github.com/Lucas-C/pre-commit-hooks.git
   rev: v1.5.5
@@ -109,7 +112,12 @@ repos:
       WPS440,
       WPS441,
       WPS453,
-    - --per-file-ignores=attestations.py:WPS202 oidc-exchange.py:WPS202
+    # NOTE: W503 is in flake8's default ignore list, which `--ignore`
+    # NOTE: above replaces. The Claude Code hooks are shared unchanged
+    # NOTE: with projects relying on that default.
+    - >-
+      --per-file-ignores=attestations.py:WPS202 oidc-exchange.py:WPS202
+      .claude/hooks/*.py:W503
     additional_dependencies:
     - flake8-2020 ~= 1.8.1
     - flake8-pytest-style ~= 2.1.0
