@@ -15,6 +15,9 @@ repos:
   - id: isort
     args:
     - --honor-noqa
+    # NOTE: The Claude Code hooks are shared unchanged across projects
+    # NOTE: with different import styles.
+    exclude: ^\.claude/hooks/
 
 - repo: https://github.com/Lucas-C/pre-commit-hooks.git
   rev: v1.5.5
