@@ -169,8 +169,8 @@ then
     fi
 fi
 
-if ( ! ls -A ${INPUT_PACKAGES_DIR%%/}/*.tar.gz &> /dev/null && \
-     ! ls -A ${INPUT_PACKAGES_DIR%%/}/*.whl &> /dev/null )
+if ( ! ls -A "${INPUT_PACKAGES_DIR%%/}"/*.tar.gz &> /dev/null && \
+     ! ls -A "${INPUT_PACKAGES_DIR%%/}"/*.whl &> /dev/null )
 then
     echo \
         ::warning file='# >>' PyPA publish to PyPI GHA'%3A' \
@@ -183,7 +183,7 @@ then
 fi
 
 if [[ ${INPUT_VERIFY_METADATA,,} != "false" ]] ; then
-    twine check ${INPUT_PACKAGES_DIR%%/}/*
+    twine check "${INPUT_PACKAGES_DIR%%/}"/*
 fi
 
 TWINE_EXTRA_ARGS=--disable-progress-bar
@@ -205,10 +205,10 @@ if [[ ${INPUT_ATTESTATIONS,,} != "false" ]] ; then
 fi
 
 if [[ ${INPUT_PRINT_HASH,,} != "false" || ${INPUT_VERBOSE,,} != "false" ]] ; then
-    python /app/print-hash.py ${INPUT_PACKAGES_DIR%%/}
+    python /app/print-hash.py "${INPUT_PACKAGES_DIR%%/}"
 fi
 
 TWINE_USERNAME="$INPUT_USER" \
 TWINE_PASSWORD="$INPUT_PASSWORD" \
 TWINE_REPOSITORY_URL="$INPUT_REPOSITORY_URL" \
-  exec twine upload ${TWINE_EXTRA_ARGS} ${INPUT_PACKAGES_DIR%%/}/*
+  exec twine upload ${TWINE_EXTRA_ARGS} "${INPUT_PACKAGES_DIR%%/}"/*
