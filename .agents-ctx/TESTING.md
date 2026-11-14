@@ -30,10 +30,12 @@ Deleting, commenting out, skipping, xfailing, or weakening a test
 is never the agent's call -- see
 [DONT_SHOOT_THE_MESSENGER.md](DONT_SHOOT_THE_MESSENGER.md).
 
-Here: `.codecov.yml` targets 100% for `src/`/`tests/`. It isn't
-wired up as a required CI check yet, only because of unresolved
-infra problems measuring Cython coverage -- not because it's
-considered optional.
+Here: there's no unit test suite or coverage measurement. The
+action is tested end to end by
+`.github/workflows/reusable-smoke-test.yml`, which builds a
+package and publishes it to a throwaway devpi server through the
+action. Most of the pytest-specific sections below don't apply
+until Python tests are added.
 
 ## Tests state what the code should do, not what it does
 
@@ -61,17 +63,17 @@ Doing so counts as silencing -- see
   code, say so to the operator instead of copying it from the
   current output.
 
-Here: the live `sshd` in every test is the main independent
-oracle -- prefer comparing against what the server, or the OpenSSH
-client against the same server, actually does.
+Here: the documented behavior of PyPI, Trusted Publishing, twine,
+and GitHub Actions is the main independent oracle -- not the
+action's own scripts.
 
 ## No test classes
 
 Every test in `tests/` is a plain `def test_*` function. Don't
 introduce `unittest.TestCase` subclasses or bare grouping classes.
 
-Here: there are zero `class` definitions anywhere in the test
-suite, across the full project history.
+Here: there are no Python tests yet; the first ones start out as
+functions.
 
 ## Prefer parametrize/fixtures over duplicated test logic
 
@@ -85,21 +87,16 @@ test should be parametrized instead. The one accepted exception is
 `pytest-subtests` (the `subtests` fixture), for structured,
 individually reported sub-assertions within one test.
 
-Here: PR #638's result is
-`@pytest.fixture(params=(32, SFTP_MAX_CHUNK + 1), ids=(...))`,
-replacing `other_payload`/`large_payload`. A later commit merges
-near-duplicate `NOTSET`/`TRACE` tests into a single
-`@pytest.mark.parametrize` case.
+Here: the smoke-test workflow applies the same idea through its
+job matrix, instead of copying jobs per scenario.
 
 ## Real e2e over mocking
 
 Don't introduce mocking as a substitute for exercising the real
 behavior of the components involved.
 
-Here: `tests/` contains zero uses of `mock`, `Mock`, or
-`monkeypatch`. Every test -- unit and integration alike --
-exercises a real `sshd` process spun up per-test via the
-`sshd_addr` fixture in `tests/conftest.py`.
+Here: the smoke tests publish real distributions to a real devpi
+server through the real action -- no mocks.
 
 ## Design for testability
 
@@ -130,11 +127,8 @@ the entry point, loaded as a local pytest plugin.
 - Code running in child processes only gets its coverage recorded
   when those processes exit cleanly instead of being killed.
 
-Here: stubs live in `tests/_stubs/<component>/`, discovered via
-`pytest_plugins` in `tests/conftest.py`, and excluded through
-`norecursedirs` in `pytest.ini`. `tests/_stubs/sshd_mitm_tcp_relay/`
-is the first one. Child-process coverage relies on
-`concurrency = multiprocessing` in `.coveragerc`.
+Here: the devpi server in the smoke-test workflow plays the part
+of PyPI. There's no Python-level stub area yet.
 
 ## Test layout
 
@@ -146,11 +140,7 @@ the source modules -- `<module>_test.py`, with a new file only for
 a genuinely new module -- while integration tests are organized by
 scenario or feature instead.
 
-Here: `tests/unit/` mirrors `src/pylibsshext/` -- `channel_test.py`,
-`session_test.py`, `sftp_test.py`, `scp_test.py`, `version_test.py`.
-The correspondence isn't strict 1:1: `errors` is covered via
-`pytest.raises` inside other files, not its own file.
-`tests/integration/` holds the scenario-based tests.
+Here: there's no `tests/` directory yet.
 
 ## Tests usually land in the same commit as the behavior they cover
 
@@ -182,10 +172,10 @@ stages into separate test functions. Assign a non-trivial
 expression (such as `len(...)`) that a test keeps repeating to a
 local variable instead.
 
-Here: wemake-python-styleguide enforces both through flake8, at
-its default limits -- at most 5 `assert` statements per function
-(WPS218), and no expression repeated more than 4 times in one
-function (WPS204).
+Here: wemake-python-styleguide would enforce both through flake8,
+at its default limits -- at most 5 `assert` statements per
+function (WPS218), and no expression repeated more than 4 times in
+one function (WPS204).
 
 ## Filesystem fixtures
 
@@ -203,7 +193,8 @@ the code more realistically at scale. This is a tradeoff that
 shifts with implementation maturity, not a blanket "always use
 random data" rule.
 
-Here: the file-transfer tests moved to random payloads in PR #872.
+Here: the smoke tests build tiny stub packages from inline,
+readable sources.
 
 ## Type annotations on new tests
 

@@ -7,6 +7,11 @@ never bypass it by invoking the wrapped tools (`pytest`,
 doing so skips project-specific configuration and is liable to
 run with unsupported, undefined, or outright dangerous defaults.
 
+Here: there's no tox -- this project is a GitHub Action, not a
+Python package. `pre-commit run --all-files` is the entry point for
+the linters, and the action itself is exercised by the smoke-test
+workflow in CI. The tox-specific sections below don't apply.
+
 ## `tox list` is the source of truth
 
 The contributing docs mention some environments, but that's not
@@ -68,21 +73,8 @@ not get appended to it. Always check what a given env's default
 posargs actually are (`tox config -e <env>`, or read `tox.ini`)
 before assuming `--` just "adds more flags."
 
-Here: `py` and `just-pytest` use a bare `{posargs:}`, so e.g.
-`tox run -e py -- -n0` (disabling `pytest-xdist` parallelism)
-loses nothing. Other envs do have non-empty defaults:
-
-- `pre-commit` defaults to `--all-files`; passing
-  `-- --files <path>...` checks only those files instead.
-- `build-docs`'s Sphinx invocation defaults to a full flag set
-  (`-j auto -b html ... -a -n -W --keep-going -d ... . <output>`)
-  -- passing any custom posargs there replaces the whole thing.
-- `make-changelog`'s default posargs are `'[UNRELEASED DRAFT]'
-  --draft` (draft-preview mode); its own `description` field
-  documents overriding this deliberately -- passing a real version
-  after `--` (e.g. `tox run -e make-changelog -- 1.3.2`) switches
-  it into actually cutting that release, dropping `--draft`
-  entirely.
+Here: with no tox, this applies to `pre-commit` directly --
+`pre-commit run <hook-id> --all-files` runs a single hook.
 
 ## Read the tool's own output
 
@@ -91,9 +83,9 @@ artifact landed, how to open or serve it, how to install hooks.
 Read what the invocation actually printed instead of guessing a
 path or a next step.
 
-Here: `build-docs` prints where the built HTML docs landed and how
-to serve them locally; `pre-commit` prints a reminder of how to
-install its hooks into Git.
+Here: the action's own steps print their findings to the job log
+and summary -- read those in the smoke-test runs rather than
+guessing what a step did.
 
 ## Parse structured output, not text meant for humans
 

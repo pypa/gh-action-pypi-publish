@@ -6,27 +6,22 @@ should say "the project" rather than hardcoding one of these --
 reach for a specific name only when the distinction actually
 matters (e.g. citing a package, an import, or a repository URL).
 
-## Distribution / PyPI name: `ansible-pylibssh`
+## Action reference: `pypa/gh-action-pypi-publish`
 
-The installable, published name -- recorded in
-`pyproject.toml`'s `[project].name` per PEP 621. This is also
-the preferred way to refer to the project by name in prose.
+This is a GitHub Action, not a Python distribution -- nothing is
+published to PyPI. Workflows refer to it as
+`pypa/gh-action-pypi-publish@<ref>`, usually `release/v1` or an
+exact tag or commit SHA. In prose, "the PyPI publish action" or
+`pypa/gh-action-pypi-publish`.
 
-## Python import name: `pylibsshext`
+## GitHub repository slug: `pypa/gh-action-pypi-publish`
 
-`import pylibsshext` is what code actually imports.
-Long-standing and unlikely to change without a dedicated,
-long-term migration effort -- don't "fix" it opportunistically.
+The same as the action reference. Use it verbatim when it's
+actually the repository being referenced (URLs, `gh` invocations,
+PR/issue citations).
 
-## GitHub repository slug: `ansible/pylibssh`
+## Branches
 
-Close to, but not the same as, the distribution name above. Use
-it verbatim when it's actually the repository being referenced
-(URLs, `gh` invocations, PR/issue citations) -- not as a
-stand-in for the project's name in prose.
-
-## Don't say bare `pylibssh`
-
-`pylibssh` on its own is just the default local directory name
-from a `git clone`d checkout -- nothing more. It's a common but
-incorrect shorthand; prefer `ansible-pylibssh` instead.
+`unstable/v1` is the development branch PRs target; `release/v1`
+is what users pin to, moved forward on releases. The `master`
+branch is sunset. Say which one is meant.

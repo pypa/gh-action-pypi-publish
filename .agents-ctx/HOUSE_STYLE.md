@@ -25,9 +25,8 @@ whole tree pollute the context window up front.
 - No `tests/__init__.py`. Pytest must not promote the project
   root into `sys.path` via package discovery.
 
-Here: `setup.py` was dropped in `b08a7fd4`. The metadata lives in
-the PEP 621 `[project]` table of `pyproject.toml` (see
-[NAMING_THE_DUCKS.md](NAMING_THE_DUCKS.md)).
+Here: there's no packaging at all -- the project is a GitHub
+Action (see [NAMING_THE_DUCKS.md](NAMING_THE_DUCKS.md)).
 
 ## Python
 
@@ -48,10 +47,10 @@ the PEP 621 `[project]` table of `pyproject.toml` (see
 - Sphinx-native docstrings -- `:param X:`, `:returns:`,
   `:raises X:`. Not Google, not Napoleon, not NumPy.
 
-Here: quotes and `parametrize` tuples are enforced by
-`.ruff.toml`, and the docstring style by `.darglint`. The Cython
-sources and the libssh C API they wrap have conventions of their
-own -- see [CYTHON_AND_LIBSSH.md](CYTHON_AND_LIBSSH.md).
+Here: flake8 with wemake-python-styleguide, isort, and MyPy check
+the scripts, configured in `.pre-commit-config.yaml` and
+`.mypy.ini`. The scripts are standalone, run inside the action's
+container.
 
 ## Configuration files
 
