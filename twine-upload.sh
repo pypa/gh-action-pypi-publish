@@ -69,6 +69,13 @@ The workflow was run with 'attestations: true' input, but the specified \
 repository URL does not support PEP 740 attestations. As a result, the \
 attestations input is ignored."
 
+BUILDING_IN_PUBLISH_JOB_WARNING="::warning title=Building in publish job detected::\
+The workflow run appears to be building in the same job as publishing. \
+This is not a supported pattern and can be a security risk. \
+Consider moving the build step to a separate job and downloading \
+the artifacts in the publish job instead. Read more: \
+https://docs.pypi.org/trusted-publishers"
+
 MAGIC_LINK_MESSAGE="A new Trusted Publisher for the currently running \
 publishing workflow can be created by accessing the following link(s) while \
 logged-in as an owner of the package(s):"
@@ -180,6 +187,37 @@ then
         publish in the directory "'${INPUT_PACKAGES_DIR%%/}/'". \
         Please verify that they are in place should you face this \
         problem.
+fi
+
+# Check for signs of building in the publish job
+BUILDING_DETECTED=false
+
+# Check if .git directory exists (indicates checkout was used)
+if [[ -d ".git" ]]; then
+    BUILDING_DETECTED=true
+fi
+
+# Check if there are directories/files other than the packages directory
+# that might indicate building occurred
+if [[ "${BUILDING_DETECTED}" == "false" ]]; then
+    # Get the packages directory name (default is "dist")
+    PACKAGES_DIR_NAME="${INPUT_PACKAGES_DIR%%/}"
+    if [[ -z "${PACKAGES_DIR_NAME}" ]]; then
+        PACKAGES_DIR_NAME="dist"
+    fi
+    
+    # Look for common build artifacts or source files that shouldn't be present
+    # in a pure publish job (only downloading artifacts)
+    if [[ -f "pyproject.toml" ]] || [[ -f "setup.py" ]] || [[ -f "setup.cfg" ]] || \
+       [[ -d "src" ]] || [[ -d "lib" ]] || [[ -f "Cargo.toml" ]] || \
+       [[ -f "requirements.txt" ]] || [[ -f "requirements.in" ]] || \
+       [[ -d "build" ]] || [[ -d ".tox" ]] || [[ -d "venv" ]] || [[ -d ".venv" ]]; then
+        BUILDING_DETECTED=true
+    fi
+fi
+
+if [[ "${BUILDING_DETECTED}" == "true" ]]; then
+    echo "${BUILDING_IN_PUBLISH_JOB_WARNING}"
 fi
 
 if [[ ${INPUT_VERIFY_METADATA,,} != "false" ]] ; then
