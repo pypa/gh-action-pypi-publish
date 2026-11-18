@@ -19,7 +19,7 @@ permissions: {}
 
 jobs:
   smoke-test:
-    uses: ./.github/workflows/reusable-smoke-test.yml
+    uses: $/.github/workflows/reusable-smoke-test.yml
 
   check:  # This job does nothing and is only used for the branch protection
     if: always()
