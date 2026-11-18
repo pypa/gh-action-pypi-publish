@@ -50,15 +50,10 @@ jobs:
     timeout-minutes: 2
 
     steps:
-    - name: Check out the action locally
-      uses: actions/checkout@v4
-      with:
-        path: test
-        persist-credentials: false
     - name: Fail-fast in unsupported environments
       continue-on-error: true
       id: fail-fast
-      uses: ./test
+      uses: $/
     - name: Error if action did not fail-fast in unsupported environments
       if: steps.fail-fast.outcome == 'success'
       run: |
@@ -157,8 +152,8 @@ jobs:
           }}/${{
             env.devpi-username
           }}/public/
-    - name: ✅ Smoke-test the locally checked out action
-      uses: ./test
+    - name: ✅ Smoke-test the action at the running commit
+      uses: $/
       env:
         DEBUG: >-
           true

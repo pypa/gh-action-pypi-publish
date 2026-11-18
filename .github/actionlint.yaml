@@ -1,0 +1,11 @@
+---
+
+# `$/` self-repository refs; remove when actionlint supports them:
+# https://github.com/rhysd/actionlint/issues/711
+paths:
+  .github/workflows/*.yml:
+    ignore:
+    - reusable workflow call "\$/[^"]*" at "uses" is not following the format
+    - specifying action "\$/[^"]*" in invalid format because ref is missing
+
+...
